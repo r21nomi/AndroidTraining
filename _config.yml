@@ -16,7 +16,7 @@ defaults:
         scope:
             path: ""
             type: "pages"
-        values: 
+        values:
             section: ""
             layout: "default"
             description: "AndroidTraining - Training course repository for android app development"
@@ -25,23 +25,23 @@ defaults:
         scope:
             path: "introductions"
             type: "pages"
-        values: 
+        values:
             section: "introductions"
     -
         scope:
             path: "fundamentals"
             type: "pages"
-        values: 
+        values:
             section: "fundamentals"
     -
         scope:
             path: "advanced"
             type: "pages"
-        values: 
+        values:
             section: "advanced"
     -
         scope:
             path: "appendix"
             type: "pages"
-        values: 
+        values:
             section: "appendix"
