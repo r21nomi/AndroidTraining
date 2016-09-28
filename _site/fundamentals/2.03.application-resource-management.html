@@ -1,0 +1,1819 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="この章では、Android アプリ内で利用する、静的リソースに関する扱い方を学びます。" />
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <!-- ogp for twitter -->
+    <meta content="@mixi_engineers" name="twitter:site" />
+    <meta content="summary" name="twitter:card" />
+    
+    <meta content="アプリのリソース管理 - r21nomi/AndroidTraining" name="twitter:title" />
+    
+    <meta content="この章では、Android アプリ内で利用する、静的リソースに関する扱い方を学びます。" name="twitter:description" />
+    <meta content="/assets/logo.png" name="twitter:image:src" />
+    <!-- ogp -->
+    <meta content="r21nomi/AndroidTraining" property="og:site_name" />
+    <meta content="article" property="og:type" />
+    <meta content="/assets/logo.png" property="og:image" />
+    
+    <meta content="アプリのリソース管理 - r21nomi/AndroidTraining" name="og:title" />
+    
+    <meta content="/fundamentals/2.03.application-resource-management.html" property="og:url" />
+    <meta content="この章では、Android アプリ内で利用する、静的リソースに関する扱い方を学びます。" property="og:description" />
+    
+    <meta name="keyword" content="android, training, 基礎, スキル, 開発, developer, プログラミング, リソース, 文字列, 画像, メニュー" />
+    
+
+    <meta name="go-import" content="github.com/mixi-inc/AndroidTraining git https://github.com/mixi-inc/AndroidTraining.git">
+    <script src="/AndroidTraining/bower_components/webcomponentsjs/webcomponents.js"></script>
+    
+    <link rel="stylesheet" type="text/css" media="screen" href="/AndroidTraining/stylesheets/main.css">
+    <link rel="shortcut icon" href="/AndroidTraining/assets/favicon.ico" />
+    <link rel="import" href="/AndroidTraining/bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-drawer-panel/paper-drawer-panel.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-header-panel/paper-header-panel.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-toolbar/paper-toolbar.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-menu/paper-menu.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-item/paper-item.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-icon-button/paper-icon-button.html">
+    <link rel="import" href="/AndroidTraining/bower_components/iron-icons/iron-icons.html">
+    <style is="custom-style">
+        paper-scroll-header-panel:not([style-scope]):not(.style-scope) {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        paper-toolbar.tall .bottom:not([style-scope]):not(.style-scope) {
+            font-size: 40px;
+            margin-left: 60px;
+
+            -webkit-transform-origin: left center;
+            transform-origin: left center;
+        }
+
+        .content:not([style-scope]):not(.style-scope) {
+            padding: 8px;
+        }
+
+        .spacer:not([style-scope]):not(.style-scope) {
+            -ms-flex: 1 1 0.000000001px;
+            -webkit-flex: 1;
+            flex: 1;
+            -webkit-flex-basis: 0.000000001px;
+            flex-basis: 0.000000001px;
+        }
+
+    </style>
+    <title>アプリのリソース管理 - r21nomi/AndroidTraining</title>
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-50931519-13', 'auto');
+    ga('send', 'pageview');
+    </script>
+  </head>
+
+  <body itemscope itemtype="http://schema.org/Article" fullbleed layout vertical>
+
+    <paper-drawer-panel selected="main" >
+      <!-- MENU -->
+      <paper-header-panel mode="seamed" drawer class="drawer">
+        <nav>
+    <ol class="chapter_navigation">
+        <a href="/AndroidTraining/">Home</a>
+        <li>まえがき</li>
+        <ol class="section_navigation">
+            
+            
+            <li><a href="/AndroidTraining/introductions/1.01.about-android-os.html">Android-OSについて</a></li>
+            
+            <li><a href="/AndroidTraining/introductions/1.02.prepare-for-development.html">開発環境の準備</a></li>
+            
+            <li><a href="/AndroidTraining/introductions/1.03.create-project-for-android-studio.html">プロジェクトの作成</a></li>
+            
+            <li><a href="/AndroidTraining/introductions/1.04.basic-knowledge.html">Androidの基礎知識</a></li>
+            
+            <li><a href="/AndroidTraining/introductions/1.05.how-to-build-for-gradle.html">Android のビルドについて(Gradle)</a></li>
+            
+        </ol>
+        <li>基礎編</li>
+        <ol class="section_navigation">
+            
+            
+            <li><a href="/AndroidTraining/fundamentals/2.01.create-layout.html">アプリのレイアウト作成</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.02.activity-and-fragment.html">ActivityとFragment</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.03.application-resource-management.html">アプリのリソース管理</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.04.messaging-and-notification.html">メッセージングと通知</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.05.actionbar-and-interaction-control.html">ActionBarとインタラクション制御</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.06.listView-and-viewPager.html">ListViewとViewPager</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.07.serialize-and-collection-and-perpetuation.html">直列化とコレクション、永続化</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.08.async-processing.html">非同期処理</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.09.network-access.html">ネットワーク通信</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.10.database.html">データベース</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.11.testing-for-android-studio.html">テスト(AndroidStudio)</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.11.testing.html">テスト</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.12.handler-and-looper.html">HandlerとLooper</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.13.webView.html">WebView</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.14.accountmanager.html">AccountManager</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.15.advance-contentprovider.html">ContentProviderの発展</a></li>
+            
+        </ol>
+        <li>実務編</li>
+        <ol class="section_navigation">
+            
+            
+            <li><a href="/AndroidTraining/advanced/3.01.build-for-eclipse.html">デバッグと自動ビルド(Eclipse)</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.01.build-for-gradle.html">自動ビルド(Android Studio)</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.02.architecture-and-di.html">アーキテクチャ設計と DI</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.03.advanced-layout.html">続・アプリのレイアウト作成</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.04.user-interface.html">ユーザインタフェース設計</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.05.security.html">セキュリティ</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.06.google-api.html">Google API</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.07.google-play-services.html">Google Play Services</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.08.cloud-sync.html">クラウド同期</a></li>
+            
+        </ol>
+        <li>デザイナー編</li>
+        <ol>
+        </ol>
+    </ol>
+    <ol class="appex_navigation">
+        <li>付録</li>
+        <ol class="section_navigation">
+            
+            
+            <li><a href="/AndroidTraining/appendix/A.01.import-from-git-for-eclipse.html">Git リポジトリからのプロジェクトのインポート</a></li>
+            
+            <li><a href="/AndroidTraining/appendix/A.02.basic-java.html">Java の文法の基礎</a></li>
+            
+            <li><a href="/AndroidTraining/appendix/A.03.how-to-create-avd.html">仮想デバイスの作成</a></li>
+            
+            <li><a href="/AndroidTraining/appendix/A.04.advanced-java.html">Javaの活用</a></li>
+            
+        </ol>
+    </ol>
+</nav>
+
+      </paper-header-panel>
+      <paper-scroll-header-panel main condenses>
+        <!-- HEADER -->
+        <paper-toolbar class="mainheader tall" role="toolbar">
+    <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+
+    <span class="title"></span>
+
+    <a id="forkme_banner" href="https://github.com/mixi-inc/AndroidTraining" role="button">
+        <paper-icon-button src="/AndroidTraining/images/blacktocat.png"></paper-icon-button> <span>View on GitHub</span>
+    </a>
+
+    <div class="middle title">r21nomi/AndroidTraining</div>
+    <div class="bottom title">アプリのリソース管理</div>
+</paper-toolbar>
+
+
+<div id="description" itemprop="description">この章では、Android アプリ内で利用する、静的リソースに関する扱い方を学びます。</div>
+
+
+
+        <!-- MAIN CONTENT -->
+        <div id="main_content_wrap" class="content outer" itemprop="articleBody">
+          <section id="main_content" class="inner">
+            <p>参考：<a href="http://developer.android.com/guide/topics/resources/index.html">App Resources | Android Developers</a></p>
+
+<h2 id="section">目次</h2>
+
+<ul>
+  <li><a href="#アプリのリソース管理の基本">アプリのリソース管理の基本</a>
+    <ul>
+      <li><a href="#Android で扱うことの出来るリソース">Android で扱うことの出来るリソース</a></li>
+      <li><a href="# 静的リソースの配置場所">静的リソースの配置場所</a></li>
+      <li><a href="#リソースディレクトリの命名規則">リソースディレクトリの命名規則</a></li>
+      <li><a href="#リソースへのアクセス">リソースへのアクセス</a></li>
+    </ul>
+  </li>
+  <li><a href="#string-resource">String Resource</a>
+    <ul>
+      <li><a href="#定型文">定型文</a></li>
+      <li><a href="#String Array">String Array</a></li>
+      <li><a href="#Format">Format</a></li>
+      <li><a href="#Plurals">Plurals</a></li>
+    </ul>
+  </li>
+  <li><a href="#drawable-resource">Drawable Resource</a>
+    <ul>
+      <li><a href="#Bitmap Drawable">Bitmap Drawable</a></li>
+      <li><a href="#9-patch Drawable">9-patch Drawable</a></li>
+      <li><a href="#Layer List Drawable">Layer List Drawable</a></li>
+      <li><a href="#State List Drawable">State List Drawable</a></li>
+      <li><a href="#Level List Drawable">Level List Drawable</a></li>
+      <li><a href="#Transition Drawable">Transition Drawable</a></li>
+      <li><a href="#Inset Drawable">Inset Drawable</a></li>
+      <li><a href="#Clip Drawable">Clip Drawable</a></li>
+      <li><a href="#Scale Drawable">Scale Drawable</a></li>
+      <li><a href="#Shape Drawable">Shape Drawable</a></li>
+    </ul>
+  </li>
+  <li><a href="#style-resource">Style Resource</a>
+    <ul>
+      <li><a href="#アプリ内の View に共通な Style を定義する">アプリ内の View に共通な Style を定義する</a></li>
+      <li><a href="#継承">継承</a></li>
+    </ul>
+  </li>
+  <li><a href="#menu-resource">Menu Resource</a>
+    <ul>
+      <li><a href="#メニューの定義">メニューの定義</a></li>
+      <li><a href="#OptionsMenu">OptionsMenu</a></li>
+      <li><a href="#ContextMenu">ContextMenu</a></li>
+    </ul>
+  </li>
+  <li><a href="#color-state-list-resource">Color State List Resource</a></li>
+  <li><a href="#value-resource">Value Resource</a></li>
+  <li><a href="#animation-resource">Animation Resource</a>
+    <ul>
+      <li><a href="#Property Animation">Property Animation</a></li>
+      <li><a href="#View Animation">View Animation</a></li>
+    </ul>
+  </li>
+  <li><a href="#rawbinary-resource">Raw(Binary) Resource</a></li>
+  <li><a href="#多様なデバイスへの対応">多様なデバイスへの対応</a>
+    <ul>
+      <li><a href="#`&lt;configuration_qualifier&gt;`の順序"><code class="highlighter-rouge">&lt;configuration_qualifier&gt;</code>の順序</a></li>
+      <li><a href="#ロケール">ロケール</a></li>
+      <li><a href="#高解像度スクリーン">高解像度スクリーン</a></li>
+      <li><a href="#画面回転">画面回転</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="section-1">アプリのリソース管理の基本</h2>
+
+<p>Android では、Java のコードと分離した形で静的リソースを管理する仕組みを備えています。<br />
+Android プロジェクトの中にある、<code class="highlighter-rouge">res</code>ディレクトリがこの仕組みを利用する上で重要なディレクトリです。<br />
+AndroidStudioのプロジェクトでは、<code class="highlighter-rouge">res</code>ディレクトリは <code class="highlighter-rouge">src/main/res</code>がデフォルトになっています。</p>
+
+<p>Java のプログラムから、<code class="highlighter-rouge">res</code>ディレクトリに配置した静的リソースへのアクセスは、自動で生成される<code class="highlighter-rouge">R</code>オブジェクトを介して行います。</p>
+
+<h3 id="android-">Android で扱うことの出来るリソース</h3>
+
+<p>Android では、以下のリソースを静的リソースとして扱うことができます。</p>
+
+<ol>
+  <li>String Resource
+    <ul>
+      <li>定型文など</li>
+    </ul>
+  </li>
+  <li>Drawable Resource
+    <ul>
+      <li>ビットマップ、ベクタ画像など</li>
+    </ul>
+  </li>
+  <li>Style Resource
+    <ul>
+      <li>UI スタイル、テーマ</li>
+    </ul>
+  </li>
+  <li>Menu Resource
+    <ul>
+      <li>メニュー項目</li>
+    </ul>
+  </li>
+  <li>Color State List Resource
+    <ul>
+      <li>状態に対応した色の管理</li>
+    </ul>
+  </li>
+  <li>Value Resource
+    <ul>
+      <li>各種プリミティブ値</li>
+    </ul>
+  </li>
+  <li>Animation Resource
+    <ul>
+      <li>アニメーション</li>
+    </ul>
+  </li>
+  <li>Raw Resource
+    <ul>
+      <li>音声・動画・画像などの生データ</li>
+    </ul>
+  </li>
+  <li>Layout Resource
+    <ul>
+      <li>画面レイアウト</li>
+    </ul>
+  </li>
+  <li>XML Resource
+    <ul>
+      <li>任意の XML ファイル</li>
+    </ul>
+  </li>
+</ol>
+
+<p>これらの静的リソースは、読み取り専用です。改変を加えて保存することはできません。</p>
+
+<h3 id="section-2">静的リソースの配置場所</h3>
+
+<p><img src="/AndroidTraining/assets/02-03/android-project-composition.png" alt="Project Composition" /></p>
+
+<p>静的リソースはすべて、プロジェクトディレクトリ内にある<code class="highlighter-rouge">res</code>ディレクトリ以下に配置されます。</p>
+
+<p>リソースの種類に応じて、<code class="highlighter-rouge">res</code>以下にも様々なディレクトリが用意されています。<br />
+<code class="highlighter-rouge">res</code>ディレクトリ直下に直接ファイルを配置するとコンパイルエラーとなりますので、適切なディレクトリのなかに配置してください。</p>
+
+<p>下記の表に、リソースの種類とディレクトリ構造の対応を示します。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>ディレクトリ名</th>
+      <th>扱うリソース</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">res/animator</code></td>
+      <td>Animation Resource(Property Animation)</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">res/anim</code></td>
+      <td>Animation Resource(Tween Animation)</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">res/color</code></td>
+      <td>Color State List Resource</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">res/drawable</code></td>
+      <td>Drawable Resource</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">res/layout</code></td>
+      <td>Layout Resource</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">res/menu</code></td>
+      <td>Menu Resource</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">res/raw</code></td>
+      <td>Raw Resource</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">res/values</code></td>
+      <td>Value Resource, String Resource, Style Resource</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">res/xml</code></td>
+      <td>任意の XML ファイルリソース。Google Analytics の設定ファイルなど</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="section-3">リソースディレクトリの命名規則</h3>
+
+<p>各種リソースディレクトリには、命名規則がさだめられています。</p>
+
+<p><code class="highlighter-rouge">&lt;resources_name&gt;-&lt;configuration_qualifier&gt;</code></p>
+
+<p><code class="highlighter-rouge">&lt;resources_name&gt;</code>は、静的リソースの種類を示します（上述の表のとおりです）。
+<code class="highlighter-rouge">&lt;configuration_qualifier&gt;</code>は、様々なデバイスの状態に応じてリソースを自動で使い分けることを明示するものです。<br />
+複数の状態を宣言する場合は、<code class="highlighter-rouge">-</code>で結合していきます。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>// hdpi 端末向けの Drawable Resource
+SampleProject/res/drawable-hdpi
+
+// 英語ロケール向けの Value Resource
+SampleProject/res/values-en
+
+// hdpi 端末向けの、横画面用 Drawable Resource
+SampleProject/res/drawable-land-hdpi
+</code></pre>
+</div>
+
+<h3 id="section-4">リソースへのアクセス</h3>
+
+<h4 id="resource-id">Resource ID</h4>
+
+<p>各リソースには、リソースを一意に識別するための ID が割当てられます。</p>
+
+<p>リソースの種類によって、XML の属性（<code class="highlighter-rouge">android:id</code>または<code class="highlighter-rouge">android:name</code>）で ID を割当てるものと、ファイル名を ID とするものがあります。</p>
+
+<p>この ID は、Android SDK に含まれている<code class="highlighter-rouge">aapt</code>という仕組みで自動的に生成されるものです。<code class="highlighter-rouge">aapt</code>は、リソースディレクトリに含まれる各種リソースをコンパイル・最適化し、リソースの ID を生成します。<br />
+リソースファイルに何らかの問題がある場合、<code class="highlighter-rouge">aapt</code>がコンパイルエラーとして扱うため、リソースの ID が生成できなくなることに注意してください。</p>
+
+<h4 id="java">Java</h4>
+
+<p><code class="highlighter-rouge">aapt</code>は、リソースファイルをコンパイルすると<code class="highlighter-rouge">R.java</code>というプログラムを自動生成します。<br />
+この<code class="highlighter-rouge">R</code>クラスには、各種リソースの ID が詰め込まれています。<br />
+リソース毎に Facade パターンで分類されたクラスがあり、その下にリソース ID を扱う int 型定数値が含まれます。</p>
+
+<p><code class="highlighter-rouge">R</code>クラスのパッケージは、アプリのパッケージに対応しています。<code class="highlighter-rouge">jp.mixi.sample</code>パッケージでアプリを作成していた場合は、<code class="highlighter-rouge">jp.mixi.sample</code>パッケージの直下に<code class="highlighter-rouge">R</code>クラスが生成されます。<br /></p>
+
+<pre><code class="language-Java">/* AUTO-GENERATED FILE.  DO NOT MODIFY.
+ *
+ * This class was automatically generated by the
+ * aapt tool from the resource data it found.  It
+ * should not be modified by hand.
+ */
+package jp.mixi.sample;
+
+public final class R {
+    public static final class layout {
+        public static final int activity_main=0x7f030000;
+    }
+}
+</code></pre>
+
+<p>よって、以下の様な文法が成立します。</p>
+
+<p><code class="highlighter-rouge">[{package_name}.]R.{resource_type}.{resource_id}</code></p>
+
+<p><code class="highlighter-rouge"><span class="p">{</span><span class="err">package_name</span><span class="p">}</span></code>は任意で記述します。</p>
+
+<p>Android フレームワーク自身も、<code class="highlighter-rouge">R</code>クラスを持っています。<br />
+Android フレームワークが持っている<code class="highlighter-rouge">R</code>クラスには、標準で用意されている各種リソースの ID が含まれていますので、Android 標準のリソースを利用したい場合に有用です。<br />
+ただし、Android フレームワークが持っている<code class="highlighter-rouge">R</code>クラスは直接 import しないようにします。代わりに、FQDN でアクセスするようにします。</p>
+
+<pre><code class="language-Java">// NG
+import android.R;
+
+public class HogeActivity extends Activity {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // do something...
+
+        // android.R クラスの参照。NG な例。
+        R.id.text_1;
+    }
+}
+</code></pre>
+
+<pre><code class="language-Java">public class HogeActivity extends Activity {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // do something...
+
+        // android.R クラスの参照。OK。
+        android.R.id.text_1;
+    }
+}
+</code></pre>
+
+<h4 id="xml">XML</h4>
+
+<p>静的リソースへは、XML からも参照することができます。
+XML で静的リソースへアクセスする場合も、R オブジェクトに生成される ID と同じものを利用します。</p>
+
+<p>XML からの参照の記述は以下の文法に従います。</p>
+
+<p><code class="highlighter-rouge">@[{package_name}:]{resource_type}/{resource_id}</code></p>
+
+<p><code class="highlighter-rouge">R</code>クラスと同じく、<code class="highlighter-rouge"><span class="p">{</span><span class="err">package_name</span><span class="p">}</span></code>は任意で記述します。</p>
+
+<p>XML 上で Android フレームワークのリソース ID を参照する場合は、以下のように記述します。</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code>@android:id/text_1
+</code></pre>
+</div>
+
+<h4 id="id-">リソース ID の参照方法の対応表</h4>
+
+<p>Java、XML それぞれのリソース ID の参照方法は以下のとおりです。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>リソースの種類</th>
+      <th>Java からの ID の参照</th>
+      <th>XML からの ID の参照</th>
+      <th>ID を決める要素</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>String Resource</td>
+      <td>R.string.hogehoge</td>
+      <td>@string/hogehoge</td>
+      <td>各 String Resource の<code class="highlighter-rouge">android:name</code>属性</td>
+    </tr>
+    <tr>
+      <td>String Resource(Plurals)</td>
+      <td>R.plurals.hogehoge</td>
+      <td>@plurals/hogehoge</td>
+      <td>各 String Plurals Resource の<code class="highlighter-rouge">android:name</code>属性</td>
+    </tr>
+    <tr>
+      <td>String Resource(Array)</td>
+      <td>R.array.hogehoge</td>
+      <td>@array/hogehoge</td>
+      <td>各 String Array Resource の<code class="highlighter-rouge">android:name</code>属性</td>
+    </tr>
+    <tr>
+      <td>Drawable Resource</td>
+      <td>R.drawable.hogehoge</td>
+      <td>@drawable/hogehoge</td>
+      <td>ファイル名</td>
+    </tr>
+    <tr>
+      <td>Style Resource</td>
+      <td>R.style.hogehoge</td>
+      <td>@style/hogehoge</td>
+      <td>各 Style Resource の<code class="highlighter-rouge">android:name</code>属性</td>
+    </tr>
+    <tr>
+      <td>Menu Resource</td>
+      <td>R.menu.hogehoge</td>
+      <td>@menu/hogehoge</td>
+      <td>ファイル名</td>
+    </tr>
+    <tr>
+      <td>Color State List Resource</td>
+      <td>R.color.hogehoge</td>
+      <td>@color/hogehoge</td>
+      <td>ファイル名</td>
+    </tr>
+    <tr>
+      <td>Value Resource(Integer)</td>
+      <td>R.integer.hogehoge</td>
+      <td>@integer/hogehoge</td>
+      <td>各 Value Resource の<code class="highlighter-rouge">android:name</code>属性</td>
+    </tr>
+    <tr>
+      <td>Value Resource(Integer Array)</td>
+      <td>R.array.hogehoge</td>
+      <td>@array/hogehoge</td>
+      <td>各 Value Resource の<code class="highlighter-rouge">android:name</code>属性</td>
+    </tr>
+    <tr>
+      <td>Value Resource(Typed Array)</td>
+      <td>R.array.hogehoge</td>
+      <td>@array/hogehoge</td>
+      <td>各 Value Resource の<code class="highlighter-rouge">android:name</code>属性</td>
+    </tr>
+    <tr>
+      <td>Value Resource(Boolean)</td>
+      <td>R.bool.hogehoge</td>
+      <td>@bool/hogehoge</td>
+      <td>各 Value Resource の<code class="highlighter-rouge">android:name</code>属性</td>
+    </tr>
+    <tr>
+      <td>Value Resource(Dimension)</td>
+      <td>R.dimen.hogehoge</td>
+      <td>@dimen/hogehoge</td>
+      <td>各 Value Resource の<code class="highlighter-rouge">android:name</code>属性</td>
+    </tr>
+    <tr>
+      <td>Value Resource(Color)</td>
+      <td>R.color.hogehoge</td>
+      <td>@color/hogehoge</td>
+      <td>各 Value Resource の<code class="highlighter-rouge">android:name</code>属性</td>
+    </tr>
+    <tr>
+      <td>Value Resource(ID)</td>
+      <td>R.id.hogehoge</td>
+      <td>@id/hogehoge</td>
+      <td>各 Value Resource の<code class="highlighter-rouge">android:name</code>属性</td>
+    </tr>
+    <tr>
+      <td>Layout Resource</td>
+      <td>R.layout.hogehoge</td>
+      <td>@layout/hogehoge</td>
+      <td>ファイル名</td>
+    </tr>
+    <tr>
+      <td>XML Resource</td>
+      <td>R.xml.hogehoge</td>
+      <td>@xml/hogehoge</td>
+      <td>ファイル名</td>
+    </tr>
+    <tr>
+      <td>Animation Resource(Tween Animation)</td>
+      <td>R.anim.hogehoge</td>
+      <td>@anim/hogehoge</td>
+      <td>ファイル名</td>
+    </tr>
+    <tr>
+      <td>Animation Resource(Property Animation)</td>
+      <td>R.animator.hogehoge</td>
+      <td>@animator/hogehoge</td>
+      <td>ファイル名</td>
+    </tr>
+    <tr>
+      <td>Raw Resource</td>
+      <td>R.raw.hogehoge</td>
+      <td>-</td>
+      <td>ファイル名</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="string-resource">String Resource</h2>
+
+<p>文字列リソースです。UI で使用する定型文など、ユーザに見えるものはこのリソースとして扱うことが推奨されています。</p>
+
+<p>プロジェクト作成後には、デフォルトで<code class="highlighter-rouge">strings.xml</code>というファイルが作られていますが、任意のファイル名で保存することも可能です。</p>
+
+<p>文字列リソースの中にも、いくつか種類があり、単なる定型文の宣言だけでなく、文字列フォーマットを提供したり、配列として管理したり、複数形の表現を宣言したりすることも出来るようになっています。</p>
+
+<h3 id="section-5">定型文</h3>
+
+<p>最も一般的な、定型文の定義方法です。</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;resources&gt;</span>
+    <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">"hello_world"</span><span class="nt">&gt;</span>Hello World<span class="nt">&lt;/string&gt;</span>
+    <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">"hoge"</span><span class="nt">&gt;</span>Hoge<span class="nt">&lt;/string&gt;</span>
+<span class="nt">&lt;/resources&gt;</span>
+</code></pre>
+</div>
+
+<p>Activity や Fragment など、Context を持っている所では、以下のように文字列を取り出します。</p>
+
+<pre><code class="language-Java">public class MyActivity extends Activity {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // do something...
+
+        // String 型の変数 hello に、xml で定義した Hello World が代入される
+        String hello = getString(R.string.hello_world);
+    }
+}
+</code></pre>
+
+<h3 id="string-array">String Array</h3>
+
+<p>文字列を配列として定義します。
+ひとまとまりの配列で1つのリソースとして扱いたい場合に便利です。</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;resources&gt;</span>
+    <span class="nt">&lt;string-array</span> <span class="na">name=</span><span class="s">"foo_bar"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;item&gt;</span>Foo<span class="nt">&lt;/item&gt;</span>
+        <span class="nt">&lt;item&gt;</span>Bar<span class="nt">&lt;/item&gt;</span>
+    <span class="nt">&lt;/string-array&gt;</span>
+<span class="nt">&lt;/resources&gt;</span>
+</code></pre>
+</div>
+
+<p>Activity や Fragment など、Context を持っている所では、以下のように文字列を取り出します。</p>
+
+<pre><code class="language-Java">public class MyActivity extends Activity {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // do something...
+
+        // Resources オブジェクトを介して取得するようにする
+        String[] array = getResources().getStringArray(R.array.foo_bar);
+    }
+}
+</code></pre>
+
+<h3 id="format">Format</h3>
+
+<p>プレースホルダを用いることで、可変な文字列をリソースとして提供することができます。</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;resources&gt;</span>
+    <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">"my_format"</span><span class="nt">&gt;</span>私は、%1$d個のりんごを持っています。<span class="nt">&lt;/string&gt;</span>
+    <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">"my_format_2"</span><span class="nt">&gt;</span>私は、%1$d個のりんごと、%2$d個のにんじんを持っています。<span class="nt">&lt;/string&gt;</span>
+<span class="nt">&lt;/resources&gt;</span>
+</code></pre>
+</div>
+
+<p>プレースホルダに用いられる%1や%2の数字は、後述する参照方法で渡す引数の順番と一致させます。</p>
+
+<p>Activity や Fragment など、Context を持っている所では、以下のように文字列を取り出します。</p>
+
+<pre><code class="language-Java">public class MyActivity extends Activity {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // do something...
+
+        // フォーマット用に、可変長引数を受け入れるメソッドがあるので、こちらを利用する
+        // "私は、1個のりんごと、2個のにんじんを持っています。"
+        String formatted = getString(R.string.my_format_2, 1, 2);
+    }
+}
+</code></pre>
+
+<h3 id="plurals">Plurals</h3>
+
+<p>複数形の表現もリソースとして宣言できます。</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;resources&gt;</span>
+    <span class="nt">&lt;plurals</span> <span class="na">name=</span><span class="s">"my_eggs"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;item</span> <span class="na">quantity=</span><span class="s">"one"</span><span class="nt">&gt;</span>I have one egg.<span class="nt">&lt;/item&gt;</span>
+        <span class="nt">&lt;item</span> <span class="na">quantity=</span><span class="s">"other"</span><span class="nt">&gt;</span>I have %d eggs.<span class="nt">&lt;/item&gt;</span>
+    <span class="nt">&lt;/plurals&gt;</span>
+<span class="nt">&lt;/resources&gt;</span>
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">&lt;item&gt;</code>要素の<code class="highlighter-rouge">quantity</code>属性には、<code class="highlighter-rouge">zero</code>、<code class="highlighter-rouge">one</code>、<code class="highlighter-rouge">two</code>、<code class="highlighter-rouge">few</code>、<code class="highlighter-rouge">many</code>、<code class="highlighter-rouge">other</code>の中から設定出来ます。それぞれの言語の文法的特性によって、どの<code class="highlighter-rouge">quantity</code>属性を設定出来るか決まっています。</p>
+
+<p>Activity や Fragment など、Context を持っている所では、以下のように文字列を取り出します。</p>
+
+<pre><code class="language-Java">public class MyActivity extends Activity {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // do something...
+
+        // フォーマットも定義する場合は、複数形のquantityを第2引数に渡し、フォーマットに当てはめる変数を第3引数以降に指定する
+        // "I have 2 eggs."
+        String quantity = getResources().getQuantityString(R.plurals.my_eggs, 2, 2);
+    }
+}
+</code></pre>
+
+<h2 id="drawable-resource">Drawable Resource</h2>
+
+<p>グラフィックリソースです。png/jpeg/gif 画像や、9 patch 形式の画像の他、XML で定義した図形などもこのリソースとして扱われます。<br />
+アニメーションgifには対応していません。<br />
+png 画像の利用が推奨されており、jpeg 画像は「容認されている」扱いとなっています。gif 画像は非推奨です。</p>
+
+<p>後述するディレクトリ階層によって、解像度ごとに異なるグラフィックリソースを提供することが可能です。<br />
+ただし、解像度ごとのディレクトリ階層で分けていない場合、あるいは該当する解像度のリソースディレクトリがない場合は、システムによって適宜拡大・縮小が行われます（端末の解像度に依って、画像が荒くなる場合が発生し得ることを意味する）。</p>
+
+<p>また、アプリのビルドプロセスの中で、画像リソースは最適化が行われます。<br />
+これによって、不必要にメモリを消費することを抑制することができます。もし最適化を行わせたくない場合は、Drawable Resource ではなく、Raw Resource として扱うようにします。</p>
+
+<p>Drawable にはいくつかの種類がありますが、Activity や Fragment など、Context を持っている所では、Drawable の種類にかかわらず、以下のように Drawable を取り出します。</p>
+
+<pre><code class="language-Java">public class MyActivity extends Activity {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // do something...
+
+        // Drawable オブジェクトの取得
+        Drawable drawable = getResources().getDrawable(R.drawable.hogehoge);
+    }
+}
+</code></pre>
+
+<p>Drawable の種類に応じたサブクラスがあるので、適宜キャストして使います。</p>
+
+<h3 id="bitmap-drawable">Bitmap Drawable</h3>
+
+<p>png や jpg、gif 形式の画像リソースです。</p>
+
+<h3 id="patch-drawable">9-patch Drawable</h3>
+
+<p>9-patch と呼ばれるフォーマットに従った png 画像リソースです。<br />
+ストレッチ可能な領域を指定することで、画像を割当てる View のサイズによって、画像リソースの拡縮による劣化なしに扱う事ができるようになります。</p>
+
+<p>詳しくは、<a href="http://developer.android.com/tools/help/draw9patch.html">Draw 9-patch | Android Developers</a>を御覧ください。</p>
+
+<h3 id="layer-list-drawable">Layer List Drawable</h3>
+
+<p>複数の Drawable 要素をレイヤ上に並べた XML のグラフィックリソースです。
+<code class="highlighter-rouge">&lt;item&gt;</code>要素を用いて、Drawable への参照を記述したり、後述する各種 Drawable を子要素に持つレイヤを作ったりすることもできます。</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;layer-list</span> <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span><span class="nt">&gt;</span>
+    <span class="c">&lt;!-- 一番下のレイヤに配置する、グレーで塗りつぶされた四角形の Drawable を持つ item 要素 --&gt;</span>
+    <span class="nt">&lt;item&gt;</span>
+        <span class="nt">&lt;shape</span> <span class="na">android:shape=</span><span class="s">"rectangle"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;solid</span> <span class="na">android:color=</span><span class="s">"#f5f5f5"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/shape&gt;</span>
+    <span class="nt">&lt;/item&gt;</span>
+    <span class="c">&lt;!-- 一番上のレイヤに配置する、薄茶色で塗りつぶされた四角形の Drawable を持つ item 要素 --&gt;</span>
+    <span class="c">&lt;!-- 上端から 30dp 分のオフセットが設定されている --&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">android:top=</span><span class="s">"30dp"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;shape</span> <span class="na">android:shape=</span><span class="s">"rectangle"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;solid</span> <span class="na">android:color=</span><span class="s">"#deb887"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/shape&gt;</span>
+    <span class="nt">&lt;/item&gt;</span>
+<span class="nt">&lt;/layer-list&gt;</span>
+</code></pre>
+</div>
+
+<p><img src="/AndroidTraining/assets/02-03/layer_list_sample.png" alt="Sample Layer List Drawable" /></p>
+
+<h3 id="state-list-drawable">State List Drawable</h3>
+
+<p>UI の状態に応じた Drawable 要素を管理するグラフィックリソースです。
+XML で、状態に対応する Drawable への参照を宣言します。</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;selector</span> <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span><span class="nt">&gt;</span>
+    <span class="c">&lt;!-- View が押された状態の Drawable --&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">android:state_pressed=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;shape</span> <span class="na">android:shape=</span><span class="s">"rectangle"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;solid</span> <span class="na">android:color=</span><span class="s">"#696969"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/shape&gt;</span>
+    <span class="nt">&lt;/item&gt;</span>
+    <span class="c">&lt;!-- View が通常の状態の Drawable --&gt;</span>
+    <span class="nt">&lt;item&gt;</span>
+        <span class="nt">&lt;shape</span> <span class="na">android:shape=</span><span class="s">"rectangle"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;solid</span> <span class="na">android:color=</span><span class="s">"#f5f5f5"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/shape&gt;</span>
+    <span class="nt">&lt;/item&gt;</span>
+<span class="nt">&lt;/selector&gt;</span>
+</code></pre>
+</div>
+
+<table>
+<tr>
+<th>View の状態が何もない時</th><th>View が押された状態</th>
+</tr>
+<tr>
+<td>
+<img src="/AndroidTraining/assets/02-03/state_list_sample_unpressed.png" alt="Sample State List Drawable for Unpressed" />
+</td>
+<td>
+<img src="/AndroidTraining/assets/02-03/state_list_sample_pressed.png" alt="Sample State List Drawable for Pressed" /></td>
+</tr>
+</table>
+
+<h3 id="level-list-drawable">Level List Drawable</h3>
+
+<p>一定の規定値に依って Drawable 要素を管理するグラフィックリソースです。
+XML で、規定値に対応する Drawable への参照を宣言します。</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;level-list</span> <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span><span class="nt">&gt;</span>
+    <span class="c">&lt;!-- Level が 最高 0 までの時の Drawable への参照 --&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">android:maxLevel=</span><span class="s">"0"</span> <span class="nt">&gt;</span>
+        <span class="nt">&lt;shape</span> <span class="na">android:shape=</span><span class="s">"rectangle"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;solid</span> <span class="na">android:color=</span><span class="s">"#f5f5f5"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/shape&gt;</span>
+    <span class="nt">&lt;/item&gt;</span>
+    <span class="c">&lt;!-- Level が 最高 1 までの時の Drawable への参照 --&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">android:maxLevel=</span><span class="s">"1"</span> <span class="nt">&gt;</span>
+        <span class="nt">&lt;shape</span> <span class="na">android:shape=</span><span class="s">"rectangle"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;solid</span> <span class="na">android:color=</span><span class="s">"#696969"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/shape&gt;</span>
+    <span class="nt">&lt;/item&gt;</span>
+<span class="nt">&lt;/level-list&gt;</span>
+</code></pre>
+</div>
+
+<p>Levelの設定はプログラムから行うことができます。</p>
+
+<pre><code class="language-Java">View view = findViewById(R.id.my_view);
+Drawable levelListDrawable = view.getBackground();
+levelListDrawable.setLevel(0); // level を 0 に設定 -&gt; 薄いグレーに
+// ...
+levelListDrawable.setLevel(1); // level を 1 に設定 -&gt; 濃いグレーに
+</code></pre>
+
+<table>
+<tr>
+<th>Level = 0</th><th>Level = 1</th>
+</tr>
+<tr>
+<td>
+<img src="/AndroidTraining/assets/02-03/level_list_sample_0.png" alt="Level 0 Drawable" />
+</td>
+<td>
+<img src="/AndroidTraining/assets/02-03/level_list_sample_1.png" alt="Level 1 Drawable" />
+</td>
+</tr>
+</table>
+
+<h3 id="transition-drawable">Transition Drawable</h3>
+
+<p>複数の Drawable のクロスフェードを管理する XML グラフィックリソースです。</p>
+
+<p>下記の例では、薄いグレーから濃いグレーへのクロスフェードをするような Drawable の宣言となります。</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;transition</span> <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span><span class="nt">&gt;</span>
+    <span class="c">&lt;!-- 最初の状態 --&gt;</span>
+    <span class="nt">&lt;item&gt;</span>
+        <span class="nt">&lt;shape</span> <span class="na">android:shape=</span><span class="s">"rectangle"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;solid</span> <span class="na">android:color=</span><span class="s">"#f5f5f5"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/shape&gt;</span>
+    <span class="nt">&lt;/item&gt;</span>
+    <span class="c">&lt;!-- 次の状態 --&gt;</span>
+    <span class="nt">&lt;item&gt;</span>
+        <span class="nt">&lt;shape</span> <span class="na">android:shape=</span><span class="s">"rectangle"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;solid</span> <span class="na">android:color=</span><span class="s">"#696969"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/shape&gt;</span>
+    <span class="nt">&lt;/item&gt;</span>
+<span class="nt">&lt;/transition&gt;</span>
+</code></pre>
+</div>
+
+<p>このままではクロスフェードが実行されません。
+実行するには、Java のコードで、クロスフェードの実行時間を与えて実行するようにします。</p>
+
+<pre><code class="language-Java">View transitionView = findViewById(R.id.TransitionView);
+TransitionDrawable transition = (TransitionDrawable) transitionView.getBackground();
+// 5秒間クロスフェードを実行する
+transition.startTransition(5000);
+</code></pre>
+
+<table>
+<tr>
+<th>最初</th><th>途中</th><th>最後</th>
+</tr>
+<tr>
+<td>
+<img src="/AndroidTraining/assets/02-03/transition_sample_0.png" alt="Before Transition Starts" />
+</td>
+<td>
+<img src="/AndroidTraining/assets/02-03/transition_sample_1.png" alt="Transition On Going" />
+</td>
+<td>
+<img src="/AndroidTraining/assets/02-03/transition_sample_2.png" alt="After Transition Ends" />
+</td>
+</tr>
+</table>
+
+<h3 id="inset-drawable">Inset Drawable</h3>
+
+<p>Drawable の中に別の Drawable を差し込む XML グラフィックリソースです。
+View が、View 自身より小さい背景グラフィックを要求する場合に便利です。
+また、単純に Drawable に対してマージンをつけることにも利用できます。</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="c">&lt;!-- 上端と左端に 10dp ずつ余白が設定される --&gt;</span>
+<span class="nt">&lt;inset</span>
+    <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
+    <span class="na">android:drawable=</span><span class="s">"@drawable/ic_launcher"</span>
+    <span class="na">android:insetTop=</span><span class="s">"10dp"</span>
+    <span class="na">android:insetLeft=</span><span class="s">"10dp"</span><span class="nt">/&gt;</span>
+</code></pre>
+</div>
+
+<p><img src="/AndroidTraining/assets/02-03/inset_sample.png" alt="Inset Drawable" /></p>
+
+<h3 id="clip-drawable">Clip Drawable</h3>
+
+<p>Drawable のレベルによって、別の Drawable を切り抜く XML のグラフィックリソースです。</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;clip</span> <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
+    <span class="na">android:drawable=</span><span class="s">"@drawable/ic_launcher"</span>
+    <span class="na">android:clipOrientation=</span><span class="s">"horizontal"</span>
+    <span class="na">android:gravity=</span><span class="s">"right"</span><span class="nt">/&gt;</span>
+</code></pre>
+</div>
+
+<p>初期状態では、全ての領域が切り抜かれた状態になります（Level = 0）。
+この状態を制御するには、Java のコードから ClipDrawable オブジェクトに対して setLevel() を呼び出す必要があります。</p>
+
+<pre><code class="language-Java">View clipView = findViewById(R.id.ClipView);
+ClipDrawable clip = (ClipDrawable) clipView.getBackground();
+clip.setLevel(1000);
+</code></pre>
+
+<p>ClipDrawable の Level に設定可能な数値は、最高 10,000 までです。</p>
+
+<p><img src="/AndroidTraining/assets/02-03/clip_sample.png" alt="Clip Drawable" /></p>
+
+<h3 id="scale-drawable">Scale Drawable</h3>
+
+<p>Drawable のレベルによって、別の Drawable の大きさを変化させる、XML のグラフィックリソースです。</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;scale</span>
+    <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
+    <span class="na">android:drawable=</span><span class="s">"@drawable/ic_launcher"</span>
+    <span class="na">android:scaleGravity=</span><span class="s">"center"</span>
+    <span class="na">android:scaleWidth=</span><span class="s">"50%"</span>
+    <span class="na">android:scaleHeight=</span><span class="s">"50%"</span><span class="nt">/&gt;</span>
+</code></pre>
+</div>
+
+<p>初期状態では、レベルが 0 に設定されているため、表示されません。
+レベルを Java の側から設定すると、レベルに応じたスケールで表示されます。</p>
+
+<pre><code class="language-Java">View scaleView = findViewById(R.id.ScaleView);
+ScaleDrawable scale = (ScaleDrawable) scaleView.getBackground();
+scale.setLevel(1);
+</code></pre>
+
+<p><img src="/AndroidTraining/assets/02-03/scale_sample.png" alt="Scale Drawable" /></p>
+
+<h3 id="shape-drawable">Shape Drawable</h3>
+
+<p>色やグラデーション情報を含む、幾何学的図形を XML で宣言するグラフィックリソースです。</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="c">&lt;!-- 四角形グラフィックリソースの定義 --&gt;</span>
+<span class="nt">&lt;shape</span>
+    <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
+    <span class="na">android:shape=</span><span class="s">"rectangle"</span><span class="nt">&gt;</span>
+        <span class="c">&lt;!-- solid: 塗りつぶし --&gt;</span>
+	<span class="nt">&lt;solid</span>
+	    <span class="na">android:color=</span><span class="s">"#f5f5f5"</span><span class="nt">/&gt;</span>
+        <span class="c">&lt;!-- stroke: 枠線 --&gt;</span>
+	<span class="nt">&lt;stroke</span>
+	    <span class="na">android:width=</span><span class="s">"1dp"</span>
+	    <span class="na">android:color=</span><span class="s">"#000000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/shape&gt;</span>
+</code></pre>
+</div>
+
+<p><img src="/AndroidTraining/assets/02-03/shape_sample.png" alt="Shape Drawable" /></p>
+
+<h2 id="style-resource">Style Resource</h2>
+
+<p>View の各要素の属性値をまとめ、一定のフォーマットを規定するリソースです。
+アプリ内で共通な UI を提供する際に活用していきます。</p>
+
+<p>プロジェクトの新規作成直後には、デフォルトで<code class="highlighter-rouge">styles.xml</code>が配置されています。</p>
+
+<h3 id="view--style-">アプリ内の View に共通な Style を定義する</h3>
+
+<p><code class="highlighter-rouge">&lt;style&gt;</code>要素を利用して、共通に利用する View の属性を<code class="highlighter-rouge">&lt;item&gt;</code>要素に切り出し、<code class="highlighter-rouge">&lt;style&gt;</code>要素の<code class="highlighter-rouge">name</code>属性で、くくりだしたスタイルに名前をつけます。</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;resources</span> <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">"BigTextViewStyle"</span> <span class="na">parent=</span><span class="s">"@android:style/Widget.TextView"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"android:layout_width"</span><span class="nt">&gt;</span>wrap_content<span class="nt">&lt;/item&gt;</span>
+        <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"android:layout_height"</span><span class="nt">&gt;</span>wrap_content<span class="nt">&lt;/item&gt;</span>
+        <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"android:textSize"</span><span class="nt">&gt;</span>22sp<span class="nt">&lt;/item&gt;</span>
+    <span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;/resources&gt;</span>
+</code></pre>
+</div>
+
+<p>このスタイルを適用するには、以下のように、各 View の<code class="highlighter-rouge">style</code>属性にスタイルへの参照を記述します。</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;TextView</span>
+        <span class="na">style=</span><span class="s">"@style/BigTextViewStyle"</span>
+        <span class="na">android:id=</span><span class="s">"@+id/HelloWorld1"</span>
+        <span class="na">android:text=</span><span class="s">"@string/hello_world"</span><span class="nt">/&gt;</span>
+</code></pre>
+</div>
+
+<h3 id="section-6">継承</h3>
+
+<p>スタイルは継承して定義することも可能です。</p>
+
+<p>システムで定義されたスタイルを継承する場合は、<code class="highlighter-rouge">&lt;style&gt;</code>要素の<code class="highlighter-rouge">parent</code>属性に、継承したいスタイルを指定します。</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;resources</span> <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">"BigTextViewStyle"</span> <span class="na">parent=</span><span class="s">"@android:style/Widget.TextView"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"android:layout_width"</span><span class="nt">&gt;</span>wrap_content<span class="nt">&lt;/item&gt;</span>
+        <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"android:layout_height"</span><span class="nt">&gt;</span>wrap_content<span class="nt">&lt;/item&gt;</span>
+        <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"android:textSize"</span><span class="nt">&gt;</span>22sp<span class="nt">&lt;/item&gt;</span>
+    <span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;/resources&gt;</span>
+</code></pre>
+</div>
+
+<p>自分で定義したスタイルをさらに継承する場合は、<code class="highlighter-rouge">parent</code>属性ではなく、名前の付け方で継承を行います。
+継承元のスタイルの名前をプレフィクスとして、ドット区切りで新しく定義するスタイルの名前を宣言することで、継承を行います。
+継承は複数の階層にわたって行うことができます。</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="c">&lt;!-- BigTextViewStyle を継承する --&gt;</span>
+<span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">"BigTextViewStyle.Red"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"android:textColor"</span><span class="nt">&gt;</span>#FF0000<span class="nt">&lt;/item&gt;</span>
+<span class="nt">&lt;/style&gt;</span>
+<span class="c">&lt;!-- BigTextViewStyle.Red を継承する --&gt;</span>
+<span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">"BigTextViewStyle.Red.Bold"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"android:textStyle"</span><span class="nt">&gt;</span>bold<span class="nt">&lt;/item&gt;</span>
+<span class="nt">&lt;/style&gt;</span>
+</code></pre>
+</div>
+
+<h2 id="menu-resource">Menu Resource</h2>
+
+<p>メニュー（OptionsMenu と ContextMenu）の各種項目について規定するリソースです。
+OptionsMenu は、デバイスに備わっている Menu キーで呼び出されるメニューのことです。
+ContextMenu は、UI の長押しで呼び出されるメニューのことです。</p>
+
+<p><code class="highlighter-rouge">&lt;resources_name&gt;</code>は<code class="highlighter-rouge">menu</code>ですので、<code class="highlighter-rouge">res/menu/</code>ディレクトリ以下にリソースを配置します。
+プロジェクトの新規作成直後には、デフォルトで、<code class="highlighter-rouge">main.xml</code>が配置されています。</p>
+
+<h3 id="section-7">メニューの定義</h3>
+
+<p><code class="highlighter-rouge">&lt;menu&gt;</code>要素をルートとして、子に<code class="highlighter-rouge">&lt;item&gt;</code>要素か、<code class="highlighter-rouge">&lt;group&gt;</code>要素を持ちます。
+<code class="highlighter-rouge">&lt;item&gt;</code>要素は、メニュー項目1つ分に相当しますが、<code class="highlighter-rouge">&lt;item&gt;</code>要素の子要素に<code class="highlighter-rouge">&lt;menu&gt;</code>要素を持たせることで、サブメニューを構成することも可能です。
+<code class="highlighter-rouge">&lt;group&gt;</code>要素では、複数の<code class="highlighter-rouge">&lt;item&gt;</code>要素をまとめて幾つかの状態を共有するグループを作ります。</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;menu</span> <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span> <span class="nt">&gt;</span>
+    <span class="nt">&lt;item</span>
+        <span class="na">android:id=</span><span class="s">"@+id/action_settings"</span>
+        <span class="na">android:orderInCategory=</span><span class="s">"100"</span>
+        <span class="na">android:showAsAction=</span><span class="s">"never"</span>
+        <span class="na">android:title=</span><span class="s">"@string/action_settings"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/menu&gt;</span>
+</code></pre>
+</div>
+
+<h3 id="optionsmenu">OptionsMenu</h3>
+
+<p>OptionsMenu とは、メニューキーを押して表示するメニューのことです。
+ICS 以降は、ActionBar の並びに入るメニュー要素として扱われます。</p>
+
+<p>メニューリソースを用いて OptionsMenu を設定するには、Activity に定義された、<code class="highlighter-rouge">onCreateOptionsMenu()</code>メソッドをオーバライドし、<code class="highlighter-rouge">MenuInflater</code>クラスを用いてメニューリソースにアクセスして利用します。</p>
+
+<p>詳しい内容は、後の章で解説します。</p>
+
+<pre><code class="language-Java">public class MyActivity extends Activity {
+    // do something...
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+}
+</code></pre>
+
+<h3 id="contextmenu">ContextMenu</h3>
+
+<p>ContextMenu とは、View を長押しした時に表示するメニューのことです。
+OptionsMenu と同様、メニューリソースを用いて ContextMenu を設定するための<code class="highlighter-rouge">onCreateContextMenu()</code>メソッドが Activity に用意されています。</p>
+
+<p>ContextMenuは、明示的に View に ContextMenu を適用する必要があります。</p>
+
+<p>その実態は、View に長押し状態を監視する Listener をセットし、そのコールバックを Activity の onCreateContextMenu() で受け付けるようにするものです。
+このため、Activity への参照を他のオブジェクトが持つので、適切なタイミングでこのコールバックを受け付けないようライフサイクルの管理をする必要があります。</p>
+
+<p>詳しい内容は、後の章で解説します。</p>
+
+<pre><code class="language-Java">public class MyActivity extends Activity {
+    // do something...
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getMenuInflater().inflate(R.menu.main, menu);
+    }
+}
+</code></pre>
+
+<h2 id="color-state-list-resource">Color State List Resource</h2>
+
+<p>UI の状態に応じた Color 要素を管理するカラーリソースです。
+XML で、状態に対応する Color への参照を宣言します。</p>
+
+<p>基本的な要素は、State List Drawable と同じ物を使用します。
+カラーリソースとして宣言するので、<code class="highlighter-rouge">&lt;item&gt;</code>要素の属性には、<code class="highlighter-rouge">android:color</code>を設定します。</p>
+
+<p>State List Drawable ではグラフィックリソースでしたが、Color State List Resource はカラーリソースのため、background などのグラフィックリソースへの参照を要求する属性には適用できません。</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;selector</span> <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span><span class="nt">&gt;</span>
+    <span class="c">&lt;!-- View が押された状態の Drawable --&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">android:color=</span><span class="s">"#696969"</span> <span class="na">android:state_pressed=</span><span class="s">"true"</span><span class="nt">/&gt;</span>
+    <span class="c">&lt;!-- View が通常の状態の Drawable --&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">android:color=</span><span class="s">"#f5f5f5"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/selector&gt;</span>
+</code></pre>
+</div>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="c">&lt;!-- カラーリソースなので、android:background属性には適用できない --&gt;</span>
+<span class="nt">&lt;Button</span>
+    <span class="na">android:id=</span><span class="s">"@+id/ColorStateListButton"</span>
+    <span class="na">android:layout_width=</span><span class="s">"wrap_content"</span>
+    <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+    <span class="na">android:textColor=</span><span class="s">"@color/sample_color_state_list"</span>
+    <span class="na">android:text=</span><span class="s">"@string/hello_world"</span>
+    <span class="na">android:textSize=</span><span class="s">"16sp"</span><span class="nt">/&gt;</span>
+</code></pre>
+</div>
+
+<h2 id="value-resource">Value Resource</h2>
+
+<p>アプリで利用する各種値（整数値や真偽値、寸法値、色など）も、XML に定数値として定義できます。</p>
+
+<h3 id="integer">Integer</h3>
+
+<p><code class="highlighter-rouge">&lt;resources&gt;</code>要素をルートにして、その子として<code class="highlighter-rouge">&lt;integer&gt;</code>要素を宣言していきます。
+String Resource として数字を定義することも可能ですが、リソースから読み出す際に<code class="highlighter-rouge">Integer.parseInt(String)</code>する必要が有る為、Integer として扱う方が良いです。</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;resources&gt;</span>
+    <span class="c">&lt;!-- 個別の値を定義する --&gt;</span>
+    <span class="nt">&lt;integer</span> <span class="na">name=</span><span class="s">"DefaultEggs"</span><span class="nt">&gt;</span>1<span class="nt">&lt;/integer&gt;</span>
+    <span class="nt">&lt;integer</span> <span class="na">name=</span><span class="s">"DefaultBooks"</span><span class="nt">&gt;</span>3<span class="nt">&lt;/integer&gt;</span>
+    <span class="nt">&lt;integer</span> <span class="na">name=</span><span class="s">"DefaultPickaxe"</span><span class="nt">&gt;</span>100<span class="nt">&lt;/integer&gt;</span>
+<span class="nt">&lt;/resources&gt;</span>
+</code></pre>
+</div>
+
+<p>Activity や Fragment などの Context を持つところからアクセスする場合は以下のようにします。</p>
+
+<pre><code class="language-Java">public class MyActivity extends Activity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // do something...
+
+        // Resources オブジェクトを介して取得する
+        int eggs = getResources().getInteger(R.integer.DefaultEggs);
+    }
+}
+</code></pre>
+
+<h3 id="integer-array">Integer Array</h3>
+
+<p><code class="highlighter-rouge">&lt;string-array&gt;</code>と同様の構造です。</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;resources&gt;</span>
+    <span class="nt">&lt;integer-array</span> <span class="na">name=</span><span class="s">"Periods"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;item&gt;</span>1<span class="nt">&lt;/item&gt;</span>
+        <span class="nt">&lt;item&gt;</span>2<span class="nt">&lt;/item&gt;</span>
+        <span class="nt">&lt;item&gt;</span>3<span class="nt">&lt;/item&gt;</span>
+        <span class="nt">&lt;item&gt;</span>4<span class="nt">&lt;/item&gt;</span>
+    <span class="nt">&lt;/integer-array&gt;</span>
+<span class="nt">&lt;/resources&gt;</span>
+</code></pre>
+</div>
+
+<p>Activity や Fragment などの Context を持つところからアクセスする場合は以下のようにします。</p>
+
+<pre><code class="language-Java">public class MyActivity extends Activity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // do something...
+
+        // Resources オブジェクトを介して取得する
+        // integer-array の取得
+        int[] integers = getResources().getIntArray(R.array.Periods);
+    }
+}
+</code></pre>
+
+<h3 id="typed-array">Typed Array</h3>
+
+<p><code class="highlighter-rouge">&lt;string-array&gt;</code>や<code class="highlighter-rouge">&lt;integer-array&gt;</code>以外の、他の様々な型を配列に出来るものです。</p>
+
+<p><code class="highlighter-rouge">&lt;array&gt;</code>要素に、<code class="highlighter-rouge">&lt;item&gt;</code>を子要素としてぶら下げ、この中身を他のリソースの参照とします。</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;resources&gt;</span>
+    <span class="c">&lt;!-- String や Integer 以外のものでも配列にできる --&gt;</span>
+    <span class="nt">&lt;array</span> <span class="na">name=</span><span class="s">"Drawables"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;item&gt;</span>@drawable/ic_launcher<span class="nt">&lt;/item&gt;</span>
+    <span class="nt">&lt;/array&gt;</span>
+    <span class="nt">&lt;array</span> <span class="na">name=</span><span class="s">"Colors"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;item&gt;</span>@color/Red<span class="nt">&lt;/item&gt;</span>
+        <span class="nt">&lt;item&gt;</span>@color/Green<span class="nt">&lt;/item&gt;</span>
+        <span class="nt">&lt;item&gt;</span>@color/Blue<span class="nt">&lt;/item&gt;</span>
+    <span class="nt">&lt;/array&gt;</span>
+    <span class="c">&lt;!-- 異なる型のものを混ぜても良いが、Java のコード上で扱う際に、場所と型を気をつけないといけないので注意 --&gt;</span>
+    <span class="nt">&lt;array</span> <span class="na">name=</span><span class="s">"MixedArray"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;item&gt;</span>@drawable/ic_launcher<span class="nt">&lt;/item&gt;</span>
+        <span class="nt">&lt;item&gt;</span>@color/Blue<span class="nt">&lt;/item&gt;</span>
+    <span class="nt">&lt;/array&gt;</span>
+<span class="nt">&lt;/resources&gt;</span>
+</code></pre>
+</div>
+
+<p>Activity や Fragment などの Context を持つところからアクセスする場合は以下のようにします。<br />
+異なる型のものを混ぜた場合は、型に注意しながら取り扱います。</p>
+
+<pre><code class="language-Java">public class MyActivity extends Activity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // do something...
+
+        // typed-array の取得
+        TypedArray colors = getResources().obtainTypedArray(R.array.Colors);
+        int color2 = colors.getColor(0, Color.BLACK);
+
+        TypedArray drawables = getResources().obtainTypedArray(R.array.Drawables);
+        Drawable drawable = drawables.getDrawable(0);
+
+        TypedArray mixed = getResources().obtainTypedArray(R.array.MixedArray);
+        Drawable drawable2 = mixed.getDrawable(0); // ここで違う型のものを取り出そうとすると実行時例外でクラッシュ
+        int color3 = mixed.getColor(1, Color.BLACK);
+    }
+}
+</code></pre>
+
+<h3 id="boolean">Boolean</h3>
+
+<p><code class="highlighter-rouge">&lt;resources&gt;</code>要素をルートにして、その子として<code class="highlighter-rouge">&lt;bool&gt;</code>要素を宣言していきます。</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;resources&gt;</span>
+    <span class="nt">&lt;bool</span> <span class="na">name=</span><span class="s">"isCompany"</span><span class="nt">&gt;</span>true<span class="nt">&lt;/bool&gt;</span>
+    <span class="nt">&lt;bool</span> <span class="na">name=</span><span class="s">"isPerson"</span><span class="nt">&gt;</span>false<span class="nt">&lt;/bool&gt;</span>
+<span class="nt">&lt;/resources&gt;</span>
+</code></pre>
+</div>
+
+<p>Activity や Fragment などの Context を持つところからアクセスする場合は以下のようにします。</p>
+
+<pre><code class="language-Java">public class MyActivity extends Activity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // do something...
+
+        // boolean の取得
+        boolean bool = getResources().getBoolean(R.bool.isCompany);
+    }
+}
+</code></pre>
+
+<h3 id="dimension">Dimension</h3>
+
+<p>寸法を定義するリソースです。
+View の大きさ（dp(density-independent pixel), px(pixel), pt(point), mm(milli-meter), in(inch)）の他、文字サイズ（sp(scale-independent pixel)）もこのリソースとして扱います。</p>
+
+<p>このリソースは、プロジェクトの新規作成直後に、<code class="highlighter-rouge">dimens.xml</code>というファイル名でデフォルトで用意されています。</p>
+
+<p>Java のコードで読みだした場合、型は float 型となります。</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;resources&gt;</span>
+
+    <span class="c">&lt;!-- Default screen margins, per the Android Design guidelines. --&gt;</span>
+    <span class="nt">&lt;dimen</span> <span class="na">name=</span><span class="s">"activity_horizontal_margin"</span><span class="nt">&gt;</span>16dp<span class="nt">&lt;/dimen&gt;</span>
+    <span class="nt">&lt;dimen</span> <span class="na">name=</span><span class="s">"activity_vertical_margin"</span><span class="nt">&gt;</span>16dp<span class="nt">&lt;/dimen&gt;</span>
+
+    <span class="c">&lt;!-- 文字の大きさも定義可能 --&gt;</span>
+    <span class="nt">&lt;dimen</span> <span class="na">name=</span><span class="s">"TitleSize"</span><span class="nt">&gt;</span>16sp<span class="nt">&lt;/dimen&gt;</span>
+    <span class="nt">&lt;dimen</span> <span class="na">name=</span><span class="s">"BodySize"</span><span class="nt">&gt;</span>14sp<span class="nt">&lt;/dimen&gt;</span>
+<span class="nt">&lt;/resources&gt;</span>
+</code></pre>
+</div>
+
+<p>Activity や Fragment などの Context を持つところからアクセスする場合は以下のようにします。</p>
+
+<pre><code class="language-Java">public class MyActivity extends Activity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // do something...
+
+        // dimension の取得
+        float titleDim = getResources().getDimension(R.dimen.TitleSize);
+    }
+}
+</code></pre>
+
+<h3 id="color">Color</h3>
+
+<p>色コードを定義するリソースです。
+色コードに名前をつけて管理することが可能になります。</p>
+
+<p>色コードの定義は 16 進数表記で行います。</p>
+
+<p>Java のコードで読みだした場合、int 型整数値として扱われます。</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;resources&gt;</span>
+    <span class="nt">&lt;color</span> <span class="na">name=</span><span class="s">"Red"</span><span class="nt">&gt;</span>#FF0000<span class="nt">&lt;/color&gt;</span>
+    <span class="nt">&lt;color</span> <span class="na">name=</span><span class="s">"Green"</span><span class="nt">&gt;</span>#00FF00<span class="nt">&lt;/color&gt;</span>
+    <span class="nt">&lt;color</span> <span class="na">name=</span><span class="s">"Blue"</span><span class="nt">&gt;</span>#0000FF<span class="nt">&lt;/color&gt;</span>
+<span class="nt">&lt;/resources&gt;</span>
+</code></pre>
+</div>
+
+<p>Activity や Fragment などの Context を持つところからアクセスする場合は以下のようにします。</p>
+
+<pre><code class="language-Java">public class MyActivity extends Activity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // do something...
+
+        // color の取得
+        int color = getResources().getColor(R.color.Blue);
+    }
+}
+</code></pre>
+
+<h3 id="id">ID</h3>
+
+<p>レイアウトなどで<code class="highlighter-rouge">android:id</code>属性に指定する ID をまとめるリソースです。</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;resources&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">type=</span><span class="s">"id"</span> <span class="na">name=</span><span class="s">"HelloWorld"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">type=</span><span class="s">"id"</span> <span class="na">name=</span><span class="s">"Hoge"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/resources&gt;</span>
+</code></pre>
+</div>
+
+<h2 id="animation-resource">Animation Resource</h2>
+
+<p>アニメーションには2つの種類があります。</p>
+
+<p>1つはプロパティアニメーション、もう1つはビューアニメーションです。</p>
+
+<h3 id="property-animation">Property Animation</h3>
+
+<p>背景色を変化させたり、アルファ値を変化させたりと、対象のプロパティを操作してアニメーションに見せるものです。
+HoneyComb 以降に導入された、新しいアニメーション方式です。</p>
+
+<h3 id="view-animation">View Animation</h3>
+
+<p>View そのものを移動させたり、拡大縮小、回転させるアニメーションです。</p>
+
+<p>アニメーションの種類には、以下のものがあります。</p>
+
+<dl>
+<dt>Alpha</dt>
+<dd>
+<p>アルファ値のアニメーションです。これにより、フェードインやフェードアウトを実現出来ます。</p>
+<p>XML では、<code>&lt;alpha&gt;</code>要素として扱います。この要素の属性として、以下のものが用意されています。</p>
+<dl>
+<dt><code>android:fromAlpha</code></dt>
+<dd>アニメーション開始時のアルファ値</dd>
+<dt><code>android:toAlpha</code></dt>
+<dd>アニメーション終了時のアルファ値</dd>
+</dl>
+</dd>
+
+<dt>Scale</dt>
+<dd>
+<p>拡大縮小のアニメーションです。</p>
+<p>XML では、<code>&lt;scale&gt;</code>要素として扱います。この要素の属性として、以下のものが用意されています。全てを設定する必要はなく、アニメーションしなくてもよい属性は宣言しなくても構いません。</p>
+<dl>
+<dt><code>android:fromXScale</code></dt>
+<dd>アニメーション開始時の、横方向の拡大率です。1.0 を基準に拡大率を決めます。</dd>
+<dt><code>android:toXScale</code></dt>
+<dd>アニメーション終了時の、横方向の拡大率です。1.0 を基準に拡大率を決めます。</dd>
+<dt><code>android:fromYScale</code></dt>
+<dd>アニメーション開始時の、縦方向の拡大率です。1.0 を基準に拡大率を決めます。</dd>
+<dt><code>android:toYScale</code></dt>
+<dd>アニメーション終了時の、縦方向の拡大率です。1.0 を基準に拡大率を決めます。</dd>
+<dt><code>android:pivotX</code></dt>
+<dd>拡大の中心点のX座標です。指定しないと 上端 になります。</dd>
+<dt><code>android:pivotY</code></dt>
+<dd>拡大の中心点のY座標です。指定しないと 左端 になります。</dd>
+</dl>
+
+</dd>
+<dt>Translate</dt>
+<dd>
+<p>平行移動のアニメーションです。</p>
+<p>XML では、<code>&lt;translate&gt;</code>要素として扱います。この要素の属性として、以下のものが用意されています。<br />
+単位に使う % は、自分の大きさに対するパーセンテージとなります。単位を %p とした場合は、アニメーションを適用する要素の親要素に対するパーセンテージとなります。単位を付けない場合は、ピクセル値として扱われます。</p>
+<dl>
+<dt><code>android:fromXDelta</code></dt>
+<dd>アニメーション開始時の X 座標です。-100 から 100 までの % 単位または %p 単位の数字か、単位のない任意の数字を設定できます。</dd>
+<dt><code>android:toXDelta</code></dt>
+<dd>アニメーション終了時の X 座標です。-100 から 100 までの % 単位または %p 単位の数字か、単位のない任意の数字を設定できます。</dd>
+<dt><code>android:fromYDelta</code></dt>
+<dd>アニメーション開始時の Y 座標です。-100 から 100 までの % 単位または %p 単位の数字か、単位のない任意の数字を設定できます。</dd>
+<dt><code>android:toYDelta</code></dt>
+<dd>アニメーション終了時の Y 座標です。-100 から 100 までの % 単位または %p 単位の数字か、単位のない任意の数字を設定できます。</dd>
+</dl>
+
+</dd>
+<dt>Rotate</dt>
+<dd>
+<p>回転のアニメーションです。</p>
+<p>XML では、<code>&lt;rotate&gt;</code>要素として扱います。この要素の属性として、以下のものが用意されています。</p>
+<dl>
+<dt><code>android:fromDegrees</code></dt>
+<dd>アニメーション開始時の角度です。</dd>
+<dt><code>android:toDegrees</code></dt>
+<dd>アニメーション終了時の角度です。</dd>
+<dt><code>android:pivotX</code></dt>
+<dd>回転の中心点の X 座標です。</dd>
+<dt><code>android:pivotY</code></dt>
+<dd>回転の中心点の Y 座標です。</dd>
+</dl>
+
+</dd>
+</dl>
+
+<p>これらのアニメーションは、単一に宣言することもできますが、複数のアニメーションを組み合わせたアニメーションとして宣言することもできます。</p>
+
+<p>複数のアニメーションを組み合わせる場合、<code class="highlighter-rouge">&lt;set&gt;</code>要素を親にして、複数のアニメーションを子要素にします。</p>
+
+<p>また、すべての要素には、以下の様な属性が用意されています。</p>
+
+<dl>
+<dt><code>android:duration</code></dt>
+<dd>アニメーションを再生する時間です。millisecond 単位で指定します。</dd>
+
+<dt><code>android:repeatMode</code></dt>
+<dd>
+アニメーションが終了した時に、アニメーションを最初から再開するか、最後から最初へ戻るようにするかを設定します。<br />
+この設定が有効になるのは、後述する<code>android:repeatCount</code>属性が 0 以上か、若しくは infinite に設定された時のみです。<br />
+デフォルト値では、アニメーションを最初から再開するように設定されます。</dd>
+
+<dt><code>android:repeatCount</code></dt>
+<dd>
+アニメーションを繰り返す回数です。infinite と設定することで、無限に繰り返すようにもできます。
+</dd>
+
+<dt><code>android:startOffset</code></dt>
+<dd>
+アニメーションのスタートの遅延時間です。指定した時間(msec)だけ遅延させることができます。
+</dd>
+</dl>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="c">&lt;!-- 回転と平行移動を同時に行うアニメーション --&gt;</span>
+<span class="nt">&lt;set</span>
+    <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span><span class="nt">&gt;</span>
+    <span class="c">&lt;!-- 回転は無限回 --&gt;</span>
+    <span class="c">&lt;!-- アニメーションする View のちょうど真ん中を中心に一周する --&gt;</span>
+    <span class="nt">&lt;rotate</span>
+        <span class="na">android:duration=</span><span class="s">"1000"</span>
+        <span class="na">android:repeatCount=</span><span class="s">"infinite"</span>
+        <span class="na">android:fromDegrees=</span><span class="s">"0"</span>
+        <span class="na">android:toDegrees=</span><span class="s">"360"</span>
+        <span class="na">android:pivotX=</span><span class="s">"50%"</span>
+        <span class="na">android:pivotY=</span><span class="s">"50%"</span><span class="nt">/&gt;</span>
+    <span class="c">&lt;!-- 平行移動は 1 回だけ --&gt;</span>
+    <span class="c">&lt;!-- アニメーションする View の親の 40% の位置に移動する --&gt;</span>
+    <span class="nt">&lt;translate</span>
+        <span class="na">android:duration=</span><span class="s">"1000"</span>
+        <span class="na">android:repeatCount=</span><span class="s">"0"</span>
+        <span class="na">android:toXDelta=</span><span class="s">"40%p"</span>
+        <span class="na">android:toYDelta=</span><span class="s">"40%p"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/set&gt;</span>
+</code></pre>
+</div>
+
+<p>アニメーションの適用は、Java のコードから行います。</p>
+
+<pre><code class="language-Java">View textView = findViewById(R.id.TextView1);
+
+// Animation Resource を読み込んで、Animation オブジェクトを得る
+Animation animation = AnimationUtils.loadAnimation(this, R.anim.sample_animation);
+// Animation オブジェクトを View に渡して、アニメーションを開始する
+textView.startAnimation(animation);
+</code></pre>
+
+<h2 id="rawbinary-resource">Raw(Binary) Resource</h2>
+
+<p>最適化をしない画像や、音声、動画等のバイナリデータリソースです。
+バイナリデータを取り扱うため、<code class="highlighter-rouge">InputStream</code>オブジェクトを介してリソースへアクセスします。</p>
+
+<p>ファイル名がリソースの一意な ID となりますので、Java の文法に反するファイル名はエラーとなります。</p>
+
+<pre><code class="language-Java">// ファイル名がリソースの一意な ID として扱われる
+InputStream in = getResources().openRawResource(R.raw.ファイル名);
+</code></pre>
+
+<h2 id="section-8">多様なデバイスへの対応</h2>
+
+<p>Android OS を搭載する端末は、とてもたくさんの種類があり、使用している言語、解像度、画面の大きさ、向きなど、ハードウェアのスペックに限らず、多種多様な状況・状態が想定されます。<br />
+端末ごとに apk を分けて作ることも不可能ではありませんが、現実的には無理があります。<br />
+また、状態に応じたリソースの使い分けを自分たちで全てハンドリングするのも、とても大変な作業になってしまいます。</p>
+
+<p>そこで Android フレームワークでは、Context を通してリソースへアクセスする設計によって、リソースを使う側からは単一の方法でリソースの取得ができるような仕組みを実現しています。<br />
+リソースの提供側は、端末のスペック・状況・状態に応じたリソースを用意するだけで、システムが自動で適切なリソースを選択してくれるようになります。</p>
+
+<p>その仕組みを利用する上で重要なものが、リソースディレクトリの命名規則<code class="highlighter-rouge">&lt;resources_name&gt;-&lt;configuration_qualifier&gt;</code>のなかの、<code class="highlighter-rouge">&lt;configuration_qualifier&gt;</code>です。</p>
+
+<p><img src="/AndroidTraining/assets/02-03/context_interface_accessing_resource_1.png" alt="English Locale Resource" /></p>
+
+<p><img src="/AndroidTraining/assets/02-03/context_interface_accessing_resource_2.png" alt="Japanese Locale Resource" /></p>
+
+<p><img src="/AndroidTraining/assets/02-03/context_interface_accessing_resource_3.png" alt="French Locale Resource" /></p>
+
+<p>この項目では、最も重要なロケール、解像度、画面の向きの3つの対応について解説します。</p>
+
+<h3 id="configurationqualifier"><code class="highlighter-rouge">&lt;configuration_qualifier&gt;</code></h3>
+
+<p>複数の<code class="highlighter-rouge">&lt;configuration_qualifier&gt;</code>を付与することができ、これによって、様々なデバイスへの対応をしていきます。</p>
+
+<p>ただし、<code class="highlighter-rouge">&lt;configuration_qualifier&gt;</code>の付与には順序が決められています。これに従わない場合、意図した動作をしなくなります。</p>
+
+<p>下記に順番の一例を示します。上にあるものほど最初に付与することになります。</p>
+
+<ol>
+  <li>Language and Region
+    <ul>
+      <li>言語</li>
+      <li><code class="highlighter-rouge">ja</code>や<code class="highlighter-rouge">en</code>や<code class="highlighter-rouge">fr</code>などと指定する</li>
+    </ul>
+  </li>
+  <li>Smallest Width
+    <ul>
+      <li>ディスプレイの短辺の大きさ</li>
+      <li><code class="highlighter-rouge">sw600dp</code>や<code class="highlighter-rouge">sw720dp</code>など、<code class="highlighter-rouge">sw&lt;N&gt;dp</code>の形式で、dpの単位で指定する</li>
+    </ul>
+  </li>
+  <li>Screen Orientation
+    <ul>
+      <li>画面の向き</li>
+      <li><code class="highlighter-rouge">land</code>または<code class="highlighter-rouge">port</code></li>
+    </ul>
+  </li>
+  <li>Screen Pixel Density
+    <ul>
+      <li>ピクセル密度</li>
+      <li><code class="highlighter-rouge">ldpi</code>、<code class="highlighter-rouge">mdpi</code>、<code class="highlighter-rouge">hdpi</code>、<code class="highlighter-rouge">xhdpi</code>、<code class="highlighter-rouge">xxhdpi</code>、<code class="highlighter-rouge">nodpi</code>、<code class="highlighter-rouge">tvdpi</code>などと指定する。</li>
+    </ul>
+  </li>
+  <li>Platform Version
+    <ul>
+      <li>OS のバージョン</li>
+      <li><code class="highlighter-rouge">v4</code>、<code class="highlighter-rouge">v7</code>などと指定する。数字は API Level のものを使う。</li>
+    </ul>
+  </li>
+</ol>
+
+<p>この順番に従うと、例えば<code class="highlighter-rouge">values-v4-en</code>という名前は不正で、<code class="highlighter-rouge">values-en-v4</code>が正しい、と言うことになります。</p>
+
+<h3 id="section-9">ロケール</h3>
+
+<p>端末で使用している言語に応じてリソースを定義することができます。</p>
+
+<p>ISO 639-1 で定義された言語コードを使用することが出来、またオプショナルな値として、ISO 3166-1-alpha-2 の地域コードも使用出来ます。</p>
+
+<p>何も指定しない場合は、デフォルトのリソースとして扱われ、<code class="highlighter-rouge">&lt;configuration-qualifier&gt;</code>で指定した言語のリソースから漏れたものは全てデフォルトのリソースが使用されます。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>言語</th>
+      <th>ディレクトリ</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>日本語</td>
+      <td>values-ja</td>
+    </tr>
+    <tr>
+      <td>英語</td>
+      <td>values-en</td>
+    </tr>
+    <tr>
+      <td>フランス語</td>
+      <td>values-fr</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="section-10">高解像度スクリーン</h3>
+
+<p>解像度に合わせてリソースを定義することができます。</p>
+
+<p>解像度の低い順に、<code class="highlighter-rouge">ldpi</code>、<code class="highlighter-rouge">mdpi</code>、<code class="highlighter-rouge">hdpi</code>、<code class="highlighter-rouge">xhdpi</code>、<code class="highlighter-rouge">xxhdpi</code>などが定義されています。最近の端末だと<code class="highlighter-rouge">xhdpi</code>のものが主流になりつつあります。</p>
+
+<p>Drawable Resource で、解像度ごとに png ファイルを分ける、という用途で頻繁に使用します。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>解像度</th>
+      <th>ディレクトリ</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ldpi</td>
+      <td>drawable-ldpi</td>
+    </tr>
+    <tr>
+      <td>mdpi</td>
+      <td>drawable-mdpi</td>
+    </tr>
+    <tr>
+      <td>hdpi</td>
+      <td>drawable-hdpi</td>
+    </tr>
+    <tr>
+      <td>xhdpi</td>
+      <td>drawable-xhdpi</td>
+    </tr>
+    <tr>
+      <td>xxhdpi</td>
+      <td>drawable-xxhdpi</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="section-11">画面回転</h3>
+
+<p>画面の向きによってもリソースを定義することができます。特に、レイアウトを縦画面と横画面で作り分ける、などの際に便利です。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>向き</th>
+      <th>ディレクトリ</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>縦</td>
+      <td>layout-land, drawable-land</td>
+    </tr>
+    <tr>
+      <td>横</td>
+      <td>layout_port, drawable-port</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="section-12">実習</h2>
+
+<p><code class="highlighter-rouge">AndroidStudio/practice/fundamentals/3rd/ResourceManagement/build.gradle</code>を開き、 以下の実習に取り組んでください。</p>
+
+<h3 id="string-resource-1">String Resource</h3>
+
+<ol>
+  <li>日本語のリソースを 5 つ定義して、string_practice1.xml でそれらを表示する TextView を配置してください。</li>
+  <li>定義した 5 つの日本語リソースに対応する英語リソースを宣言してください（プロジェクトは実習 1 と同じものを使う）。</li>
+  <li>最初に定義された日本語リソースのフォーマットに基いて、動的に文章を生成して TextView に表示してください。</li>
+</ol>
+
+<h3 id="drawable-resource-1">Drawable Resource</h3>
+
+<ol>
+  <li>四角形の塗りつぶしの中に円を描く Drawable を XML で宣言してください。</li>
+  <li>上記の Drawable で利用する色を Value Resource に宣言してください（色は好みのものを使用して良く、プロジェクトは実習 1 と同じものにすること）。</li>
+</ol>
+
+<h3 id="animation-resource-1">Animation Resource</h3>
+
+<ol>
+  <li>複数のアニメーションを組み合わせたアニメーションを作成し、任意の View に割り当ててください。</li>
+</ol>
+
+<h2 id="section-13">課題</h2>
+
+<h3 id="string-resource-2">String Resource</h3>
+
+<ol>
+  <li>用意されている日本語リソースに対応する、英語の複数形の表現を宣言し、MainActivity に表示できるようにしてください。(使用するプロジェクト: AndroidStudio/assignments/fundamentals/3rd/StringResourceAssignment1/app/build.gradle)</li>
+</ol>
+
+<h3 id="drawable-resource-2">Drawable Resource</h3>
+
+<ol>
+  <li>実習で作った Drawable を利用し、下記の要件を満たす State List Drawable を作成して、Button に適用してください。(使用するプロジェクト:AndroidStudio/assignments/fundamentals/3rd/DrawableResourceAssignment1/app/build.gradle)
+    <ul>
+      <li>Button が押されていない時の Drawable</li>
+      <li>Button が押された時の Drawable</li>
+      <li>Button にフォーカスがあたった時の Drawable</li>
+      <li>上記 3 つの状態に対応する異なる Drawable を宣言しておくこと</li>
+    </ul>
+  </li>
+  <li>1 で作った Drawable を、画面の向きによって、下記の条件で切り替わるようにしてください。（1 と同じプロジェクトの中で実施する）
+    <ul>
+      <li>縦と横で、色違いの見た目になれば良い</li>
+    </ul>
+  </li>
+</ol>
+
+          </section>
+        </div>
+
+        <!-- FOOTER  -->
+        <div id="footer_wrap" class="outer">
+          <footer class="inner">
+  <p class="license">Portions of this page are reproduced from work created and <a href="https://code.google.com/p/android/">shared by the Android Open Source Project</a> and used according to terms described in the <a href="http://creativecommons.org/licenses/by/2.5/">Creative Commons2.5 Attribution License</a>.</p>
+  <p class="license">
+  This work is licensed under a <a rel="license" itemprop="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. 
+  <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+  </p>
+  <p class="copyright">Androidtraining maintained by <a href="https://github.com/mixi-inc" itemprop="author">mixi-inc</a></p>
+  <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+
+</footer>
+
+        </div>
+      </paper-scroll-header-panel>
+    </paper-drawer-panel>
+    <script>
+        // custom transformation: scale header's title
+        var title = document.querySelectorAll('.title')[2];
+        addEventListener('paper-header-transform', function(e) {
+            var d = e.detail;
+            var m = d.height - d.condensedHeight;
+            var scale = Math.max(0.75, (m - d.y) / (m / 0.25)  + 0.75);
+
+            Polymer.Base.transform('scale(' + scale + ') translateZ(0)', title);
+        });
+
+    </script>
+</body>
+</html>

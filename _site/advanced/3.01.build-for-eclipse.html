@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="この章では、Android アプリのデバッグに利用する様々なツールと、アプリの自動ビルドについて解説します。" />
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <!-- ogp for twitter -->
+    <meta content="@mixi_engineers" name="twitter:site" />
+    <meta content="summary" name="twitter:card" />
+    
+    <meta content="デバッグと自動ビルド(Eclipse) - r21nomi/AndroidTraining" name="twitter:title" />
+    
+    <meta content="この章では、Android アプリのデバッグに利用する様々なツールと、アプリの自動ビルドについて解説します。" name="twitter:description" />
+    <meta content="/assets/logo.png" name="twitter:image:src" />
+    <!-- ogp -->
+    <meta content="r21nomi/AndroidTraining" property="og:site_name" />
+    <meta content="article" property="og:type" />
+    <meta content="/assets/logo.png" property="og:image" />
+    
+    <meta content="デバッグと自動ビルド(Eclipse) - r21nomi/AndroidTraining" name="og:title" />
+    
+    <meta content="/advanced/3.01.build-for-eclipse.html" property="og:url" />
+    <meta content="この章では、Android アプリのデバッグに利用する様々なツールと、アプリの自動ビルドについて解説します。" property="og:description" />
+    
+    <meta name="keyword" content="android, training, 基礎, スキル, 開発, developer, プログラミング, デバッグ, DDMS, Android lint, ant" />
+    
+
+    <meta name="go-import" content="github.com/mixi-inc/AndroidTraining git https://github.com/mixi-inc/AndroidTraining.git">
+    <script src="/AndroidTraining/bower_components/webcomponentsjs/webcomponents.js"></script>
+    
+    <link rel="stylesheet" type="text/css" media="screen" href="/AndroidTraining/stylesheets/main.css">
+    <link rel="shortcut icon" href="/AndroidTraining/assets/favicon.ico" />
+    <link rel="import" href="/AndroidTraining/bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-drawer-panel/paper-drawer-panel.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-header-panel/paper-header-panel.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-toolbar/paper-toolbar.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-menu/paper-menu.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-item/paper-item.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-icon-button/paper-icon-button.html">
+    <link rel="import" href="/AndroidTraining/bower_components/iron-icons/iron-icons.html">
+    <style is="custom-style">
+        paper-scroll-header-panel:not([style-scope]):not(.style-scope) {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        paper-toolbar.tall .bottom:not([style-scope]):not(.style-scope) {
+            font-size: 40px;
+            margin-left: 60px;
+
+            -webkit-transform-origin: left center;
+            transform-origin: left center;
+        }
+
+        .content:not([style-scope]):not(.style-scope) {
+            padding: 8px;
+        }
+
+        .spacer:not([style-scope]):not(.style-scope) {
+            -ms-flex: 1 1 0.000000001px;
+            -webkit-flex: 1;
+            flex: 1;
+            -webkit-flex-basis: 0.000000001px;
+            flex-basis: 0.000000001px;
+        }
+
+    </style>
+    <title>デバッグと自動ビルド(Eclipse) - r21nomi/AndroidTraining</title>
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-50931519-13', 'auto');
+    ga('send', 'pageview');
+    </script>
+  </head>
+
+  <body itemscope itemtype="http://schema.org/Article" fullbleed layout vertical>
+
+    <paper-drawer-panel selected="main" >
+      <!-- MENU -->
+      <paper-header-panel mode="seamed" drawer class="drawer">
+        <nav>
+    <ol class="chapter_navigation">
+        <a href="/AndroidTraining/">Home</a>
+        <li>まえがき</li>
+        <ol class="section_navigation">
+            
+            
+            <li><a href="/AndroidTraining/introductions/1.01.about-android-os.html">Android-OSについて</a></li>
+            
+            <li><a href="/AndroidTraining/introductions/1.02.prepare-for-development.html">開発環境の準備</a></li>
+            
+            <li><a href="/AndroidTraining/introductions/1.03.create-project-for-android-studio.html">プロジェクトの作成</a></li>
+            
+            <li><a href="/AndroidTraining/introductions/1.04.basic-knowledge.html">Androidの基礎知識</a></li>
+            
+            <li><a href="/AndroidTraining/introductions/1.05.how-to-build-for-gradle.html">Android のビルドについて(Gradle)</a></li>
+            
+        </ol>
+        <li>基礎編</li>
+        <ol class="section_navigation">
+            
+            
+            <li><a href="/AndroidTraining/fundamentals/2.01.create-layout.html">アプリのレイアウト作成</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.02.activity-and-fragment.html">ActivityとFragment</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.03.application-resource-management.html">アプリのリソース管理</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.04.messaging-and-notification.html">メッセージングと通知</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.05.actionbar-and-interaction-control.html">ActionBarとインタラクション制御</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.06.listView-and-viewPager.html">ListViewとViewPager</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.07.serialize-and-collection-and-perpetuation.html">直列化とコレクション、永続化</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.08.async-processing.html">非同期処理</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.09.network-access.html">ネットワーク通信</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.10.database.html">データベース</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.11.testing-for-android-studio.html">テスト(AndroidStudio)</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.11.testing.html">テスト</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.12.handler-and-looper.html">HandlerとLooper</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.13.webView.html">WebView</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.14.accountmanager.html">AccountManager</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.15.advance-contentprovider.html">ContentProviderの発展</a></li>
+            
+        </ol>
+        <li>実務編</li>
+        <ol class="section_navigation">
+            
+            
+            <li><a href="/AndroidTraining/advanced/3.01.build-for-eclipse.html">デバッグと自動ビルド(Eclipse)</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.01.build-for-gradle.html">自動ビルド(Android Studio)</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.02.architecture-and-di.html">アーキテクチャ設計と DI</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.03.advanced-layout.html">続・アプリのレイアウト作成</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.04.user-interface.html">ユーザインタフェース設計</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.05.security.html">セキュリティ</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.06.google-api.html">Google API</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.07.google-play-services.html">Google Play Services</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.08.cloud-sync.html">クラウド同期</a></li>
+            
+        </ol>
+        <li>デザイナー編</li>
+        <ol>
+        </ol>
+    </ol>
+    <ol class="appex_navigation">
+        <li>付録</li>
+        <ol class="section_navigation">
+            
+            
+            <li><a href="/AndroidTraining/appendix/A.01.import-from-git-for-eclipse.html">Git リポジトリからのプロジェクトのインポート</a></li>
+            
+            <li><a href="/AndroidTraining/appendix/A.02.basic-java.html">Java の文法の基礎</a></li>
+            
+            <li><a href="/AndroidTraining/appendix/A.03.how-to-create-avd.html">仮想デバイスの作成</a></li>
+            
+            <li><a href="/AndroidTraining/appendix/A.04.advanced-java.html">Javaの活用</a></li>
+            
+        </ol>
+    </ol>
+</nav>
+
+      </paper-header-panel>
+      <paper-scroll-header-panel main condenses>
+        <!-- HEADER -->
+        <paper-toolbar class="mainheader tall" role="toolbar">
+    <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+
+    <span class="title"></span>
+
+    <a id="forkme_banner" href="https://github.com/mixi-inc/AndroidTraining" role="button">
+        <paper-icon-button src="/AndroidTraining/images/blacktocat.png"></paper-icon-button> <span>View on GitHub</span>
+    </a>
+
+    <div class="middle title">r21nomi/AndroidTraining</div>
+    <div class="bottom title">デバッグと自動ビルド(Eclipse)</div>
+</paper-toolbar>
+
+
+<div id="description" itemprop="description">この章では、Android アプリのデバッグに利用する様々なツールと、アプリの自動ビルドについて解説します。</div>
+
+
+
+        <!-- MAIN CONTENT -->
+        <div id="main_content_wrap" class="content outer" itemprop="articleBody">
+          <section id="main_content" class="inner">
+            <h2 id="section">目次</h2>
+
+<ul>
+  <li><a href="#デバッグ">デバッグ</a>
+    <ul>
+      <li><a href="#DDMS パースペクティブ">DDMS パースペクティブ</a></li>
+      <li><a href="#TraceView">TraceView</a></li>
+      <li><a href="#Hierarchy Viewer">Hierarchy Viewer</a></li>
+      <li><a href="#Android Device Monitor">Android Device Monitor</a></li>
+      <li><a href="#Memory Analyzer Tool">Memory Analyzer Tool</a></li>
+      <li><a href="#Android Lint">Android Lint</a></li>
+    </ul>
+  </li>
+  <li><a href="#自動ビルド">自動ビルド</a>
+    <ul>
+      <li><a href="#ant">ant</a></li>
+      <li><a href="#Gradle">Gradle</a></li>
+      <li><a href="#ProGuard">ProGuard</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="section-1">デバッグ</h2>
+
+<p>Android では、様々なデバッグの手段が提供されています。<br />
+ここでは、各種デバッグツールの使い方について解説します。</p>
+
+<h3 id="ddms-">DDMS パースペクティブ</h3>
+
+<p>Eclipse には、パースペクティブと呼ばれる、目的に応じた画面構成があります。<br />
+この中でも、Android のデバッグに特化したパースペクティブが、DDMS パースペクティブです。</p>
+
+<p><img src="/AndroidTraining/assets/03-01/ddms_perspective.png" alt="DDMS Perspective" /></p>
+
+<p>DDMS パースペクティブには、以下のビューが含まれています。</p>
+
+<ul>
+  <li>Devices
+    <ul>
+      <li>接続されているデバイスの一覧と、そのデバイスで動作中のデバッグ可能なプロセスの一覧です</li>
+    </ul>
+  </li>
+  <li>Threads
+    <ul>
+      <li>スレッドのプロファイラのビューです</li>
+    </ul>
+  </li>
+  <li>Heap
+    <ul>
+      <li>プロセスで使用しているヒープ領域のプロファイラのビューです</li>
+    </ul>
+  </li>
+  <li>Allocation Tracker
+    <ul>
+      <li>メモリ領域の確保状況を表示するビューです</li>
+    </ul>
+  </li>
+  <li>Network Statistics
+    <ul>
+      <li>ネットワークの通信状況を表示するビューです</li>
+    </ul>
+  </li>
+  <li>File Explorer
+    <ul>
+      <li>端末のファイルシステムを表示するビューです</li>
+    </ul>
+  </li>
+  <li>Emulator Control
+    <ul>
+      <li>エミュレータへの、通話や位置情報の通知を行うビューです</li>
+    </ul>
+  </li>
+  <li>System Information
+    <ul>
+      <li>CPU やメモリなど、ハードウェアリソースの使用状況を表示します</li>
+    </ul>
+  </li>
+  <li>LogCat
+    <ul>
+      <li><code class="highlighter-rouge">Log</code>クラスによるログ出力です</li>
+    </ul>
+  </li>
+</ul>
+
+<p>これらのビューは、Android SDK に含まれる各種ツール群を Eclipse に組み込んだものになっています。</p>
+
+<h3 id="traceview">TraceView</h3>
+
+<p>DDMS パースペクティブの Threads ビューと同じものです。<br />
+スレッドごとのメソッドの実行時間を計測し、グラフ化するためのプロファイラの 1 つです。</p>
+
+<p>Android SDK 内の <code class="highlighter-rouge">tools</code>には、<code class="highlighter-rouge">traceview</code>コマンドが用意されていますが、現在はその使用が推奨されていません。<br />
+かわりに、<code class="highlighter-rouge">monitor</code>コマンドから、Android Device Monitor を利用することが推奨されています。</p>
+
+<p>使い方は DDMS パースペクティブのものも、Android Device Monitor のものも同じですので、詳細は Android Device Monitor で解説します。</p>
+
+<h3 id="hierarchy-viewer">Hierarchy Viewer</h3>
+
+<p>Hierarchy View パースペクティブとして、Eclipse に組み込まれています。</p>
+
+<p><code class="highlighter-rouge">hierarchyviewer</code>コマンドが SDK に同封されていますが、<code class="highlighter-rouge">traceview</code>コマンド同様、その使用は推奨されなくなりました。<br />
+かわりに、<code class="highlighter-rouge">monitor</code>コマンドから、Android Device Monitor を利用します。</p>
+
+<p>使い方は DDMS パースペクティブのものも、Android Device Monitor のものも同じですので、詳細は Android Device Monitor で解説します。</p>
+
+<h3 id="andorid-device-monitor">Andorid Device Monitor</h3>
+
+<p>Android SDK r20 で導入された、新しいデバッグ・プロファイリングツールです。</p>
+
+<p><img src="/AndroidTraining/assets/03-01/android_device_monitor.png" alt="Android Device Monitor" /></p>
+
+<p>Eclipse の DDMS パースペクティブが切りだされ、単体のアプリケーションとして動作しています。<br />
+このほか、Hierarchy View パースペクティブ、Pixel Perfect パースペクティブ、Tracer for OpenGL ES パースペクティブもこの中に含まれています。</p>
+
+<h4 id="section-2">スレッドのプロファイリング</h4>
+
+<p>スレッドの実行時間を計測するには、Devices ビューから、プロファイリングするプロセスを選択します。</p>
+
+<p><img src="/AndroidTraining/assets/03-01/devices_view.png" alt="Profiling Threads" /></p>
+
+<p>このビューの、Devices タブの右横にあるアイコンのうち、左から 6 番目の、矢印と赤丸のアイコンが、プロファイリングを開始するボタンとなります。<br />
+開始すると、赤丸が黒丸に変わります。<br />
+プロファイリングを停止するタイミングでもう一度アイコンをクリックすると、プロファイリングの結果が出力されます。</p>
+
+<p><img src="/AndroidTraining/assets/03-01/method_profiled.png" alt="Profiling result" /></p>
+
+<p>この表示では、各メソッドごとに、呼び出しにかかった総計の時間や、メソッド単体でかかった時間が下の表にまとめられ、その時間をグラフ化したものが画面上部に表示されるようになっています。</p>
+
+<p>このうち、Incl CPU Time は、あるメソッドでかかったすべての時間で、Excl CPU Time は、あるメソッド単体でかかった時間を表します。<br />
+よって、Excl CPU Time が掛かっているメソッドほど、ボトルネックとなっていることになります。
+メソッドの実行時間のほか、メソッドの呼ばれた回数と、再帰呼び出しの回数をみることもできます。</p>
+
+<h4 id="section-3">レイアウトの階層構造を見る</h4>
+
+<p>Hierarchy Viewer パースペクティブを開くと、下記のような画面が表示されます。</p>
+
+<p><img src="/AndroidTraining/assets/03-01/hierarchy_viewer.png" alt="Profiling result" /></p>
+
+<p>Hierarchy Viewer は、root 権限のあるデバイスでしか利用できないため、エミュレータを活用します。</p>
+
+<p>デバイスが接続されると、起動中のプロセスと画面がリストアップされます。</p>
+
+<p><img src="/AndroidTraining/assets/03-01/windows_view.png" alt="Windows View" /></p>
+
+<p>この中から、レイアウトの階層構造を解析したい画面を選択すると、解析が始まります。<br />
+解析が終わると、Tree View に階層構造がグラフ化されて表示されます。</p>
+
+<p><img src="/AndroidTraining/assets/03-01/tree_view.png" alt="Layout Tree View" /></p>
+
+<p>この Tree View のノードを選択すると、レイアウトの大きさの計算に要した時間や、レイアウトの構成に要した時間、描画に要した時間と、そのノードが持つビュー全体が表示されます。</p>
+
+<p><img src="/AndroidTraining/assets/03-01/hierarchy_node_selection.png" alt="Node information" /></p>
+
+<p>このツールを用いて、不要なレイアウトの階層を減らしたり、階層構造が深すぎる部分を特定したりなどを行います。</p>
+
+<h3 id="memory-analyzer-tool">Memory Analyzer Tool</h3>
+
+<p>メモリ使用量を解析したり、メモリリークの可能性を探ったりするための、メモリ解析ツールです。<br />
+メモリのプロファイリングは、DDMS パースペクティブでヒープ領域のプロファイリングを実行し、ダンプ結果を出力させます。<br />
+Memory Analyzer Tool は、このダンプ結果を元に解析を行い、グラフ表示などをしてくれます。</p>
+
+<p>Memory Analyzer Tool は、スタンドアロン型のソフトウェアと、Eclipse のプラグインの 2 種類があります。</p>
+
+<p>この項では、Eclipse のプラグインのセットアップと使い方、実際のメモリリークへの対処の一例を扱います。</p>
+
+<h4 id="eclipse-">Eclipse プラグインのインストール</h4>
+
+<p><a href="http://www.eclipse.org/mat/">Memory Analyzer Tool</a>から、最新版を配布している更新サイトの URL を探して、Eclipse に入力します。<br />
+2013 年 5 月時点では、下記で最新版の配布をしています。</p>
+
+<ul>
+  <li>http://download.eclipse.org/mat/1.2/update-site/</li>
+</ul>
+
+<p>メニューの Help &gt; Install New Software… で、更新サイトからプラグインをインストールするウィザードを開始します。<br />
+Work with に、更新サイトの URL を入力してください。<br />
+入力すると、更新サイトからプラグインの情報を引いてきて、どのような内容のものをインストールするか尋ねられます。</p>
+
+<p><img src="/AndroidTraining/assets/03-01/install_new_software.png" alt="Install MAT Plugin" /></p>
+
+<p>今回は、両方を選択してインストールします。</p>
+
+<p><img src="/AndroidTraining/assets/03-01/install_details.png" alt="Install Details" /></p>
+
+<p>Finish すると、インストールが始まります。<br />
+インストールが終わったら、Eclipse を再起動する旨のダイアログが表示されるので、再起動します。</p>
+
+<h4 id="section-4">ヒープのダンプを取る</h4>
+
+<p>現在のヒープの様子を見るには、Devices View から、Update Heap を選択します。<br />
+すると、DDMS パースペクティブの Heap ビューで、ヒープ領域の使用率などが表示されるようになります。</p>
+
+<p><img src="/AndroidTraining/assets/03-01/heap_status.png" alt="Heap Status" /></p>
+
+<p>ここで、Cause GC ボタンを押すと、GC を発生させ、ヒープ領域の表示が更新されます。</p>
+
+<p>画面回転などを起こしても、ヒープ使用量が増え続ける場合、メモリリークが発生してる可能性が高いと判断出来ます。
+ここで、メモリリークを調べるために、Devices View から、Dump HPROF file を選択します。</p>
+
+<p>しばらくすると、ヒープのダンプファイルが生成され、Memory Analyzer Tool が起動します。</p>
+
+<p><img src="/AndroidTraining/assets/03-01/get_start_inspection.png" alt="Getting Started" /></p>
+
+<p>ここで、メモリリークを調べる場合は、Leak Suspects Report を選択し、Finish します。</p>
+
+<p><img src="/AndroidTraining/assets/03-01/leak_suspections.png" alt="Leak Suspects Graph" /></p>
+
+<p>このグラフでは、リークが疑われているオブジェクトの一覧が表示されています。<br />
+実際にリークしているかどうかは、この状態ではわからないので、Dominator Tree の表示で確認します。</p>
+
+<p><img src="/AndroidTraining/assets/03-01/dominator_tree.png" alt="Dominator Tree" /></p>
+
+<p>この中で、同じクラスのオブジェクトが意図せず複数存在する場合は、メモリリークの可能性があります。<br />
+そのオブジェクトがどこから参照されたかを辿るには、一覧からオブジェクトを選択して、右クリックメニューから、Path to GC Root を選びます。</p>
+
+<p><img src="/AndroidTraining/assets/03-01/path_to_gc_root_selection.png" alt="Path To GC Root Menu" /></p>
+
+<p>With all references を選択すると、下記のように、参照元が表示されます。</p>
+
+<p><img src="/AndroidTraining/assets/03-01/path_to_gc_root.png" alt="Path To GC Root" /></p>
+
+<p>これで、どこでメモリリークが発生しているかが調査できます。</p>
+
+<h3 id="android-lint">Android Lint</h3>
+
+<p>Android 特有の作法や流儀、規約に従っているかどうかを静的解析するツールです。<br />
+Java と XML の両方について解析を行います。</p>
+
+<p>Android Lint はデフォルトで、変更したファイルに対して自動で解析を実行します。</p>
+
+<h2 id="section-5">自動ビルド</h2>
+
+<p>Android は、公式に自動でプロジェクトをビルドして apk を作成するプロセスをサポートしています。</p>
+
+<h3 id="ant">ant</h3>
+
+<p>ant は Android にかぎらず、Java のプロジェクトの為のビルドツールです。<br />
+XML によってビルド手順を記述し、ant はその手順を読み取って実行することで、自動でビルドが実行される仕組みです。</p>
+
+<h4 id="buildxml-">build.xml を生成する</h4>
+
+<p>ant のビルド手順は、<code class="highlighter-rouge">build.xml</code>に記述します。<br />
+Android は標準で ant のビルドをサポートしているので、コマンドで簡単に ant のビルド手順を適用することができます。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>android update project -p &lt;Project Path&gt; -n &lt;Project Name&gt;
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ android update project -p ./main -n MyMainProject
+</code></pre>
+</div>
+
+<p>テストプロジェクトに ant のビルド手順を適用するには、下記のコマンドを使用します。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>android update test-project -p &lt;Project Path&gt; -m &lt;Target Project Path&gt;
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ android update test-project -p ./test -m ./main
+</code></pre>
+</div>
+
+<h4 id="section-6">ビルドコマンドを実行する</h4>
+
+<p>Android の ant でサポートされているコマンドには、下記のものがあります。<br />
+ant にビルドをさせる場合には、これらのコマンドを組み合わせてビルドの指示をします。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>コマンド</th>
+      <th>意味</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>debug</td>
+      <td>デバッグビルドを実行</td>
+    </tr>
+    <tr>
+      <td>release</td>
+      <td>リリースビルドを実行</td>
+    </tr>
+    <tr>
+      <td>install</td>
+      <td>端末にビルド成果物をインストール</td>
+    </tr>
+    <tr>
+      <td>test</td>
+      <td>テストの実行</td>
+    </tr>
+    <tr>
+      <td>emma</td>
+      <td>テストカバレッジを計測する</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ ant debug install test
+</code></pre>
+</div>
+
+<h3 id="gradle">Gradle</h3>
+
+<p>ant に代わる自動ビルドツールです。<br />
+こちらは xml ではなく、Groovy で記述します。</p>
+
+<p><a href="/AndroidTraining/introductions/1.05.how-to-build-for-gradle.html">Android のビルドについて（Gradle）</a>を参照してください</p>
+
+<h3 id="proguard">ProGuard</h3>
+
+<p>ProGuard は、ソースコードの難読化と最適化を行うツールです。<br />
+apk に含まれる中間コードを逆コンパイルしても、プログラムの意味を人間にとって理解しにくい形にしておくことで、ソースコードの流出を防ぎます。<br />
+また、ソースコードの最適化において、不要なクラスを削除したり、インライン化を行ったりすることで、apk 自体のサイズが小さくなります。</p>
+
+<p>難読化は、署名済みのリリースビルド版を生成するときに自動で実行されます。<br />
+実行後、プロジェクトディレクトリ内に、<code class="highlighter-rouge">proguard</code>というディレクトリが生成され、難読化に用いられた情報や、難読化前と難読化後の対応関係を示すマッピング情報などが保存されます。</p>
+
+<h4 id="section-7">設定ファイル</h4>
+
+<p>Android はデフォルトで、<code class="highlighter-rouge">&lt;sdk-root&gt;/proguard/proguard-android.txt</code> にある設定を読み、これを元に難読化・最適化をコントロールしています。<br />
+プロジェクト毎に固有の設定をしたい場合は、プロジェクトディレクトリの中にある<code class="highlighter-rouge">proguard-project.txt</code>を編集します。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># MySampleClass の public なメンバを難読化しないようにする
+-keepclassmembers class jp.mixi.sample.MySampleClass {
+   public *;
+}
+</code></pre>
+</div>
+
+<p>また、<code class="highlighter-rouge">project.properties</code>ファイルに、下記の文を記述します。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>## 通常であれば、デフォルトでコメントアウトされたものがあるので、コメントアウトを外すだけで良い
+proguard.config=${sdk.dir}/tools/proguard/proguard-android.txt:proguard-project.txt
+</code></pre>
+</div>
+
+<h4 id="section-8">アノテーション</h4>
+
+<p>設定ファイルの代わりにアノテーションを用いて難読化の設定を行うこともできます。</p>
+
+<p>アノテーションで難読化の設定をする場合は、アノテーション用の jar ファイルを導入する必要があります。<br />
+<code class="highlighter-rouge">&lt;sdk-root&gt;/tools/proguard/examples/annotations/lib</code>の中に、<code class="highlighter-rouge">annotations.pro</code>と<code class="highlighter-rouge">annotations.jar</code>の 2 つのファイルがありますので、両方共を、プロジェクトの<code class="highlighter-rouge">libs</code>ディレクトリに配置し、プロジェクトの設定で、<code class="highlighter-rouge">annotations.jar</code>へのパスを設定します。</p>
+
+<pre><code class="language-Java">// クラス名を難読化しない
+@Keep
+public class MySampleClass {
+    public String mHogehoge; // このフィールドは難読化される
+    @KeepName
+    public String mFugafuga;　// このフィールドは難読化されない
+}
+</code></pre>
+
+<h4 id="section-9">再トレース</h4>
+
+<p>難読化の影響は、コードそのものだけでなく、スタックトレースにも及びます。<br />
+このため、例外のスタックトレースの出力もまた、難読化された状態で出力されます。</p>
+
+<p>例外のスタックトレースの内容を解析して、実際のコード上のどこで例外が発生したかを捉えたい場合、<br />
+ProGuard の retrace という機能を用いて、難読化を復元することができるようになっています。</p>
+
+<p>ProGuard は、Android SDK の tools に含まれています。<br />
+この中の、<code class="highlighter-rouge">proguard/bin/proguardgui.sh</code>を実行すると、GUI アプリケーションとして、ProGuard が起動します。</p>
+
+<p><img src="/AndroidTraining/assets/03-01/proguard.png" alt="ProGuard" /></p>
+
+<p>このアプリケーションの、ReTrace タブに、再トレースしたいスタックトレースと、難読化のマッピング情報を含む<code class="highlighter-rouge">mapping.txt</code>を渡すと、サイトレースが出来るようになります。</p>
+
+<p><img src="/AndroidTraining/assets/03-01/proguard_retrace.png" alt="Retrace" /></p>
+
+<h2 id="section-10">実習・課題</h2>
+
+<h3 id="section-11">デバッグ</h3>
+
+<ol>
+  <li>(実習) 実習プロジェクト<code class="highlighter-rouge">DebugPractice</code>をビルド・インストールし、起動してから画面が立ち上がるまでのメソッドのプロファイリングを実行し、どのメソッドに時間がかかっているかレポートしてください。</li>
+</ol>
+
+<h3 id="section-12">自動ビルド</h3>
+
+<ol>
+  <li>(実習) リポジトリにある好きなプロジェクトを 1 つに、ant を適用してください。</li>
+  <li>(実習) 適用したプロジェクトを ant でビルドし、ログを見て、ビルドに必要な手順をレポートしてください。</li>
+</ol>
+
+          </section>
+        </div>
+
+        <!-- FOOTER  -->
+        <div id="footer_wrap" class="outer">
+          <footer class="inner">
+  <p class="license">Portions of this page are reproduced from work created and <a href="https://code.google.com/p/android/">shared by the Android Open Source Project</a> and used according to terms described in the <a href="http://creativecommons.org/licenses/by/2.5/">Creative Commons2.5 Attribution License</a>.</p>
+  <p class="license">
+  This work is licensed under a <a rel="license" itemprop="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. 
+  <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+  </p>
+  <p class="copyright">Androidtraining maintained by <a href="https://github.com/mixi-inc" itemprop="author">mixi-inc</a></p>
+  <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+
+</footer>
+
+        </div>
+      </paper-scroll-header-panel>
+    </paper-drawer-panel>
+    <script>
+        // custom transformation: scale header's title
+        var title = document.querySelectorAll('.title')[2];
+        addEventListener('paper-header-transform', function(e) {
+            var d = e.detail;
+            var m = d.height - d.condensedHeight;
+            var scale = Math.max(0.75, (m - d.y) / (m / 0.25)  + 0.75);
+
+            Polymer.Base.transform('scale(' + scale + ') translateZ(0)', title);
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,2174 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="この章では、Java の文法の基礎を簡単に解説します。" />
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <!-- ogp for twitter -->
+    <meta content="@mixi_engineers" name="twitter:site" />
+    <meta content="summary" name="twitter:card" />
+    
+    <meta content="Java の文法の基礎 - r21nomi/AndroidTraining" name="twitter:title" />
+    
+    <meta content="この章では、Java の文法の基礎を簡単に解説します。" name="twitter:description" />
+    <meta content="/assets/logo.png" name="twitter:image:src" />
+    <!-- ogp -->
+    <meta content="r21nomi/AndroidTraining" property="og:site_name" />
+    <meta content="article" property="og:type" />
+    <meta content="/assets/logo.png" property="og:image" />
+    
+    <meta content="Java の文法の基礎 - r21nomi/AndroidTraining" name="og:title" />
+    
+    <meta content="/appendix/A.02.basic-java.html" property="og:url" />
+    <meta content="この章では、Java の文法の基礎を簡単に解説します。" property="og:description" />
+    
+    <meta name="keyword" content="android, training, 基礎, スキル, 開発, developer, プログラミング, java" />
+    
+
+    <meta name="go-import" content="github.com/mixi-inc/AndroidTraining git https://github.com/mixi-inc/AndroidTraining.git">
+    <script src="/AndroidTraining/bower_components/webcomponentsjs/webcomponents.js"></script>
+    
+    <link rel="stylesheet" type="text/css" media="screen" href="/AndroidTraining/stylesheets/main.css">
+    <link rel="shortcut icon" href="/AndroidTraining/assets/favicon.ico" />
+    <link rel="import" href="/AndroidTraining/bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-drawer-panel/paper-drawer-panel.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-header-panel/paper-header-panel.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-toolbar/paper-toolbar.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-menu/paper-menu.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-item/paper-item.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-icon-button/paper-icon-button.html">
+    <link rel="import" href="/AndroidTraining/bower_components/iron-icons/iron-icons.html">
+    <style is="custom-style">
+        paper-scroll-header-panel:not([style-scope]):not(.style-scope) {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        paper-toolbar.tall .bottom:not([style-scope]):not(.style-scope) {
+            font-size: 40px;
+            margin-left: 60px;
+
+            -webkit-transform-origin: left center;
+            transform-origin: left center;
+        }
+
+        .content:not([style-scope]):not(.style-scope) {
+            padding: 8px;
+        }
+
+        .spacer:not([style-scope]):not(.style-scope) {
+            -ms-flex: 1 1 0.000000001px;
+            -webkit-flex: 1;
+            flex: 1;
+            -webkit-flex-basis: 0.000000001px;
+            flex-basis: 0.000000001px;
+        }
+
+    </style>
+    <title>Java の文法の基礎 - r21nomi/AndroidTraining</title>
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-50931519-13', 'auto');
+    ga('send', 'pageview');
+    </script>
+  </head>
+
+  <body itemscope itemtype="http://schema.org/Article" fullbleed layout vertical>
+
+    <paper-drawer-panel selected="main" >
+      <!-- MENU -->
+      <paper-header-panel mode="seamed" drawer class="drawer">
+        <nav>
+    <ol class="chapter_navigation">
+        <a href="/AndroidTraining/">Home</a>
+        <li>まえがき</li>
+        <ol class="section_navigation">
+            
+            
+            <li><a href="/AndroidTraining/introductions/1.01.about-android-os.html">Android-OSについて</a></li>
+            
+            <li><a href="/AndroidTraining/introductions/1.02.prepare-for-development.html">開発環境の準備</a></li>
+            
+            <li><a href="/AndroidTraining/introductions/1.03.create-project-for-android-studio.html">プロジェクトの作成</a></li>
+            
+            <li><a href="/AndroidTraining/introductions/1.04.basic-knowledge.html">Androidの基礎知識</a></li>
+            
+            <li><a href="/AndroidTraining/introductions/1.05.how-to-build-for-gradle.html">Android のビルドについて(Gradle)</a></li>
+            
+        </ol>
+        <li>基礎編</li>
+        <ol class="section_navigation">
+            
+            
+            <li><a href="/AndroidTraining/fundamentals/2.01.create-layout.html">アプリのレイアウト作成</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.02.activity-and-fragment.html">ActivityとFragment</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.03.application-resource-management.html">アプリのリソース管理</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.04.messaging-and-notification.html">メッセージングと通知</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.05.actionbar-and-interaction-control.html">ActionBarとインタラクション制御</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.06.listView-and-viewPager.html">ListViewとViewPager</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.07.serialize-and-collection-and-perpetuation.html">直列化とコレクション、永続化</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.08.async-processing.html">非同期処理</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.09.network-access.html">ネットワーク通信</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.10.database.html">データベース</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.11.testing-for-android-studio.html">テスト(AndroidStudio)</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.11.testing.html">テスト</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.12.handler-and-looper.html">HandlerとLooper</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.13.webView.html">WebView</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.14.accountmanager.html">AccountManager</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.15.advance-contentprovider.html">ContentProviderの発展</a></li>
+            
+        </ol>
+        <li>実務編</li>
+        <ol class="section_navigation">
+            
+            
+            <li><a href="/AndroidTraining/advanced/3.01.build-for-eclipse.html">デバッグと自動ビルド(Eclipse)</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.01.build-for-gradle.html">自動ビルド(Android Studio)</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.02.architecture-and-di.html">アーキテクチャ設計と DI</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.03.advanced-layout.html">続・アプリのレイアウト作成</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.04.user-interface.html">ユーザインタフェース設計</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.05.security.html">セキュリティ</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.06.google-api.html">Google API</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.07.google-play-services.html">Google Play Services</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.08.cloud-sync.html">クラウド同期</a></li>
+            
+        </ol>
+        <li>デザイナー編</li>
+        <ol>
+        </ol>
+    </ol>
+    <ol class="appex_navigation">
+        <li>付録</li>
+        <ol class="section_navigation">
+            
+            
+            <li><a href="/AndroidTraining/appendix/A.01.import-from-git-for-eclipse.html">Git リポジトリからのプロジェクトのインポート</a></li>
+            
+            <li><a href="/AndroidTraining/appendix/A.02.basic-java.html">Java の文法の基礎</a></li>
+            
+            <li><a href="/AndroidTraining/appendix/A.03.how-to-create-avd.html">仮想デバイスの作成</a></li>
+            
+            <li><a href="/AndroidTraining/appendix/A.04.advanced-java.html">Javaの活用</a></li>
+            
+        </ol>
+    </ol>
+</nav>
+
+      </paper-header-panel>
+      <paper-scroll-header-panel main condenses>
+        <!-- HEADER -->
+        <paper-toolbar class="mainheader tall" role="toolbar">
+    <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+
+    <span class="title"></span>
+
+    <a id="forkme_banner" href="https://github.com/mixi-inc/AndroidTraining" role="button">
+        <paper-icon-button src="/AndroidTraining/images/blacktocat.png"></paper-icon-button> <span>View on GitHub</span>
+    </a>
+
+    <div class="middle title">r21nomi/AndroidTraining</div>
+    <div class="bottom title">Java の文法の基礎</div>
+</paper-toolbar>
+
+
+<div id="description" itemprop="description">この章では、Java の文法の基礎を簡単に解説します。</div>
+
+
+
+        <!-- MAIN CONTENT -->
+        <div id="main_content_wrap" class="content outer" itemprop="articleBody">
+          <section id="main_content" class="inner">
+            <p>参考：<a href="http://amzn.to/Sr8iPe">Effective Java</a></p>
+
+<h2 id="section">目次</h2>
+
+<ul>
+  <li><a href="#命名規則">命名規則</a>
+    <ul>
+      <li><a href="#識別子の命名規則">識別子の命名規則</a></li>
+      <li><a href="#慣習的な命名規則">慣習的な命名規則</a></li>
+    </ul>
+  </li>
+  <li><a href="#記法">記法</a>
+    <ul>
+      <li><a href="#文">文</a></li>
+      <li><a href="#ブロック">ブロック</a></li>
+    </ul>
+  </li>
+  <li><a href="#型">型</a>
+    <ul>
+      <li><a href="#プリミティブ型">プリミティブ型</a></li>
+      <li><a href="#参照型">参照型</a></li>
+      <li><a href="#リテラル">リテラル</a></li>
+      <li><a href="#オートボクシング">オートボクシング</a></li>
+    </ul>
+  </li>
+  <li><a href="#演算子">演算子</a>
+    <ul>
+      <li><a href="#算術演算子、論理演算子、ビット演算子、関係演算子">算術演算子、論理演算子、ビット演算子、関係演算子</a></li>
+      <li><a href="#代入演算子">代入演算子</a></li>
+      <li><a href="#条件演算子">条件演算子</a></li>
+      <li><a href="#文字列演算子">文字列演算子</a></li>
+    </ul>
+  </li>
+  <li><a href="#制御構造">制御構造</a>
+    <ul>
+      <li><a href="#条件分岐">条件分岐</a></li>
+      <li><a href="#繰り返し">繰り返し</a></li>
+    </ul>
+  </li>
+  <li><a href="#クラスとメソッド">クラスとメソッド</a>
+    <ul>
+      <li><a href="#クラス">クラス</a></li>
+      <li><a href="#インタフェース">インタフェース</a></li>
+      <li><a href="#列挙型">列挙型</a></li>
+      <li><a href="#メソッド">メソッド</a></li>
+      <li><a href="#コンストラクタ">コンストラクタ</a></li>
+      <li><a href="#static イニシャライザ">static イニシャライザ</a></li>
+      <li><a href="#パッケージ">パッケージ</a></li>
+      <li><a href="#修飾子">修飾子</a></li>
+      <li><a href="#継承と実装">継承と実装</a></li>
+    </ul>
+  </li>
+  <li><a href="#インスタンスの生成">インスタンスの生成</a>
+    <ul>
+      <li><a href="#クラスのインスタンス化">クラスのインスタンス化</a></li>
+      <li><a href="#匿名クラス">匿名クラス</a></li>
+      <li><a href="#this と class">this と class</a></li>
+    </ul>
+  </li>
+  <li><a href="#アノテーション">アノテーション</a></li>
+  <li><a href="#ジェネリクス">ジェネリクス</a>
+    <ul>
+      <li><a href="#型変数の宣言">型変数の宣言</a></li>
+      <li><a href="#型変数のバインド">型変数のバインド</a></li>
+      <li><a href="#型変数の境界の宣言">型変数の境界の宣言</a></li>
+    </ul>
+  </li>
+  <li><a href="#スレッド">スレッド</a>
+    <ul>
+      <li><a href="#Thread クラスと Runnable インタフェース">Thread クラスと Runnable インタフェース</a></li>
+      <li><a href="#排他制御">排他制御</a></li>
+    </ul>
+  </li>
+  <li><a href="#例外処理">例外処理</a>
+    <ul>
+      <li><a href="#例外の種類">例外の種類</a></li>
+      <li><a href="#throws と throw">throws と throw</a></li>
+      <li><a href="#try-catch">try-catch</a></li>
+      <li><a href="#finally">finally</a></li>
+    </ul>
+  </li>
+  <li><a href="#参照型オブジェクトの比較">参照型オブジェクトの比較</a>
+    <ul>
+      <li><a href="#equals\(\) と hashCode\(\)">equals() と hashCode()</a></li>
+      <li><a href="#Comparable インタフェース">Comparable インタフェース</a></li>
+      <li><a href="#Comparator インタフェース">Comparator インタフェース</a></li>
+    </ul>
+  </li>
+  <li><a href="#文字列型">文字列型</a>
+    <ul>
+      <li><a href="#String">String</a></li>
+      <li><a href="#StringBuilder と StringBuffer">StringBuilder と StringBuffer</a></li>
+    </ul>
+  </li>
+  <li><a href="#入出力">入出力</a>
+    <ul>
+      <li><a href="#ストリーム">ストリーム</a></li>
+    </ul>
+  </li>
+  <li><a href="#リフレクション">リフレクション</a></li>
+</ul>
+
+<h2 id="section-1">命名規則</h2>
+
+<p>Java では、変数の名前やクラスの名前、メソッドの名前など、名前の付け方に規則を設けている。<br />
+この規則に違反しているものはコンパイルエラーとなる。</p>
+
+<h3 id="section-2">識別子の命名規則</h3>
+
+<p>識別子とは、変数の名前やクラスの名前などのこと。</p>
+
+<p>これらの名前には、下記のルールがある。</p>
+
+<ol>
+  <li>キーワードを使用しないこと</li>
+  <li>大文字と小文字を区別して扱うこと</li>
+  <li>識別子の先頭には、数字や$・_以外の記号を使用しないこと</li>
+  <li>true・false・null の 3 つの、言語仕様で定められた定数を使用しないこと</li>
+  <li>演算子として言語仕様で定められた文字も使わないこと</li>
+  <li>特殊文字を使用しないこと</li>
+</ol>
+
+<pre><code class="language-Java">int ほげ = 1; // OK
+int hoge = 1; // OK
+int _hoge = 1; // OK
+int $hoge = 1; // OK
+int 1hoge = 1; // NG
+int #hoge = 1; // NG
+int boolean = 1; // NG
+int hoge+fuga = 1; // NG
+</code></pre>
+
+<p>また、ソースファイルの名前は、そのソースファイルに記述される<code class="highlighter-rouge">public</code>なクラスの名前と一致する必要がある。</p>
+
+<p><code class="highlighter-rouge">Main.java</code>
+```Java
+public class Main {</p>
+
+<p>}
+```</p>
+
+<h3 id="section-3">慣習的な命名規則</h3>
+
+<p>コンパイルエラーとはならないが、慣習的に定められた命名の方法が存在する。</p>
+
+<ol>
+  <li>クラス名の先頭は大文字、単語の区切りごとに大文字を使う
+    <ul>
+      <li>StringBuilder</li>
+    </ul>
+  </li>
+  <li>メソッド名と変数名の先頭は小文字、以後単語の区切りごとに大文字を使う
+    <ul>
+      <li>toString()</li>
+      <li>hogeCounter</li>
+    </ul>
+  </li>
+  <li>パッケージ名はすべて小文字を使う
+    <ul>
+      <li>java.lang</li>
+    </ul>
+  </li>
+  <li>クラス名と変数名は名詞を使う
+    <ul>
+      <li>StringBuilder</li>
+      <li>hogeCounter</li>
+    </ul>
+  </li>
+  <li>メソッド名の最初は動詞を使う
+    <ul>
+      <li>getHogehoge()</li>
+      <li>setHogehoge()</li>
+    </ul>
+  </li>
+  <li>定数は全て大文字、単語の区切りはアンダースコアを使う
+    <ul>
+      <li>HOGE_FUGA_PIYO</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="section-4">記法</h2>
+
+<h3 id="section-5">文</h3>
+
+<p><code class="highlighter-rouge">;</code>で終わるまでの一連の処理のまとまりを文という。</p>
+
+<pre><code class="language-Java">// 文
+System.out.println("hogehoge");
+</code></pre>
+
+<h3 id="section-6">ブロック</h3>
+
+<p><code class="highlighter-rouge"><span class="p">{</span></code>と<code class="highlighter-rouge">}</code>で囲まれた文のまとまりをブロックと言う。<br />
+通常、ブロックを作るごとにインデントを一段階深くする。</p>
+
+<p>局所変数のスコープはブロックの中に限られる。</p>
+
+<pre><code class="language-Java">int hoge = 0;
+{
+    int fuga = 0;
+
+    System.out.println("fuga : " + fuga);
+    // hoge はスコープの中なのでアクセス可能
+    System.out.println("hoge : " + hoge);
+}
+
+// fuga はスコープの外なのでコンパイルエラー
+// System.out.println("fuga : " + fuga);
+</code></pre>
+
+<p>ブロックの外側にある変数名と同じ名前の変数を、ブロックの内側に作ることが出来る。<br />
+これにより、メンバ変数とメソッドやコンストラクタの引数の名前を一致させる記述ができる。</p>
+
+<p>一方で、同じ名前を使うため、どちらの変数を参照しているか意識する必要がある。<br />
+このため、コーディング規約の命名規則で、メンバ変数はそれとわかるような名前に強制させるものもある (Android Open Source Project など)。</p>
+
+<p>一般的なスタイルは以下。</p>
+
+<pre><code class="language-Java">public class Hoge {
+    private int hoge;
+
+    public Hoge(int hoge) {
+
+    }
+}
+</code></pre>
+
+<p>ハンガリアン記法を用いたスタイルは、例えば以下のようにする。</p>
+
+<pre><code class="language-Java">public class Hoge {
+    private int mHoge;
+
+    public Hoge(int hoge) {
+
+    }
+}
+</code></pre>
+
+<h3 id="main-">main メソッド</h3>
+
+<p>Java では、main メソッドをエントリポイントとしてプログラムの実行を開始する。</p>
+
+<p>定型的に、以下のように main メソッドを定義する。</p>
+
+<pre><code class="language-Java">public class Hoge {
+    // public で static な void の main メソッド
+    // 引数の文字列型配列は、コマンドライン引数を受け取るためのもの
+    public static void main(String[] args) {
+
+    }
+}
+</code></pre>
+
+<h2 id="section-7">型</h2>
+
+<p>Java では、すべての変数に型がある。<br />
+型は大きく 2 種類に分類される。</p>
+
+<h3 id="section-8">プリミティブ型</h3>
+
+<p>プリミティブ型は、データそのものを指す。<br />
+このため、プリミティブ型変数は振る舞いを持たない。また、メソッドの引数は値渡しとなる。</p>
+
+<h4 id="section-9">整数型</h4>
+
+<p>整数を扱う。型によって、扱うことのできる値の範囲が異なる。<br />
+その型が扱うことのできる最大値を超えるとオーバーフローを起こす。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>種類</th>
+      <th>取り得る値</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">byte</code></td>
+      <td>8-bit の符号付き整数</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">short</code></td>
+      <td>16-bit の符号付き整数</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">int</code></td>
+      <td>32-bit の符号付き整数</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">long</code></td>
+      <td>64-bit の符号付き整数</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>後に示す算術演算において、整数型同士の算術演算結果は整数型として扱われる点に注意する。<br />
+つまり、整数型同士の割り算の結果は整数型となり、小数点以下が捨てられる。</p>
+
+<h4 id="section-10">文字型</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>種類</th>
+      <th>取り得る値</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">char</code></td>
+      <td>16-bit 符号なし整数で表現する文字データ(Unicode)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="section-11">浮動小数点数</h4>
+
+<p>浮動小数点数を扱う。型によって、扱うことの出来る値の範囲が異なる。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>種類</th>
+      <th>取り得る値</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">float</code></td>
+      <td>32-bit の符号付き単精度浮動小数点数</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">double</code></td>
+      <td>64-bit の符号付き倍精度浮動小数点数</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>後に示す算術演算において、浮動小数点数を用いた算術演算結果は浮動小数点数として扱われる点に注意する。</p>
+
+<h4 id="section-12">真偽値</h4>
+
+<p>Perl などのように、整数値を真偽値として扱うことは出来ない。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>種類</th>
+      <th>取り得る値</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">boolean</code></td>
+      <td><code class="highlighter-rouge">true</code>, <code class="highlighter-rouge">false</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="section-13">参照型</h3>
+
+<p>プリミティブ型以外の型はすべて、参照型と呼ばれる型に属する。<br />
+プリミティブ型配列も参照型として扱う。参照型はデータそのものでは無く、変数にはオブジェクトを指し示す <strong>参照</strong> が代入される。<br />
+このため、引数は参照渡しである。</p>
+
+<p>すべての参照型は、<code class="highlighter-rouge">java.lang.Object</code>クラスから派生したクラスである。</p>
+
+<h3 id="section-14">リテラル</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>型</th>
+      <th>表記</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>10 進表記整数型</td>
+      <td><code class="highlighter-rouge">1</code></td>
+    </tr>
+    <tr>
+      <td>8 進表記整数型</td>
+      <td><code class="highlighter-rouge">01</code></td>
+    </tr>
+    <tr>
+      <td>16進表記整数型</td>
+      <td><code class="highlighter-rouge">0xFF</code></td>
+    </tr>
+    <tr>
+      <td>long 型</td>
+      <td><code class="highlighter-rouge">1000L</code></td>
+    </tr>
+    <tr>
+      <td>float 型</td>
+      <td><code class="highlighter-rouge">1.1f</code> または <code class="highlighter-rouge">1.1F</code></td>
+    </tr>
+    <tr>
+      <td>double 型</td>
+      <td><code class="highlighter-rouge">1.2</code> または <code class="highlighter-rouge">1.2d</code> または <code class="highlighter-rouge">1.2D</code></td>
+    </tr>
+    <tr>
+      <td>文字型</td>
+      <td><code class="highlighter-rouge">'a'</code></td>
+    </tr>
+    <tr>
+      <td>文字列型</td>
+      <td><code class="highlighter-rouge">"Hoge"</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="section-15">オートボクシング</h3>
+
+<p>プリミティブ型のリテラルを、それぞれの型に対応する参照型のラッパークラスへの変換を自動化する仕組みのこと。</p>
+
+<pre><code class="language-Java">// 1 は int 型だが、Integer 型は int 型のラッパークラスのため、オートボクシングにより自動的に参照型のクラスへの変換が行われる
+Integer integer = 1;
+</code></pre>
+
+<p>参照型のラッパークラスからプリミティブ型への自動変換もサポートしており、これをアンボクシングと言う。</p>
+
+<h2 id="section-16">演算子</h2>
+
+<h3 id="section-17">算術演算子、論理演算子、ビット演算子、関係演算子</h3>
+
+<p>算術演算子には、2 つの項で機能するものと、1 つの項で機能するものの 2 種類がある。<br />
+1 つの演算子が、両方の機能を有することもある。</p>
+
+<h4 id="section-18">2 項演算子</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>演算子</th>
+      <th>意味</th>
+      <th>使い方</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">+</code></td>
+      <td>右辺と左辺を加算</td>
+      <td><code class="highlighter-rouge">1 + 2;</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">-</code></td>
+      <td>右辺から左辺を減算</td>
+      <td><code class="highlighter-rouge">9 - 3;</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">*</code></td>
+      <td>右辺と左辺を乗算</td>
+      <td><code class="highlighter-rouge">9 * 10;</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">/</code></td>
+      <td>右辺を左辺で除算</td>
+      <td><code class="highlighter-rouge">9 / 3;</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">%</code></td>
+      <td>右辺を左辺で除算した余り（剰余）</td>
+      <td><code class="highlighter-rouge">3 % 2;</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">&amp;</code></td>
+      <td>ビット演算（AND）</td>
+      <td><code class="highlighter-rouge"> 1 &amp; 2;</code></td>
+    </tr>
+    <tr>
+      <td><code>&#124;</code></td>
+      <td>ビット演算（OR）</td>
+      <td><code>1 &#124; 2;</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">^</code></td>
+      <td>ビット演算（XOR）</td>
+      <td><code class="highlighter-rouge">1 ^ 2;</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">&amp;</code></td>
+      <td>論理演算（AND）</td>
+      <td><code class="highlighter-rouge">piyo &amp; fuga;</code> 必ず両方の値を評価する</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">&amp;&amp;</code></td>
+      <td>論理演算（AND）</td>
+      <td><code class="highlighter-rouge">piyo &amp;&amp; fuga;</code> 左の値が<code class="highlighter-rouge">false</code>ならば右の値は評価せず<code class="highlighter-rouge">false</code>とする</td>
+    </tr>
+    <tr>
+      <td><code>&#124;</code></td>
+      <td>論理演算（OR）</td>
+      <td><code>piyo &#124; fuga;</code> 必ず両方の値を評価する</td>
+    </tr>
+    <tr>
+      <td><code>&#124;&#124;</code></td>
+      <td>論理演算（OR）</td>
+      <td><code>piyo &#124;&#124; fuga;</code> 左の値が<code class="highlighter-rouge">true</code>ならば右の値は評価せず<code class="highlighter-rouge">true</code>とする</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">==</code></td>
+      <td>値が等しい</td>
+      <td><code class="highlighter-rouge">hoge == fuga;</code> 参照型変数の比較においては、互いの変数が参照しているオブジェクトが同じかどうか（参照先のアドレスが同じかどうか）で比較が行われる点に注意。オブジェクトそのものの比較には、<code class="highlighter-rouge">Object#equals(Object)</code>メソッドを使う</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">!=</code></td>
+      <td>値が等しくない</td>
+      <td><code class="highlighter-rouge">hoge != fuga;</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">&gt;</code></td>
+      <td>大なり</td>
+      <td><code class="highlighter-rouge">hoge &gt; fuga;</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">&gt;=</code></td>
+      <td>以上</td>
+      <td><code class="highlighter-rouge">hoge &gt;= fuga;</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">&lt;</code></td>
+      <td>小なり</td>
+      <td><code class="highlighter-rouge">hoge &lt; fuga;</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">&lt;=</code></td>
+      <td>以下</td>
+      <td><code class="highlighter-rouge">hoge &lt;= fuga;</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">instanceof</code></td>
+      <td>左の変数が右に指定するクラスのオブジェクトかどうか</td>
+      <td><code class="highlighter-rouge">hoge instanceof Object</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="section-19">単項演算子</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>演算子</th>
+      <th>意味</th>
+      <th>使い方</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">-</code></td>
+      <td>符号の反転</td>
+      <td><code class="highlighter-rouge">-hoge;</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">++</code></td>
+      <td>インクリメント</td>
+      <td><code class="highlighter-rouge">hoge++;</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">--</code></td>
+      <td>デクリメント</td>
+      <td><code class="highlighter-rouge">hoge--;</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">!</code></td>
+      <td>真偽値の反転</td>
+      <td><code class="highlighter-rouge">!fuga;</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">~</code></td>
+      <td>ビット反転</td>
+      <td><code class="highlighter-rouge">~hoge;</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">(型)</code></td>
+      <td>型変換（キャスト）</td>
+      <td><code class="highlighter-rouge">(double) hoge;</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>インクリメント、デクリメントの演算子は、演算子の位置によって処理の順序が変わることに注意すること。<br />
+仮に、<code class="highlighter-rouge">int fuga = hoge++;</code>とした場合は、fuga に hoge の値が代入された後、hoge に 1 が足されるが、<code class="highlighter-rouge">int fuga = ++hoge;</code>とした場合は、hoge に 1 が足された上で fuga にその値が代入される。</p>
+
+<h3 id="section-20">代入演算子</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>演算子</th>
+      <th>意味</th>
+      <th>使い方</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">=</code></td>
+      <td>右辺を左辺に代入</td>
+      <td><code class="highlighter-rouge">int hoge = 0;</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">+=</code></td>
+      <td>右辺を左辺に加算して代入</td>
+      <td><code class="highlighter-rouge">hoge += 3;</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">-=</code></td>
+      <td>左辺から右辺を減算して代入</td>
+      <td><code class="highlighter-rouge">hoge -= 3;</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">*=</code></td>
+      <td>右辺を左辺に乗算して代入</td>
+      <td><code class="highlighter-rouge">hoge *= 3;</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">/=</code></td>
+      <td>左辺を右辺で除算して代入</td>
+      <td><code class="highlighter-rouge">hoge /= 3;</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">%=</code></td>
+      <td>左辺を右辺で除算し、その余りを代入</td>
+      <td><code class="highlighter-rouge">hoge %= 3;</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">&amp;=</code></td>
+      <td>右辺と左辺で AND 演算して代入</td>
+      <td><code class="highlighter-rouge">hoge &amp;= 3;</code></td>
+    </tr>
+    <tr>
+      <td><code>&#124;=</code></td>
+      <td>右辺と左辺で OR 演算して代入</td>
+      <td><code>hoge &#124;= 3;</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">^=</code></td>
+      <td>右辺と左辺で XOR 演算して代入</td>
+      <td><code class="highlighter-rouge">hoge ^= 3;</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">&lt;&lt;=</code></td>
+      <td>左にシフト演算（0埋め）して代入</td>
+      <td><code class="highlighter-rouge">hoge &lt;&lt;= 3;</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">&gt;&gt;=</code></td>
+      <td>右にシフト演算（符号はそのまま）して代入</td>
+      <td><code class="highlighter-rouge">hoge &gt;&gt;= 3;</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">&gt;&gt;&gt;=</code></td>
+      <td>右にシフト演算（0埋め）して代入</td>
+      <td><code class="highlighter-rouge">hoge &gt;&gt;&gt;= 3;</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="section-21">条件演算子</h3>
+
+<p>3 項演算子とも呼ばれる。
+条件によって、取り得る値を変えるときに利用する。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>演算子</th>
+      <th>意味</th>
+      <th>使い方</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">条件 ? 式1 : 式2</code></td>
+      <td>条件が<code class="highlighter-rouge">true</code>なら式1、<code class="highlighter-rouge">false</code>なら式2</td>
+      <td><code class="highlighter-rouge">hoge ? fuga : piyo;</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="section-22">文字列演算子</h3>
+
+<p>文字列を扱う際の演算子。算術演算子や代入演算子と同じ物を利用し、文字列の場合のみの特別な挙動として演算子がオーバライドされている。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>演算子</th>
+      <th>意味</th>
+      <th>使い方</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">+</code></td>
+      <td>文字列結合</td>
+      <td><code class="highlighter-rouge">"Hoge" + "Fuga";</code> 文字列オブジェクト（<code class="highlighter-rouge">String</code>）は不変（イミュータブル）のため、<code class="highlighter-rouge">"Hoge"</code>と<code class="highlighter-rouge">"Fuga"</code>と<code class="highlighter-rouge">"HogeFuga"</code>の 3 つのオブジェクトが作られることになる。</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">+=</code></td>
+      <td>文字列結合して代入</td>
+      <td><code class="highlighter-rouge">hoge += "Fuga";</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="section-23">制御構造</h2>
+
+<p>条件分岐を行う制御構造と、繰り返しを行う制御構造の 2 つがある。</p>
+
+<h3 id="section-24">条件分岐</h3>
+
+<h4 id="if-">if 文</h4>
+
+<pre><code class="language-Java">if (条件式) {
+    文;
+} else if (条件式)
+    文;
+} else {
+    文;
+}
+</code></pre>
+
+<h4 id="switch-">switch 文</h4>
+
+<pre><code class="language-Java">switch (判定対象) {
+case 条件値リテラル:
+    文;
+    break;
+case 条件値リテラル:
+    文
+    break;
+default:
+    文;
+    break;
+}
+</code></pre>
+
+<p>判定対象とする変数は、<code class="highlighter-rouge">byte</code>型、<code class="highlighter-rouge">short</code>型、<code class="highlighter-rouge">int</code>型、<code class="highlighter-rouge">char</code>型、または<code class="highlighter-rouge">Enum</code>型である必要がある。これら以外の型の変数を指定するとコンパイルエラーとなる。<br />
+<code class="highlighter-rouge">case</code>の後に指定可能なものは一意なリテラルまたは<code class="highlighter-rouge">Enum</code>型定数オブジェクトのみで、変数は指定できない。<br />
+上から順番に条件とのマッチングを行う点に注意。<br />
+条件に当てはまらない場合、<code class="highlighter-rouge">default</code>以下の文が実行される。<br />
+<code class="highlighter-rouge">break;</code>を記述しないと、switch 文を脱出しないことにも注意。<br /></p>
+
+<h3 id="section-25">繰り返し</h3>
+
+<h4 id="for-">for 文</h4>
+
+<pre><code class="language-Java">for (初期化式; 条件式; 変化式) {
+    文;
+}
+</code></pre>
+
+<p>初期化式で、繰り返し処理の判定に使う条件変数の初期化を行う。<br />
+C 言語と異なり、この初期化式の中で型の宣言もできる。</p>
+
+<p>変化式で、繰り返し処理の判定に使う条件変数の更新を行う。</p>
+
+<h4 id="for--1">拡張 for 文</h4>
+
+<p>配列や、リスト構造を持つオブジェクトの各要素にアクセスするために拡張された for 文の文法。</p>
+
+<pre><code class="language-Java">for (型 変数名 : 配列ないしリスト構造オブジェクト) {
+    文;
+}
+</code></pre>
+
+<p>この文のなかで、配列やリストのデータを削除する時、この for 文は削除された分を考慮しないため、存在しない要素にアクセスしようとすると例外が発生することに注意。</p>
+
+<h4 id="while-">while 文</h4>
+
+<p>0 回以上の繰り返しのための構文。</p>
+
+<pre><code class="language-Java">while (条件式) {
+    文;
+}
+</code></pre>
+
+<p>条件式が<code class="highlighter-rouge">true</code>であり続ける限り繰り返す。</p>
+
+<h4 id="do-while-">do-while 文</h4>
+
+<p>1 回以上の繰り返しのための構文。</p>
+
+<pre><code class="language-Java">do {
+    文;
+} while (条件式);
+</code></pre>
+
+<p>条件式が<code class="highlighter-rouge">true</code>である限り繰り返すが、必ず 1 回は文を実行する。</p>
+
+<h4 id="break--continue-">break 文と continue 文</h4>
+
+<p>繰り返し処理の制御を行う。</p>
+
+<pre><code class="language-Java">while (条件式) {
+    if (条件式) {
+        // (中止) if の条件式に合致した場合、直ちに繰り返し処理を終了する
+        break;
+    }
+
+    if (条件式) {
+        // (中断) if の条件式に合致した場合、この文以後の繰り返し処理は実行せず、次の繰り返し処理を開始する。
+        continue;
+    }
+}
+</code></pre>
+
+<p>Java では、<code class="highlighter-rouge">goto</code>文は機能しない。</p>
+
+<h2 id="section-26">クラスとメソッド</h2>
+
+<h3 id="section-27">クラス</h3>
+
+<p>Java では、1 つのソースファイルに複数のクラスを定義することができる。<br />
+1 つのソースファイルには、必ず 1 つの<code class="highlighter-rouge">public</code>なクラスが定義され、そのクラスと同じ名前でソースファイル名を付ける。</p>
+
+<pre><code class="language-Java">public class MyClass {
+
+}
+
+class MyClass2 {
+
+}
+</code></pre>
+
+<p>また、クラスの中にクラスを宣言することも出来る。</p>
+
+<pre><code class="language-Java">public class MyClass {
+    // クラスの中のクラス宣言。インナークラスと呼ぶ。
+    public class NestedClass {
+
+    }
+
+    // static なインナークラス。特別にネストクラスとも呼ぶ。
+    public static class InnerClass {
+
+    }
+}
+</code></pre>
+
+<h3 id="section-28">インタフェース</h3>
+
+<p>実装の本体を持たないメソッド群を定義し、振る舞いを規定するための特別なクラス。<br />
+インタフェースに定義するメソッドは全て、後述する「アクセス修飾子」のうちの<code class="highlighter-rouge">public</code>として定義される（それ以外は指定不可、指定しない場合も強制的に<code class="highlighter-rouge">public</code>として扱われる）。<br />
+また、実装の本体はインタフェースには持たないので、すべて<code class="highlighter-rouge">abstract</code>となる。</p>
+
+<pre><code class="language-Java">public interface MyInterface {
+    public void hoge();
+}
+</code></pre>
+
+<h3 id="section-29">列挙型</h3>
+
+<p>定数をオブジェクトとして振る舞いを持つように列挙するものを、特別に列挙型（<code class="highlighter-rouge">Enum</code>型）と呼ぶ。<br />
+特別に文法を持っているが、その実態は、<code class="highlighter-rouge">Enum</code>クラスを継承したクラスの宣言である。<br />
+列挙型は、後述する「継承」を宣言できず、また、列挙型を継承することもできない。</p>
+
+<pre><code class="language-Java">public enum MyEnum {
+  // MyEnum 型の定数 HOGE と FUGA
+  HOGE,
+  FUGA;
+}
+</code></pre>
+
+<p>列挙型は、コンパイルすると、列挙した定数ごとにクラスファイルが生成される。<br />
+これにより、後述するような、定数ごとの振る舞いを規定することができる。<br />
+その一方、クラスファイルの生成数が増えるため、アプリケーションに必要な容量が増加することとなる。</p>
+
+<h3 id="section-30">メソッド</h3>
+
+<p>メソッドはクラスの中で宣言する。</p>
+
+<pre><code class="language-Java">public class MyClass {
+    // void は値を返さないメソッド
+    public void myMethod() {
+
+    }
+
+    // (オーバーロード) 同じ名前、同じ返り値の型、異なる引数でメソッドを定義することが出来る
+    public void myMethod(int hoge) {
+        // 値を返さないメソッドでも、return 文は宣言可能。その時点でメソッドの処理を終える
+        return;
+    }
+
+    // 可変長引数は、型名の後ろに三点リーダーをつける。可変長引数の実態は配列。
+    // int 型の値を返すメソッド
+    public int doHoge(Object... objects) {
+        // メソッドの宣言に合ったものを返す
+        return 0;
+    }
+}
+</code></pre>
+
+<p>列挙型もクラスであるので、抽象メソッドを定義したり、インタフェースを実装したりすることができる。</p>
+
+<pre><code class="language-Java">// 抽象メソッドの定義
+public enum MyEnum {
+    HOGE() {
+        @Override
+        public void doHoge() {
+            // something to do
+        }
+    };
+
+    public abstract void doHoge();
+}
+</code></pre>
+
+<pre><code class="language-Java">// インタフェースの実装
+public enum MyEnum implements MyInterface {
+    FUGA() {
+        @Override
+        public void fuga() {
+            // do something wonderful
+        }
+    };
+
+    @Override
+    public void hoge() {
+        // do something
+    }
+}
+
+interface MyInterface {
+    public void hoge();
+    public void fuga();
+}
+</code></pre>
+
+<h3 id="section-31">コンストラクタ</h3>
+
+<p>クラスのインスタンス化の際に呼ばれる特別なメソッド。<br />
+オブジェクトの初期化を担う。</p>
+
+<p>コンストラクタには、メソッドのような返り値の宣言はなく、また、クラス名と同じ名前で宣言する。<br />
+メソッドのように引数をとることも可能だし、オーバーロードも可能である。</p>
+
+<pre><code class="language-Java">public class MyClass {
+    // 引数のないコンストラクタを、デフォルトコンストラクタと呼ぶ
+    public MyClass() {
+
+    }
+
+    public MyClass(int hoge) {
+
+    }
+}
+</code></pre>
+
+<p>列挙型クラスにもコンストラクタは定義可能であるが、必ず<code class="highlighter-rouge">private</code>で宣言する。</p>
+
+<pre><code class="language-Java">public enum Hoge {
+    // ここに enum 型定数を定義した時に、コンストラクタの呼び出しがある
+    HOGE(1);
+
+    private final int someValue;
+
+    // よそのクラスから直接インスタンス化出来ないようにするため、private で宣言する
+    // それ以外で宣言するとコンパイルエラー
+    // また、親クラスのコンストラクタを呼ぶことも許されない
+    private Hoge(int someValue) {
+        this.someValue = someValue;
+    }
+}
+</code></pre>
+
+<h3 id="static-">static イニシャライザ</h3>
+
+<p>クラスをロードした際に呼ばれる、静的な初期化処理をまとめるブロック。</p>
+
+<pre><code class="language-Java">public class HogeClass {
+    public static final HashMap&lt;String, String&gt; SOME = new HashMap&lt;String, String&gt;();
+
+    // クラスのロード時に実行される処理のまとまり
+    static {
+        SOME.put("hoge", "fuga");
+    }
+}
+</code></pre>
+
+<h3 id="section-32">パッケージ</h3>
+
+<p>名前空間を管理する単位として、パッケージがある。<br />
+パッケージの宣言は、各ソースファイルの一番最初にされなければならない。</p>
+
+<pre><code class="language-Java">// このソースコードが属するパッケージ名の宣言。
+// パッケージ名の宣言はソースファイルの一番最初にしなければならないが、コメントは許容される。
+package jp.mixi.sample;
+
+public class MyClass {
+
+}
+</code></pre>
+
+<p>パッケージの異なるクラスを利用する場合は、<code class="highlighter-rouge">import</code>文を利用して、依存クラスを宣言する。<br />
+宣言する際には、パッケージ名とクラス名を厳格に指定する方法と、クラス名の指定を避けてワイルドカードとする方法の 2 種類があるが、コーディング規約によって、ワイルドカードを禁止するものがある。<br />
+例外的に、<code class="highlighter-rouge">java.lang</code>パッケージは、デフォルトで import されているものとして扱われるため、自分で import を宣言する必要はない。</p>
+
+<pre><code class="language-Java">package jp.mixi.sample2;
+
+// パッケージ名とクラス名を全て記述するものを、完全修飾名（FQDN）と呼ぶ
+import jp.mixi.sample.MyClass;
+// ワイルドカードで指定する方法。java.utilパッケージ以下の、任意のクラスにアクセス可能
+import java.util.*;
+
+public class MyClass2 {
+
+}
+</code></pre>
+
+<h3 id="section-33">修飾子</h3>
+
+<p>クラスの宣言や、メンバ（メソッド、フィールド（クラスが持つ変数）、インナークラス、ネストクラス）の宣言に、型の指定以外に性質を決めるためのもの。<br />
+クラスやメンバへのアクセス（可視性）をコントロールする修飾子を特に、アクセス修飾子と呼ぶ。<br />
+どの宣言に対するものか、によって、修飾子が付けられない場合もある。</p>
+
+<h4 id="section-34">アクセス修飾子</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>修飾子</th>
+      <th>意味</th>
+      <th>付与できる宣言</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">public</code></td>
+      <td>どこからでもアクセス可</td>
+      <td>クラス、メンバ</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">protected</code></td>
+      <td>同一パッケージ内またはサブクラスからのみアクセス可</td>
+      <td>メンバ</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge"> </code>(なし)</td>
+      <td>同一パッケージ内からのみアクセス可。package private とも呼ぶ</td>
+      <td>クラス、メンバ</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">private</code></td>
+      <td>クラス自身の中からのみアクセス可</td>
+      <td>メンバ</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="section-35">その他の修飾子</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>修飾子</th>
+      <th>意味</th>
+      <th>付与できる宣言</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">abstract</code></td>
+      <td>抽象。クラスはインスタンス化出来ないことを示し、メソッドは、継承したサブクラスで実装を要求する</td>
+      <td>クラス、メソッド</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">final</code></td>
+      <td>継承、オーバライドの禁止。<code class="highlighter-rouge">abstract</code>との併用はできない。クラスに対し<code class="highlighter-rouge">final</code>と宣言すると、そのクラスのメソッドも無条件で<code class="highlighter-rouge">final</code>扱いとなる</td>
+      <td>クラス、メンバ</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">strictfp</code></td>
+      <td>厳格な浮動小数点数の計算を要求する</td>
+      <td>クラス</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">static</code></td>
+      <td>クラスそのものに属することを示す</td>
+      <td>メンバ</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">transient</code></td>
+      <td>直列化の対象でないことをコンパイラに示す</td>
+      <td>フィールド</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">volatile</code></td>
+      <td>マルチスレッド環境下において、複数のスレッドから非同期アクセスされる可能性があることを前提とし、コンパイラの最適化の抑制と、スレッドが保持する作業メモリ上にある値ではなく、メインメモリの最新の値を参照することを示す。<code class="highlighter-rouge">final</code>修飾子と共存できない</td>
+      <td>フィールド</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">synchronized</code></td>
+      <td>マルチスレッド環境下における排他。そのメソッドが属するオブジェクト、ないし<code class="highlighter-rouge">Class</code>オブジェクトに対するロックをかける</td>
+      <td>メソッド</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">native</code></td>
+      <td>プラットフォームのマシンに依存するコードにリンクする。実装の本体は持たない。</td>
+      <td>メソッド</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="section-36">継承と実装</h3>
+
+<h4 id="section-37">継承</h4>
+
+<p>あるクラスの拡張クラスを宣言することを、クラスを継承すると言う。<br />
+Java においては、多重継承ができない。</p>
+
+<pre><code class="language-Java">public class ChildClass extends ParentClass {
+
+}
+</code></pre>
+
+<h4 id="section-38">実装</h4>
+
+<p>インタフェースをもとに、振る舞いの実装を宣言することを、インタフェースを実装すると言う。<br />
+複数のインタフェースを実装することが可能で、カンマ区切りで宣言する。</p>
+
+<pre><code class="language-Java">public class ConcreteClass implements MyInterface, AnotherInterface {
+
+}
+</code></pre>
+
+<h2 id="section-39">インスタンスの生成</h2>
+
+<h3 id="section-40">クラスのインスタンス化</h3>
+
+<p>クラスは型として機能する。<br />
+あるクラスのオブジェクトを作ることを、 <strong>インスタンスを作る</strong> や、 <strong>インスタンス化</strong> と言う。
+インスタンス化のためのキーワードとして、<code class="highlighter-rouge">new</code>がある。</p>
+
+<pre><code class="language-Java">// MyClass 型のオブジェクトの生成
+MyClass myClassObject = new MyClass();
+</code></pre>
+
+<p>抽象クラスやインタフェースはインスタンス化できない。<br /></p>
+
+<pre><code class="language-Java">// コンパイルエラー
+AbstractClass hoge = new AbstractClass();
+MyInterface obj = new MyInterface();
+</code></pre>
+
+<h3 id="section-41">匿名クラス</h3>
+
+<p>抽象クラスやインタフェースを直接インスタンス化するのと同時に、匿名のクラスを作成することができる。</p>
+
+<pre><code class="language-Java">MyInterface obj = new MyInterface() {
+    @Override
+    public void hoge() {
+        // 実装をここで行なってしまう
+    }
+};
+</code></pre>
+
+<p>匿名クラスから、その外側のクラスのローカル変数を参照する場合、ローカル変数は<code class="highlighter-rouge">final</code>でなければならない。<br />
+この時、暗黙的に、匿名クラスのフィールドに、<code class="highlighter-rouge">final</code>なローカル変数のコピーが作られることに注意する。</p>
+
+<pre><code class="language-Java">final int hoge = 0;
+MyInterface obj = new MyInterface() {
+    @Override
+    public void hoge() {
+        System.out.println("hoge: " + hoge);
+    }
+}
+</code></pre>
+
+<h3 id="this--class">this と class</h3>
+
+<p><code class="highlighter-rouge">this</code>は、そのブロックが属するクラスの型のオブジェクトを指す。</p>
+
+<pre><code class="language-Java">public class HogeClass {
+    private int hoge;
+
+    public HogeClass(int hoge) {
+        // this.hoge は HogeClass 型オブジェクトの hoge 変数 を意味する
+        this.hoge = hoge;
+    }
+}
+</code></pre>
+
+<pre><code class="language-Java">public class HogeClass {
+    private int hoge;
+
+    public HogeClass(int hoge) {
+        // ここでは、this.hoge は HogeClass 型オブジェクトの hoge を指す
+        this.hoge = hoge;
+    }
+
+    public class NestedClass {
+        private int hoge;
+        public void doSomething() {
+            // ここでは、this.hoge は NestedClass 型オブジェクトの hoge を指す
+            int fuga = this.hoge + 1;
+            // インナークラスは、その外側のクラスのメンバであることから、
+            // インナークラスから、その属するクラスのオブジェクトへの参照を HogeClass.this で得ることができる
+            int piyo = HogeClass.this.hoge + 1;
+        }
+    }
+
+    public static class InnerClass {
+        public void doSomething() {
+            // ネストクラスからは、その外側クラスの参照を HogeClass.this では得ることが出来ない
+            // コンパイルエラー
+            int moga = HogeClass.this.hoge + 1;
+        }
+    }
+}
+</code></pre>
+
+<p><code class="highlighter-rouge">class</code>は、そのクラスのクラスオブジェクト（クラスの情報を取り扱うクラス型のインスタンス）が得られる。</p>
+
+<pre><code class="language-Java">Class&lt;HogeClass&gt; clazz = HogeClass.class;
+</code></pre>
+
+<h2 id="section-42">アノテーション</h2>
+
+<p>パッケージ、クラス、メソッド、フィールドの宣言に対して付与することの出来る <strong>表明</strong> のことをアノテーションと言う。
+文法として特別な扱いを受けているが、実態は、<code class="highlighter-rouge">java.lang.Annotation</code>インタフェースを継承したインタフェースである。</p>
+
+<p>アノテーションは、その種類によって役割が異なる。<br />
+コンパイラに対して意思表示をするだけのものもあれば、実行時にも意味を持つものもある。</p>
+
+<p>以下は Java の標準 API で用意されているアノテーションを使用した例。</p>
+
+<pre><code class="language-Java">// @Deprecated アノテーションによって、このクラスの使用が推奨されないことを示す
+// もし他のクラスがこのクラスを使用している場合、コンパイラが警告を発する
+@Deprecated
+public class MyClass extends Hoge {
+    // @Override アノテーションによって、このメソッドが、親クラスのメソッドをオーバライドしていることを示す
+    // これにより、オーバライドしているようで実はオーバライドになっていない、という不幸なバグをコンパイル時に検知できる
+    @Override
+    public void hoge() {
+        // @SuppressWarnings によって、コンパイラに対して警告表示の抑制を指示する
+        // アノテーションに引数を渡すことも可能
+        @SuppressWarnings("rawtypes")
+        List list = new ArrayList();
+    }
+}
+</code></pre>
+
+<p>自分でアノテーションを新しく定義することが出来る。<br />
+アノテーションを定義する際には、プログラム上のどの要素（クラス、メソッド、フィールド、など）に対してアノテーションを付与することが出来るか、という情報をアノテーションで宣言する。<br />
+このような、アノテーションのためのアノテーションのことを、メタアノテーションと呼ぶ。</p>
+
+<pre><code class="language-Java">// メソッドに付与するアノテーション MyAnnotation の宣言
+@Target(ElementType.METHOD)
+public @interface MyAnnotation {
+}
+</code></pre>
+
+<p>アノテーションは、デフォルトではコンパイル後の中間コードにもその情報が保存される。<br />
+メタアノテーションによって、コンパイル時に消すようにしたり、実行時にリフレクションによる読み込みも可能にしたりすることができる。</p>
+
+<pre><code class="language-Java">// リフレクションによる実行時の読み込みが出来るアノテーションの宣言
+@Retention(RetentionPolicy.RUNTIME)
+public @interface MyAnnotation {
+}
+</code></pre>
+
+<p>アノテーションに引数を渡す場合には、以下のように、型と名前を指定する。</p>
+
+<pre><code class="language-Java">public @interface MyAnnotation {
+    String value();
+}
+</code></pre>
+
+<p>取り得る引数の型が 1 つのアノテーションのことを、単一値アノテーションと呼ぶ。<br />
+単一値アノテーションで使う名前は、慣習的に<code class="highlighter-rouge">value</code>とする。<br />
+これに対して、取り得る引数の型が複数あるアノテーションのことを、フルアノテーションと呼ぶ。</p>
+
+<h2 id="section-43">ジェネリクス</h2>
+
+<p>総称型とも呼ばれる。ジェネリックプログラミングのパラダイムを取り入れたもの。<br />
+型そのものをパラメータ化することで、データ型の束縛を離れる。</p>
+
+<h3 id="section-44">型変数の宣言</h3>
+
+<p>クラスの宣言、メソッドの宣言のどちらかで、型変数の宣言を行う。<br />
+宣言は、型変数の名前を<code class="highlighter-rouge">&lt;&gt;</code>で囲って行う。</p>
+
+<p>コーディング規約によっては、型変数名を大文字 1 文字に制約するものがあるが、先頭を大文字にした命名でも良しとする規約もある。<br />
+Java の標準 API では大文字 1 文字で型変数を宣言しているものが多い。</p>
+
+<pre><code class="language-Java">// 型変数を &lt;&gt; で囲って宣言する。
+public class MyClass&lt;Value&gt; {
+    // 型変数に宣言した変数名は、型名として扱う。
+    private Value v;
+}
+</code></pre>
+
+<pre><code class="language-Java">public class MyClass2 {
+    // 返り値の型の宣言の前に、型変数の宣言をする
+    public &lt;T&gt; void hoge(T hoge) {
+
+    }
+
+    // 型変数に宣言した変数名は、型名として扱う。このため、引数の型指定や返り値の型指定に型変数名を使う
+    public &lt;T&gt; T fuga (T hoge) {
+
+    }
+}
+</code></pre>
+
+<pre><code class="language-Java">// 型変数を複数宣言することも可能
+public class MyClass3&lt;E, V&gt; {
+
+}
+</code></pre>
+
+<h3 id="section-45">型変数のバインド</h3>
+
+<p>型変数を宣言しているクラスのインスタンス化、あるいは継承、実装の際に、型変数に実際の型を指定する。</p>
+
+<pre><code class="language-Java">public class Hoge {
+    public void hoge() {
+        // MyClass の型変数 Value に、String 型をバインドする。
+        MyClass&lt;String&gt; myclass = new MyClass&lt;String&gt;();
+
+        // 型変数の宣言をしたクラスに、何のクラスもバインドしないでいるとコンパイラが警告を出す
+        MyClass myclass2 = new MyClass();
+    }
+}
+</code></pre>
+
+<pre><code class="language-Java">public class Hoge {
+    public void hoge() {
+        MyClass2 myclass = new MyClass2();
+        // メソッドに型変数を宣言した場合の呼び出し。メソッド名の前にバインドする型を指定する。
+        myclass.&lt;String&gt;fuga("fuga");
+    }
+}
+</code></pre>
+
+<pre><code class="language-Java">// 型変数を宣言しているクラスのサブクラスを定義する際にも、型のバインドを行う
+public class MyChildClass extends MyClass3&lt;String, String&gt; {
+
+}
+</code></pre>
+
+<h3 id="section-46">型変数の境界の宣言</h3>
+
+<p>型変数の宣言に、型の境界を設けることが出来る。<br />
+境界には、上限境界と下限境界の 2 種類の境界が定義されている。</p>
+
+<pre><code class="language-Java">// 型変数へのバインドの際、バインドする型が String 型ないしそのサブクラスであることを要求する
+public class MyClass&lt;Value extends String&gt; {
+
+}
+</code></pre>
+
+<pre><code class="language-Java">// 型変数へのバインドの際、バインドする型が String 型ないしそのサブクラスであり、かつ Cloneable インタフェースを実装していることを要求する
+// インタフェースの実装の要求も extends キーワードを使用する
+// インタフェースの実装の要求の宣言は、クラスの継承の要求の宣言の後に行われなければならない
+public class MyClass2&lt;Value extends String &amp; Cloneable&gt; {
+
+}
+</code></pre>
+
+<p>また、型変数へのバインドの際にも、境界の指定が可能である。<br />
+あわせて、バインドの指定にワイルドカードを使用することも出来る。<br /></p>
+
+<pre><code class="language-Java">public class Hoge {
+    public void hoge() {
+        // 何らかの型にバインドすることを宣言するために、ワイルドカードを使用する
+        MyClass&lt;?&gt; myclass = new MyClass&lt;String&gt;();
+
+        // 何らかの String 型ないしそのサブクラスの型にバインドする
+        MyClass&lt;? extends String&gt; myclass2 = new MyClass&lt;String&gt;();
+
+        // 何らかの String 型ないしそのスーパークラスの型にバインドする
+        MyClass&lt;? super String&gt; myclass3 = new MyClass&lt;String&gt;();
+    }
+}
+</code></pre>
+
+<p>他の言語と違い、型変数へのバインドにジェネリクス型を用いて、複数のジェネリクス型をネストすることも可能である。</p>
+
+<h2 id="section-47">スレッド</h2>
+
+<p>スレッドとは、一連の処理の流れの単位の事を言う。<br />
+通常、プログラムが起動すると、メインスレッドと呼ばれるスレッドが立ち上がり、<code class="highlighter-rouge">main</code>メソッドが呼び出され、その中にある処理が実行される。</p>
+
+<p>この時、例えば、メインスレッドの処理の流れの中で 30 秒の待ち時間を要する処理を行うと、メインスレッドはその処理をするために時間を消費する。この為、プログラムは 30 秒間それより先の処理を実行することができなくなる。<br />
+この、30 秒の待ち時間を要するような処理を、メインスレッドと並列で走らせることで、すぐに次の処理へと移行する為の仕組みのことを、マルチスレッドと呼ぶ。</p>
+
+<p>特に GUI プログラミングでは、シングルスレッドモデルに基いて GUI の操作・管理をメインスレッド上で行うことが多く、時間を消費する重たい処理を別のスレッドで実行させるのは必須の知識となっている。</p>
+
+<p>Java においてマルチスレッドを実現するためには、<code class="highlighter-rouge">Thread</code>クラスを継承するか、または<code class="highlighter-rouge">Runnable</code>インタフェースを実装する。</p>
+
+<h3 id="thread--runnable-">Thread クラスと Runnable インタフェース</h3>
+
+<p><code class="highlighter-rouge">Thread</code>クラスを継承する場合、<code class="highlighter-rouge">Runnable</code>クラスを実装する場合のどちらでも、サブクラスまたは実装クラスで<code class="highlighter-rouge">run()</code>メソッドを実装する。<br />
+この<code class="highlighter-rouge">run()</code>メソッドが、新しいスレッドでのエントリポイントとなる。</p>
+
+<pre><code class="language-Java">public class MyThread extends Thread {
+    @Override
+    public void run() {
+        // 並列で走らせたい処理
+    }
+}
+</code></pre>
+
+<pre><code class="language-Java">public class MyRunnable implements Runnable {
+    @Override
+    public void run() {
+        // 並列で走らせたい処理
+    }
+}
+</code></pre>
+
+<p>新しいスレッドを立ち上げ、並列処理を開始する場合は、<code class="highlighter-rouge">run()</code>メソッドを直接呼び出してはいけない。<br />
+代わりに、<code class="highlighter-rouge">start()</code>メソッドを呼び出して、スレッドを開始する。</p>
+
+<p><code class="highlighter-rouge">start()</code>メソッドの呼び出しによって、呼び出されたスレッドは実行可能状態へ遷移し、システムがリソースを割当てるのを待機する。<br />
+リソースが割当てられた後、実行状態となって、<code class="highlighter-rouge">run()</code>メソッドに定義した処理が実行される。</p>
+
+<pre><code class="language-Java">public class MySample {
+    // メインスレッドのエントリポイントの main メソッド
+    // main メソッドの宣言は必ずこのようにする
+    public static void main(String[] args) {
+        MyRunnable runnable = new MyRunnable();
+        // 新しいスレッドの準備をし、実行可能状態にする
+        new Thread(runnable).start();
+    }
+}
+</code></pre>
+
+<h3 id="section-48">排他制御</h3>
+
+<p>スレッドの中で実行される処理の順序は上から順に実行されるが、異なるスレッド間での処理の順序は不定である (厳密には、VM のスケジューリング機能に依存して決まる) 。</p>
+
+<pre><code class="language-Java">public class MySample {
+    public static void main(String[] args) {
+        Runnable runnable1 = new MyRunnable1();
+        Runnable runnable2 = new MyRunnable2();
+        // スレッドの開始は順に実行されるが、runnable1 と runnable2 のそれぞれの処理の間に順序の保証はない
+        new Thread(runnable1).start();
+        new Thread(runnable2).start();
+    }
+
+    public static class MyRunnable1 implements Runnable {
+        public void run() {
+            // このスレッドの中の処理順序は上から順に実行
+            for (int i = 0; i &lt; 10000; i++) {
+                System.out.println("i: " + i);
+            }
+        }
+    }
+
+    public static class MyRunnable2 implements Runnable {
+        public void run() {
+            // このスレッドの中の処理順序は上から順に実行
+            for (int i = 0; i &lt; 10000; i++) {
+                System.out.println("i: " + i);
+            }
+        }
+    }
+}
+</code></pre>
+
+<p>また、SunVM で動作する Java においては、主記憶装置にメモリ空間を展開する。<br />
+展開したメモリ空間はさらに、プロセス内で共有する領域 (ヒープ領域) と、スレッドごとに独立した領域 (スタック領域) に別れる。
+オブジェクトのインスタンス等のデータは、ヒープ領域に保持されるため、複数スレッド間で同じインスタンスを操作する場合、不整合 (レースコンディション) が起こりやすくなる。</p>
+
+<p>この為、複数のスレッド間でオブジェクトを共有し利用する場合においては、そのオブジェクトが、複数のスレッドから操作されても問題ない (一方のスレッドの操作が他のスレッドに悪影響を及ぼさない) ことに気をつける必要がある。<br />
+このような、複数のスレッドから操作されても問題ないことを、 <strong>スレッドセーフ</strong> であると言う。</p>
+
+<p>スレッドセーフを実現する手段の 1 つとして、複数のスレッドからのメソッドの呼び出しを逐次化する方法がある。<br />
+この方法では、あるスレッドがメソッドを実行するとロックを取得し、ロックが外れるまで他のスレッドは待ち状態とする。これを排他制御という。</p>
+
+<p>Java では、排他制御の機構を言語仕様として持っている。<br />
+<code class="highlighter-rouge">synchronized</code>をメソッドに付与するか、<code class="highlighter-rouge">synchronized</code>を指定したブロックを定義することで、排他制御を実現している。</p>
+
+<pre><code class="language-Java">public class MyClass {
+    private Object lockObject = new Object();
+    private int something;
+
+    // このメソッドの実行権限は、MyClass インスタンスのロックを取得したスレッドに与えられる
+    public synchronized void hoge() {
+        something++;
+    }
+
+    public void fuga() {
+        // このブロックの実行権限は、MyClass インスタンスのロックを取得したスレッドに与えられる
+        // このブロックがメソッド全体をカバーする場合は、動作上は synchronized をメソッドに付与した場合とおなじになる
+        synchronized (this) {
+            something++;
+        }
+    }
+
+    public void piyo() {
+        // このブロックの実行権限は、lockObject インスタンスのロックを取得したスレッドに与えられる
+        synchronized (lockObject) {
+            something++;
+        }
+    }
+
+    public void poo() {
+        // synchronized で排他制御していないので、不整合が起こる可能性がある
+        something++;
+    }
+
+    // static なメソッドは、その属するクラスのクラスオブジェクトに対してロックを掛ける
+    public static synchronized void foo() {
+
+    }
+}
+</code></pre>
+
+<p><code class="highlighter-rouge">synchronized</code>なメソッドをオーバライドする場合、オーバライドしたメソッドは<code class="highlighter-rouge">synchronized</code>とはならない点に注意する。</p>
+
+<h3 id="volatile">volatile</h3>
+
+<p>ヒープ領域に保持されているデータの整合性を保つための仕組みとして、<code class="highlighter-rouge">volatile</code>がある。<br />
+この修飾子は、メンバ変数に対して付与することが出来、そのメンバ変数に対する各種の高速化のための最適化 (リオーダーなど) を抑止して、メモリバリア命令を使用するようになる。</p>
+
+<h2 id="section-49">例外処理</h2>
+
+<p>例外(Exception)は、プログラムが予期しない処理(ゼロ除算や null への操作など)を実行した時に発生する（スローされる）。<br />
+例外には、大きく 3 種類のものがあり、それぞれに役割がある。</p>
+
+<h3 id="section-50">例外の種類</h3>
+
+<p>例外の種類は以下の通り。</p>
+
+<p>すべての例外は、Throwable インタフェースを実装しており、その実装クラスとして、Exception クラスと Error クラスがある。<br />
+Exception クラスの中でも、実行時に JVM からスローされる可能性のあるものを、RuntimeException クラスとして扱っている。</p>
+
+<p>これらの例外のハンドリングに関するプラクティスについては、<a href="http://d.hatena.ne.jp/daisuke-m/20081202/1228221927">こちら</a>が参考になる。</p>
+
+<h4 id="runtimeexception">実行時例外（RuntimeException）</h4>
+
+<p>プログラムを実行している時に起こる予期しない動作を扱う。</p>
+
+<p>ゼロ除算や、null への操作などはこの実行時例外に分類される。<br />
+実行時例外の多くは、プログラムのミスを指摘するものとして扱う。</p>
+
+<p>代表的な実行時例外は以下のとおり。</p>
+
+<dl>
+<dt>NullPointerException</dt>
+<dd>
+参照先が null のものに対して、何らかの操作を行った場合に発生する
+</dd>
+<dt>ArithmeticException</dt>
+<dd>
+ゼロ除算など、算術計算で問題があった場合に発生する
+</dd>
+<dt>ArrayIndexOutOfBoundsException</dt>
+<dd>
+配列の範囲外へのアクセスをした時に発生する
+</dd>
+</dl>
+
+<h4 id="exception">検査例外（Exception）</h4>
+
+<p>何かしらの理由によって、処理の続行が不可能（失敗）となったことを示す場合を扱う。</p>
+
+<p>検査例外は、処理の呼び出し元で状態を回復可能であることを示し、呼び出し元でその回復処理を実装することを強制する。</p>
+
+<p>代表的な検査例外は以下のとおり。</p>
+
+<dl>
+<dt>IOException</dt>
+<dd>
+I/O の処理に何らかの問題があったことを示す
+</dd>
+<dt>FileNotFoundException</dt>
+<dd>
+ファイルが見つからなかったことを示す
+</dd>
+</dl>
+
+<h4 id="error">エラー（Error）</h4>
+
+<p>アプリケーションでハンドリング可能な範囲を超えた、重大な問題を扱う。</p>
+
+<p>メモリ不足によってメモリ領域が確保できない場合や、スタックがあふれた場合などに発生する。</p>
+
+<p>代表的なエラーは以下のとおり。</p>
+
+<dl>
+<dt>OutOfMemoryError</dt>
+<dd>
+メモリが不足し、必要なメモリ領域が確保できなかったことを示す。<br />
+GC によっても、必要なだけのメモリ領域が確保できない場合に発生する
+</dd>
+<dt>StackOverFlowError</dt>
+<dd>
+スタック領域がいっぱいになり、それ以上にスタック領域を使おうとした時に発生する
+</dd>
+</dl>
+
+<h3 id="throws--throw">throws と throw</h3>
+
+<p>あるメソッドが、検査例外を発生させる場合、必ずメソッドの宣言に<code class="highlighter-rouge">throws</code>文が必要。</p>
+
+<pre><code class="language-Java">public class MyClass {
+    public void hogehoge() throws IOException {
+        // IO をつかって何かする
+        // ...
+
+        // 良くないことが起こった時
+        throw new IOException("something went wrong!"); // 例外クラスのインスタンスを作って、throw する
+    }
+}
+</code></pre>
+
+<p>実行時例外を発生させる場合は、<code class="highlighter-rouge">throws</code>文の宣言は不要。</p>
+
+<pre><code class="language-Java">public class MyClass {
+    public void hogehoge(int index) {
+        if (index &gt;= 5) {
+            // 予期しないことをさせられる場合
+            throw new IllegalArgumentException("index should be less than 5."); // 例外クラスのインスタンスを作って、throw する
+        }
+    }
+}
+</code></pre>
+
+<h3 id="try-catch">try-catch</h3>
+
+<p>メソッドから発生する例外をハンドリングするための構文。</p>
+
+<p>検査例外を発生させるメソッドの呼び出しを行う場合は、かならずこの構文で例外処理を記述する必要がある。<br />
+それ以外の例外・エラーは任意で、必要がなければ書かなくてもよい。</p>
+
+<pre><code class="language-Java">public class MyClass {
+    public void hogehoge() {
+        try {
+            // 検査例外を投げるメソッド呼び出しを含む何らかの処理
+            // ...
+        } catch (FileNotFoundException e) {
+            // FileNotFoundException に対する例外処理
+        } catch (IOException e) {
+            // IOException に対する例外処理
+        }
+    }
+}
+</code></pre>
+
+<p><code class="highlighter-rouge">catch</code>は複数を連続で書くことが可能。<br />
+発生した例外と突き合わせて適切な例外処理を選択する判定は、記述された順に<code class="highlighter-rouge">instanceof</code>で行われるようになっている。<br />
+このことから、以下のことに注意する。</p>
+
+<p>例外もクラスで表現するので、継承のヒエラルキーが出来る。<br />
+たとえば、FileNotFoundException は IOException を継承した例外クラスである。
+よって、下記の順番で記述すると、FileNotFoundException が発生しても正常にキャッチできなくなる。</p>
+
+<pre><code class="language-Java">public class MyClass {
+    public void hogehoge() {
+        try {
+            // 検査例外を投げるメソッド呼び出しを含む何らかの処理
+            // ...
+
+        // ダメな例
+        // FileNotFoundException は IOException のサブクラスなので、
+        // FileNotFoundException がスローされても、例外の判定で IOException とみなされ、
+        // FileNotFoundException をキャッチしているところの例外処理に到達しなくなる
+        } catch (IOException e) {
+            // IOException に対する例外処理
+        } catch (FileNotFoundException e) {
+            // FileNotFoundException に対する例外処理
+        }
+    }
+}
+</code></pre>
+
+<h3 id="finally">finally</h3>
+
+<p>必ず実行したい処理をまとめて記述する為の構文。<br />
+例外の発生があってもなくても、必ず finally の中の処理を実行する。<br />
+ファイルやDBなどの、リソースの開放処理を確実に行う目的で利用されることが多い。</p>
+
+<pre><code class="language-Java">public class MyClass {
+    public void hogehoge() {
+        try {
+            // 何らかの、IOを使った処理
+        } catch (IOException e) {
+            // 例外処理
+        } finally {
+            // IO リソースのクローズ処理
+        }
+    }
+}
+</code></pre>
+
+<p><code class="highlighter-rouge">catch</code>文は無くても良い。<br />
+この場合、その構文の中では例外をキャッチすべきではなく、呼び出し元で適切にハンドリングされるべき、という意味合いを持つ。</p>
+
+<pre><code class="language-Java">public class MyClass {
+    public void hogehoge() {
+        try {
+            // 何らかの処理
+        } finally {
+            // 必ず処理しておくべき内容
+        }
+    }
+}
+</code></pre>
+
+<h2 id="section-51">参照型オブジェクトの比較</h2>
+
+<p>比較演算子は、変数が持っているデータをもとに比較を行なっている。<br />
+このため、参照型オブジェクトへの参照を保持する変数を比較演算子で比較した場合には、変数が持つ参照先アドレスをもとにして比較が行われてしまう。</p>
+
+<p>このため、参照型オブジェクトそのものを比較するための手段として、<code class="highlighter-rouge">Object#equals()</code>と<code class="highlighter-rouge">Object#hashCode()</code>という 2 つのメソッドが用意されている。</p>
+
+<h3 id="equals--hashcode">equals() と hashCode()</h3>
+
+<p><code class="highlighter-rouge">Object#equals()</code>は、オブジェクト同士を比較し、同じかどうかを判断する。</p>
+
+<p><code class="highlighter-rouge">Object#hashCode()</code>は、オブジェクトを一意に表す整数型を生成する。<br />
+<code class="highlighter-rouge">Object#equals()</code>が<code class="highlighter-rouge">true</code>の場合、比較するオブジェクト同士の<code class="highlighter-rouge">Object#hashCode()</code>は必ず同じ値にならなければならないが、<code class="highlighter-rouge">Object#equals()</code>が<code class="highlighter-rouge">false</code>の場合はこの限りではない。</p>
+
+<p>また、<code class="highlighter-rouge">Object#hashCode()</code>は、ハッシュアルゴリズムを利用したコレクションクラスで利用されるため、正しく実装をしないと、コレクションクラスが期待した動作をしなくなることがある点に注意する。</p>
+
+<h3 id="comparable-">Comparable インタフェース</h3>
+
+<p>オブジェクトの順序を決めるためのインタフェース。このインタフェースを実装すると、強制的に順序付けられることを宣言することとなる。</p>
+
+<p><code class="highlighter-rouge">Comparable&lt;T&gt;#compareTo(T)</code>が返す<code class="highlighter-rouge">int</code>型整数によって順序を決定する。<br />
+このインタフェースを実装するクラスのオブジェクトをコレクションまたは配列に格納した場合、<code class="highlighter-rouge">Collections#sort(List&lt;T&gt;)</code>または<code class="highlighter-rouge">Arrays#sort(Object[])</code>によってソートする事ができるようになる。</p>
+
+<p><code class="highlighter-rouge">Comparable&lt;T&gt;#compareTo(T)</code>が返す値と序列の関係は以下のとおり。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>返り値</th>
+      <th>序列</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>-1</td>
+      <td>Comparable なオブジェクトが、引数に渡したオブジェクトよりも小さい</td>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>Comparable なオブジェクトが、引数に渡したオブジェクトと同じ</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Comparable なオブジェクトが、引数に渡したオブジェクトよりも大きい</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>これによって、昇順・降順の序列が決められる。</p>
+
+<p><code class="highlighter-rouge">Comparable&lt;T&gt;#compareTo(T)</code>が<code class="highlighter-rouge">0</code>を返す場合に呼応して、<code class="highlighter-rouge">equals(Object)</code>が<code class="highlighter-rouge">true</code>を返すことが推奨され、そうでない場合はそのことを明示することが推奨されている。</p>
+
+<p><code class="highlighter-rouge">Comparable</code>インタフェースには以下の様な規約がある。</p>
+
+<ul>
+  <li><code class="highlighter-rouge">a.compareTo(b)</code>が<code class="highlighter-rouge">1</code>ならば、<code class="highlighter-rouge">b.compareTo(a)は</code>-1`となる</li>
+  <li><code class="highlighter-rouge">a.compareTo(b)</code>が<code class="highlighter-rouge">1</code>で、かつ<code class="highlighter-rouge">b.compareTo(c)</code>が<code class="highlighter-rouge">1</code>となるならば、<code class="highlighter-rouge">a.compareTo(c)</code>も<code class="highlighter-rouge">1</code>となる</li>
+  <li><code class="highlighter-rouge">a.compareTo(b)</code>が<code class="highlighter-rouge">0</code>ならば、<code class="highlighter-rouge">a.compareTo(c)</code>と<code class="highlighter-rouge">b.compareTo(c)</code>は同じ結果となる</li>
+  <li><code class="highlighter-rouge">a.compareTo(b)</code>で例外が投げられたならば、<code class="highlighter-rouge">b.compareTo(a)</code>でも例外が投げられる</li>
+</ul>
+
+<h3 id="comparator-">Comparator インタフェース</h3>
+
+<p>オブジェクトの順序を決めるためのインタフェース。</p>
+
+<p><code class="highlighter-rouge">Comparable</code>インタフェースのように、<code class="highlighter-rouge">Collections#sort(List&lt;T&gt;, Comparator)</code>や<code class="highlighter-rouge">Arrays#sort(T[], Comparator)</code>の引数として、<code class="highlighter-rouge">Comparator</code>インタフェースを実装した比較関数オブジェクトを渡すことで、コレクションや配列のソートが可能となるほか、<code class="highlighter-rouge">Comparable</code>インタフェースを持たないオブジェクトに対しても順序付けを行うことが出来る。</p>
+
+<p><code class="highlighter-rouge">Comparator&lt;T&gt;#compareTo(T, T)</code>が返す<code class="highlighter-rouge">int</code>型整数によって順序を決定する。<br />
+返す整数値の意味は<code class="highlighter-rouge">Comparable&lt;T&gt;#compareTo(T)</code>のそれと同じである。</p>
+
+<p><code class="highlighter-rouge">Comparator&lt;T&gt;#compareTo(T, T)</code>が<code class="highlighter-rouge">0</code>を返す場合に呼応して、<code class="highlighter-rouge">equals(Object)</code>が<code class="highlighter-rouge">true</code>を返すことは必須ではないが、そうでない場合はそのことを明示することが要求される。</p>
+
+<p>こちらのインタフェースにも、以下の様な規約がある。</p>
+
+<ul>
+  <li><code class="highlighter-rouge">comparator.compareTo(a, b)</code>が<code class="highlighter-rouge">1</code>ならば、<code class="highlighter-rouge">comparator.compareTo(b, a)</code>は<code class="highlighter-rouge">-1</code>となる</li>
+  <li><code class="highlighter-rouge">comparator.compareTo(a, b)</code>が<code class="highlighter-rouge">1</code>で、かつ<code class="highlighter-rouge">comparator.compareTo(b, c)</code>も<code class="highlighter-rouge">1</code>ならば、<code class="highlighter-rouge">comparator.compareTo(a, c)</code>も<code class="highlighter-rouge">1</code>となる</li>
+  <li><code class="highlighter-rouge">comparator.compareTo(a, c)</code>が<code class="highlighter-rouge">0</code>ならば、<code class="highlighter-rouge">comparator.compareTo(a, b)</code>と<code class="highlighter-rouge">comparator.compareTo(b, c)</code>は同じ結果となる</li>
+</ul>
+
+<h2 id="section-52">文字列型</h2>
+
+<p>この項では、Java での文字列の扱い方で留意する点について解説する。</p>
+
+<h3 id="string">String</h3>
+
+<p>String クラスのオブジェクトは、リテラルによって、new を明示しなくてもオブジェクトが生成される。</p>
+
+<pre><code class="language-Java">String hoge = "hoge";
+</code></pre>
+
+<p>String クラスの文字列は、一度オブジェクトを生成した後は <strong>状態の変化を起こさない</strong> ように設計されている（このことをイミュータブルと呼ぶ）。<br />
+このため、文字列の結合などの文字列操作を伴うものは、その都度あたらしい String クラスのオブジェクトを生成することとなる。</p>
+
+<pre><code class="language-Java">// 新しい String クラスの hoge オブジェクト
+String hoge = "hoge";
+
+// hoge 変数の参照するオブジェクトが、新しく生成した "hogeabc" を表す String クラスのオブジェクトになる
+hoge += "abc";
+</code></pre>
+
+<p>イミュータブルなオブジェクトは、必然的にスレッドセーフなオブジェクトとなる。つまり、<code class="highlighter-rouge">synchronized</code>による排他制御の必要がない。<br />
+また、イミュータブルなオブジェクトの複製は、参照の複製を行うだけで良いので効率が良い。<br />
+ただし、イミュータブルなオブジェクトで状態を表現するために、新しいオブジェクトを作り続けるので、状態変化を持ち得る場合は逆に非効率となる（イミュータブルに対して、状態をもつものをミュータブルと呼ぶ）。</p>
+
+<h3 id="stringbuilder--stringbuffer">StringBuilder と StringBuffer</h3>
+
+<p>状態を持つ事のできる（ミュータブルな）文字列を扱うためのクラスとして、<code class="highlighter-rouge">StringBuilder</code>と<code class="highlighter-rouge">StringBuffer</code>の2つがある。<br />
+両者はともに状態を持ちながら文字列を表現する。両者の違いは、スレッドセーフかどうか、という点だけである（<code class="highlighter-rouge">StringBuilder</code>はスレッドセーフではなく、<code class="highlighter-rouge">StringBuffer</code>はスレッドセーフである）。<br />
+スレッドセーフでない<code class="highlighter-rouge">StringBuilder</code>は、同期化を実施しない分高速に動作するため、スレッドセーフを考慮しないのであれば、<code class="highlighter-rouge">StringBuilder</code>の利用が推奨される。</p>
+
+<h2 id="section-53">入出力</h2>
+
+<p>Java では、入出力 (Input/Output) を行う標準 API が用意されている。<br />
+これらは全て、<code class="highlighter-rouge">java.io</code>パッケージに凝集されている。</p>
+
+<p>Java の入出力は、一部ランダムアクセスのための API も存在しているが、ストリーム指向が基本となっている。</p>
+
+<h3 id="section-54">ストリーム</h3>
+
+<p>ストリームとは、データの流れのことを言う。<br />
+データの流れは、バイト列やプリミティブ型のデータ、オブジェクトなどで示されたものである。</p>
+
+<p>データの入力元となるデータソースや、データの出力先は、ファイルの場合もあれば、ネットワークのソケットの場合もある。</p>
+
+<p>Java では、入力のストリームを<code class="highlighter-rouge">InputStream</code>、出力のストリームを<code class="highlighter-rouge">OutputStream</code>というクラスで取り扱う。<br />
+また、ストリームのデータを読み取ったり、書きだしたりすることを扱うために、<code class="highlighter-rouge">Reader</code>と<code class="highlighter-rouge">Writer</code>というインタフェースが提供されている。</p>
+
+<p>ストリームは、その利用が終わったら必ず <strong>閉じる</strong> 必要がある。<br />
+<code class="highlighter-rouge">try-finally</code>ブロックを用いて、例外が発生しようとも必ずストリームを閉じる。<br />
+このようにしないと、リソースがリークすることとなる。</p>
+
+<pre><code class="language-Java">public class Sample {
+    public static void main(String[] args) {
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new InputStreamReader(new FileInputStream("hogehoge.txt")));
+            StringBuffer buffer = new StringBuffer();
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                buffer.append(line);
+            }
+        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
+        } finally {
+            if (reader != null) {
+                try {
+                    // 複数の IO ストリームオブジェクトがネストしている場合は、一番外側を close すると内側すべても同時に close される
+                    reader.close();
+                } catch (IOException e) {
+                }
+            }
+        }
+    }
+}
+</code></pre>
+
+<h2 id="section-55">リフレクション</h2>
+
+<p>自分で定義したり、フレームワークで定義されたりしたクラスそのものの情報にアクセスするための仕組みをリフレクションと言う。<br />
+Java では、実行時にプログラム自身の情報にアクセスする、動的リフレクションをサポートしている。</p>
+
+<h3 id="class-">Class クラス</h3>
+
+<p><code class="highlighter-rouge">Class</code>クラスは、プログラムの実行時、クラスがロードされた時点で生成される、クラスやインタフェースに関する情報を持つオブジェクトである。</p>
+
+<p>クラスの<code class="highlighter-rouge">Class</code>型のインスタンスを得る為に、幾つかの方法が用意されている。</p>
+
+<pre><code class="language-Java">package jp.mixi.sample;
+
+class Hoge {
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // 予約語としての class によって、そのクラスの Class 型のインスタンスを得る
+        System.out.println(Hoge.class.getSimpleName());
+        // すべてのクラスの基底クラスである Object クラスが持つ、Class 型オブジェクトを得るメソッドによってそのインスタンスを得る
+        System.out.println(new Hoge().getClass().getSimpleName());
+
+        // Class#forName() で、FQDN によるクラス名を指定して、Class 型のインスタンスを得る
+        Class&lt;?&gt; clazz = Class.forName("jp.mixi.sample.Hoge");
+    }
+}
+</code></pre>
+
+<h3 id="section-56">クラスの要素を表すクラス</h3>
+
+<p><code class="highlighter-rouge">Class</code>型のオブジェクトを介して、以下のように、クラスに関する様々な情報にアクセスすることができる。</p>
+
+<pre><code class="language-Java">package jp.mixi.sample;
+
+class Hoge {
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Class&lt;?&gt; clazz = Class.forName("jp.mixi.sample.Hoge");
+
+        // クラスの宣言に付与されたアノテーションをすべて取得する
+        Annotation[] annotations = clazz.getAnnotations();
+
+        // クラスの宣言にある public なコンストラクタの定義をすべて取得する
+        Constructor&lt;?&gt;[] constructors = clazz.getConstructors();
+
+        // private なコンストラクタも含めてすべてのコンストラクタの定義を取得する
+        Constructor&lt;?&gt;[] allConstructors = clazz.getDeclaredConstructors();
+
+        // アクセス可能なすべてのフィールドの定義を取得する
+        Field[] fields = clazz.getFields();
+
+        // 定義されたすべてのフィールドを取得する
+        Field[] allFields = clazz.getDeclaredFields();
+
+        // public なメンバメソッドを取得する
+        Method[] methods = clazz.getMethods();
+
+        // すべてのメソッドを取得する
+        Method[] allMethods = clazz.getDeclaredMethods();
+    }
+}
+</code></pre>
+
+          </section>
+        </div>
+
+        <!-- FOOTER  -->
+        <div id="footer_wrap" class="outer">
+          <footer class="inner">
+  <p class="license">Portions of this page are reproduced from work created and <a href="https://code.google.com/p/android/">shared by the Android Open Source Project</a> and used according to terms described in the <a href="http://creativecommons.org/licenses/by/2.5/">Creative Commons2.5 Attribution License</a>.</p>
+  <p class="license">
+  This work is licensed under a <a rel="license" itemprop="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. 
+  <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+  </p>
+  <p class="copyright">Androidtraining maintained by <a href="https://github.com/mixi-inc" itemprop="author">mixi-inc</a></p>
+  <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+
+</footer>
+
+        </div>
+      </paper-scroll-header-panel>
+    </paper-drawer-panel>
+    <script>
+        // custom transformation: scale header's title
+        var title = document.querySelectorAll('.title')[2];
+        addEventListener('paper-header-transform', function(e) {
+            var d = e.detail;
+            var m = d.height - d.condensedHeight;
+            var scale = Math.max(0.75, (m - d.y) / (m / 0.25)  + 0.75);
+
+            Polymer.Base.transform('scale(' + scale + ') translateZ(0)', title);
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="この章では、Androidの開発環境(AndroidStudio)の準備手順について解説します。" />
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <!-- ogp for twitter -->
+    <meta content="@mixi_engineers" name="twitter:site" />
+    <meta content="summary" name="twitter:card" />
+    
+    <meta content="開発環境の準備 - r21nomi/AndroidTraining" name="twitter:title" />
+    
+    <meta content="この章では、Androidの開発環境(AndroidStudio)の準備手順について解説します。" name="twitter:description" />
+    <meta content="/assets/logo.png" name="twitter:image:src" />
+    <!-- ogp -->
+    <meta content="r21nomi/AndroidTraining" property="og:site_name" />
+    <meta content="article" property="og:type" />
+    <meta content="/assets/logo.png" property="og:image" />
+    
+    <meta content="開発環境の準備 - r21nomi/AndroidTraining" name="og:title" />
+    
+    <meta content="/introductions/1.02.prepare-for-development.html" property="og:url" />
+    <meta content="この章では、Androidの開発環境(AndroidStudio)の準備手順について解説します。" property="og:description" />
+    
+    <meta name="keyword" content="android, training, 基礎, スキル, 開発, developer, プログラミング, AndroidStudio, インストール, セットアップ" />
+    
+
+    <meta name="go-import" content="github.com/mixi-inc/AndroidTraining git https://github.com/mixi-inc/AndroidTraining.git">
+    <script src="/AndroidTraining/bower_components/webcomponentsjs/webcomponents.js"></script>
+    
+    <link rel="stylesheet" type="text/css" media="screen" href="/AndroidTraining/stylesheets/main.css">
+    <link rel="shortcut icon" href="/AndroidTraining/assets/favicon.ico" />
+    <link rel="import" href="/AndroidTraining/bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-drawer-panel/paper-drawer-panel.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-header-panel/paper-header-panel.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-toolbar/paper-toolbar.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-menu/paper-menu.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-item/paper-item.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-icon-button/paper-icon-button.html">
+    <link rel="import" href="/AndroidTraining/bower_components/iron-icons/iron-icons.html">
+    <style is="custom-style">
+        paper-scroll-header-panel:not([style-scope]):not(.style-scope) {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        paper-toolbar.tall .bottom:not([style-scope]):not(.style-scope) {
+            font-size: 40px;
+            margin-left: 60px;
+
+            -webkit-transform-origin: left center;
+            transform-origin: left center;
+        }
+
+        .content:not([style-scope]):not(.style-scope) {
+            padding: 8px;
+        }
+
+        .spacer:not([style-scope]):not(.style-scope) {
+            -ms-flex: 1 1 0.000000001px;
+            -webkit-flex: 1;
+            flex: 1;
+            -webkit-flex-basis: 0.000000001px;
+            flex-basis: 0.000000001px;
+        }
+
+    </style>
+    <title>開発環境の準備 - r21nomi/AndroidTraining</title>
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-50931519-13', 'auto');
+    ga('send', 'pageview');
+    </script>
+  </head>
+
+  <body itemscope itemtype="http://schema.org/Article" fullbleed layout vertical>
+
+    <paper-drawer-panel selected="main" >
+      <!-- MENU -->
+      <paper-header-panel mode="seamed" drawer class="drawer">
+        <nav>
+    <ol class="chapter_navigation">
+        <a href="/AndroidTraining/">Home</a>
+        <li>まえがき</li>
+        <ol class="section_navigation">
+            
+            
+            <li><a href="/AndroidTraining/introductions/1.01.about-android-os.html">Android-OSについて</a></li>
+            
+            <li><a href="/AndroidTraining/introductions/1.02.prepare-for-development.html">開発環境の準備</a></li>
+            
+            <li><a href="/AndroidTraining/introductions/1.03.create-project-for-android-studio.html">プロジェクトの作成</a></li>
+            
+            <li><a href="/AndroidTraining/introductions/1.04.basic-knowledge.html">Androidの基礎知識</a></li>
+            
+            <li><a href="/AndroidTraining/introductions/1.05.how-to-build-for-gradle.html">Android のビルドについて(Gradle)</a></li>
+            
+        </ol>
+        <li>基礎編</li>
+        <ol class="section_navigation">
+            
+            
+            <li><a href="/AndroidTraining/fundamentals/2.01.create-layout.html">アプリのレイアウト作成</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.02.activity-and-fragment.html">ActivityとFragment</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.03.application-resource-management.html">アプリのリソース管理</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.04.messaging-and-notification.html">メッセージングと通知</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.05.actionbar-and-interaction-control.html">ActionBarとインタラクション制御</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.06.listView-and-viewPager.html">ListViewとViewPager</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.07.serialize-and-collection-and-perpetuation.html">直列化とコレクション、永続化</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.08.async-processing.html">非同期処理</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.09.network-access.html">ネットワーク通信</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.10.database.html">データベース</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.11.testing-for-android-studio.html">テスト(AndroidStudio)</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.11.testing.html">テスト</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.12.handler-and-looper.html">HandlerとLooper</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.13.webView.html">WebView</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.14.accountmanager.html">AccountManager</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.15.advance-contentprovider.html">ContentProviderの発展</a></li>
+            
+        </ol>
+        <li>実務編</li>
+        <ol class="section_navigation">
+            
+            
+            <li><a href="/AndroidTraining/advanced/3.01.build-for-eclipse.html">デバッグと自動ビルド(Eclipse)</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.01.build-for-gradle.html">自動ビルド(Android Studio)</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.02.architecture-and-di.html">アーキテクチャ設計と DI</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.03.advanced-layout.html">続・アプリのレイアウト作成</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.04.user-interface.html">ユーザインタフェース設計</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.05.security.html">セキュリティ</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.06.google-api.html">Google API</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.07.google-play-services.html">Google Play Services</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.08.cloud-sync.html">クラウド同期</a></li>
+            
+        </ol>
+        <li>デザイナー編</li>
+        <ol>
+        </ol>
+    </ol>
+    <ol class="appex_navigation">
+        <li>付録</li>
+        <ol class="section_navigation">
+            
+            
+            <li><a href="/AndroidTraining/appendix/A.01.import-from-git-for-eclipse.html">Git リポジトリからのプロジェクトのインポート</a></li>
+            
+            <li><a href="/AndroidTraining/appendix/A.02.basic-java.html">Java の文法の基礎</a></li>
+            
+            <li><a href="/AndroidTraining/appendix/A.03.how-to-create-avd.html">仮想デバイスの作成</a></li>
+            
+            <li><a href="/AndroidTraining/appendix/A.04.advanced-java.html">Javaの活用</a></li>
+            
+        </ol>
+    </ol>
+</nav>
+
+      </paper-header-panel>
+      <paper-scroll-header-panel main condenses>
+        <!-- HEADER -->
+        <paper-toolbar class="mainheader tall" role="toolbar">
+    <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+
+    <span class="title"></span>
+
+    <a id="forkme_banner" href="https://github.com/mixi-inc/AndroidTraining" role="button">
+        <paper-icon-button src="/AndroidTraining/images/blacktocat.png"></paper-icon-button> <span>View on GitHub</span>
+    </a>
+
+    <div class="middle title">r21nomi/AndroidTraining</div>
+    <div class="bottom title">開発環境の準備</div>
+</paper-toolbar>
+
+
+<div id="description" itemprop="description">この章では、Androidの開発環境(AndroidStudio)の準備手順について解説します。</div>
+
+
+
+        <!-- MAIN CONTENT -->
+        <div id="main_content_wrap" class="content outer" itemprop="articleBody">
+          <section id="main_content" class="inner">
+            <p>環境の準備には時間を要する為、研修前に、予め下記の手順を元に開発環境を整備しておくことを強く推奨します。</p>
+
+<p>また、ミクシィでは開発環境はほぼMac OSのため、以下はMac OSを前提とした説明になります。</p>
+
+<h2 id="section">目次</h2>
+
+<ul>
+  <li><a href="#android-studio">Android Studio</a></li>
+  <li><a href="#setup-android-sdk-manager">Android SDK Manager のセットアップ</a></li>
+  <li><a href="#device-and-emulator">実行環境について</a></li>
+  <li><a href="#prepare-emulator">エミュレータの準備</a></li>
+</ul>
+
+<h2 id="android-studio">Android Studio</h2>
+
+<p>下記のURLにアクセスして、Download Android Studioをクリックし、ダウンロードします。<br />
+<a href="https://developer.android.com/studio/index.html">https://developer.android.com/studio/index.html</a></p>
+
+<p>dmgをマウントするとAndroidStudio.appが入っているので、 <code class="highlighter-rouge">/Application</code> など適切なディレクトリに移動しましょう。ファイル名にバージョン番号を付けるなどして、複数バージョンのAndroidStudioを共存させることも可能です。</p>
+
+<p><img src="/AndroidTraining/assets/01-02/android-studio-download.png" alt="Android Studio Download" /></p>
+
+<p>ダウンロード後はウィザードに従い、インストールをしてください。</p>
+
+<p>AndroidStudioは、googleが提供するIntelliJ IDEAベースのIDE(Integrated Development Environment)です。</p>
+
+<p>AndroidStudioにはAndroid SDK toolsが同梱されています。
+Android SDK tools は、Android の開発に必要なプラットフォームです。<br />
+主に、SDK Manager を用いて、Android SDK のバージョン管理を行います。<br />
+この他、各バージョンごとのエミュレータやシステムイメージ、各種開発支援ツールなども、このAndroid SDK toolsの中に含まれています。</p>
+
+<p>AndroidStudio ディレクトリの中に居る、androidstudio.exe、またはAndroid Studio.appを選択して、AndroidStudio を起動してください。</p>
+
+<p>起動すると、スプラッシュ画面が表示されます。</p>
+
+<p><img src="/AndroidTraining/assets/01-02/android-studio-splash.png" alt="Splash" /></p>
+
+<p>初回起動時にSetup Wizardが表示されるので、Wizardに従いセットアップを行ってください。</p>
+
+<p><img src="/AndroidTraining/assets/01-02/android-studio-wizard1.png" alt="wizard1" /></p>
+
+<p>特にカスタマイズしたい項目がない場合はStandardを選択するのがよいでしょう。</p>
+
+<p><img src="/AndroidTraining/assets/01-02/android-studio-wizard2.png" alt="wizard2" /></p>
+
+<p>インストール時に同時にインストールされる各種ツール等のライセンスに同意します。</p>
+
+<p><img src="/AndroidTraining/assets/01-02/android-studio-wizard3.png" alt="wizard3" /></p>
+
+<p>初回のセットアップにはしばらく時間がかかるので完了するまで待ちます。<br />
+下記画面が表示されたらインストール完了です。</p>
+
+<p><img src="/AndroidTraining/assets/01-02/android-studio-wizard4.png" alt="wizard4" /></p>
+
+<p>無事起動すると、下記画面が表示されます。</p>
+
+<p><img src="/AndroidTraining/assets/01-02/android-studio-launch.png" alt="First Launch" /></p>
+
+<p>これで、Android Studioのインストールが終わりました。
+次に、Android SDK で必要なセットアップを行います。</p>
+
+<h2 id="setup-android-sdk-manager">Android SDK Manager のセットアップ</h2>
+
+<p>初期状態では、最新版のSDK しかインストールされていません。
+Android 2.1 以上の SDK をインストールするため、ツールバーメニューから、Android SDK Manager を選択します。</p>
+
+<p><img src="/AndroidTraining/assets/01-02/android-studio-toolbar-android-sdk-manager.png" alt="Android Studio Toolbar" /></p>
+
+<p>設定画面のAndroid SDKという項目が開き、右側のペインには <code class="highlighter-rouge">SDK Plartforms</code> というタブが選択された状態でAndroid SDK リポジトリにある、SDKの一覧が表示されます。</p>
+
+<p><img src="/AndroidTraining/assets/01-02/sdk-manager1.png" alt="SDK Manager" /></p>
+
+<p>実機デバッグの際には、実機の OS 向けにアプリをビルドする必要があるため、必要なバージョンの SDK Platform をインストールしておくことが必須となります。</p>
+
+<p>SDK Platform 以外には、エミュレータを使用する場合には各種 System Imageが必要となります。
+Intel x86 Atom System Image を使用する場合は、同じ設定画面の <code class="highlighter-rouge">SDK Tools</code> というタブを開いてください。その一覧にある <code class="highlighter-rouge">Intel x86 Emulator Accelerator(HAXM Installer)</code> も導入する必要があります。</p>
+
+<p>この Intel x86 Emulator Accelerator は、SDK Managerでダウンロードした後、別途 <code class="highlighter-rouge">~/Library/Android/sdk/extras/intel/Hardware_Accelerated_Execution_Manager</code> ディレクトリにある、IntelHAXM インストーラを実行する必要があります。</p>
+
+<p>また、Google Map やLocation APIなどの位置情報系の実装やプッシュ通知などをアプリに組み込む場合には、 <code class="highlighter-rouge">Google Play Services</code> や 各OSごとの <code class="highlighter-rouge">Google APIs</code> が必要になります。<br />
+まずは <code class="highlighter-rouge">SDK Tools</code> から <code class="highlighter-rouge">Google Play Services</code> をインストールしましょう。</p>
+
+<p><img src="/AndroidTraining/assets/01-02/sdk-manager2.png" alt="SDK Manager" /></p>
+
+<p>チェックし終わったら、右下の Apply ボタンを押下します。
+ライセンスに同意できるかの確認ダイアログが表示されるので、 <strong>ライセンスの種別ごとに</strong> それぞれAccept License を選択し、Install ボタンを押下します。</p>
+
+<p>インストールが始まると、ログのコンソールが表示されます。
+まれに、TimeOut が発生して正常にインストールが出来ない場合がありますので、一度に全てをインストールせず、小分けにしてインストールすることをお奨めします。</p>
+
+<p>また<code class="highlighter-rouge">Google APIs</code>をインストールするには同じダイアログの左下にある、 <code class="highlighter-rouge">Launch Standalone SDK Manager</code> をクリックし、Standalone SDK Managerを起動します。<br />
+すると各Android バージョンごとにパッケージの一覧が表示されますので、必要な分だけ、Google APIsを選択し、右下のInstallボタンを押してインストールを進めてください。</p>
+
+<p><img src="/AndroidTraining/assets/01-02/sdk-manager3.png" alt="SDK Manager" /></p>
+
+<p>インストールが終わったら、ひと通りの開発環境のセットアップは終了です。</p>
+
+<h2 id="device-and-emulator">実行環境について</h2>
+
+<p>Androidアプリの実行には大きくわけて2つ選択肢があります。その時々で状況が変化する可能性があるので、詳細の説明はここでは行いません。2016年6月時点での状況を簡単に説明します。</p>
+
+<p>それぞれに特徴があるので、実際には用途に応じて、使い分けが必要です。普段の開発には高速なGenymotionなどが便利ですが、端末依存の問題解決をするために実機でのインストール必要があったり、高速なエミュレータで普段開発していると、いざ実機にインストールしてみて初めて動作の重さに気付く、という事もあります。</p>
+
+<p>画面の使い勝手や動作の快適さを確認する時はなるべく実機での動作確認を心掛けましょう。</p>
+
+<h3 id="android">1.Android端末実機での実行</h3>
+
+<p>Macで開発する場合は一番手っとり早く、問題が少ない方法です。</p>
+
+<p>はじめて開発に利用するAndroid4.2以降の端末の場合、端末側で設定を行う必要があるので、<a href="https://www.google.co.jp/webhp?sourceid=chrome-instant&amp;ion=1&amp;espv=2&amp;ie=UTF-8#q=android%20%E9%96%8B%E7%99%BA%E8%80%85%E3%82%AA%E3%83%97%E3%82%B7%E3%83%A7%E3%83%B3%20%E8%A8%AD%E5%AE%9A">「Android 開発者オプション 設定」で検索してみてください。</a></p>
+
+<p>「開発者オプション」が表示されたら、USBデバッグにチェックを入れて、実機をUSBでPCと接続すればアプリをインストール可能になります。</p>
+
+<p>ただしwindows pcを利用する場合は、pc側に利用する端末のドライバをインストールする必要があります。</p>
+
+<h3 id="section-1">2.純正エミュレータでの実行</h3>
+
+<p>エミュレータにもいくつか種類があり、大きくわけてx86とARMの2種類のアーキテクチャがあります。Android Studioではデフォルトでx86アーキテクチャのエミュレータがインストールされているはずなので、それを利用すれば大丈夫です。実機を利用する場合に比べて、USBでapkを転送する手間が無い分、インストールが高速に行えます。</p>
+
+<h2 id="prepare-emulator">エミュレータの準備</h2>
+
+<p>手元に開発用のAndroid端末がすぐに用意出来ない場合は以下の手順でエミュレータを準備しましょう。実機がある人はスキップしてください。</p>
+
+<p>エミュレータを用意するにはまずAndroid Studio上部のツールバーから、AVD Managerのアイコンをクリックします。</p>
+
+<p><img src="/AndroidTraining/assets/01-02/emulator1.png" alt="AVD Manager" /></p>
+
+<p>クリックすると以下のようなAVD Manage のウィンドウが開きます。
+左下の <em>Create Virtual Device</em> ボタンを押しましょう。</p>
+
+<p><img src="/AndroidTraining/assets/01-02/emulator2.png" alt="AVD Manager" /></p>
+
+<p><em>Create Virtual Device</em> ボタンを押すと画面サイズの設定を聞かれるので、好きなサイズを選び、 <em>Next</em> ボタンを押しましょう。</p>
+
+<p><img src="/AndroidTraining/assets/01-02/emulator3.png" alt="AVD Manager" /></p>
+
+<p>次にOSバージョンを選びます。Lollipop(Android 5系)やKitkat(Android 4.4)を利用したい場合は横にある <em>Download</em> リンクを押すと自動でダウンロードして選択できるようになります。 <br />
+ABIという欄に <em>x86</em> や <em>x86_64</em> などありますが、これはCPUの命令セットの種別です。本トレーニング資料では、CPUのアーキテクチャに影響を受ける内容は含まれていませんので、どちらを選んでも大丈夫です。<br />
+手元の開発マシンが今時の64bit CPUを積んだマシンであれば、 <em>x86_64</em> を選ぶと良いでしょう。その場合も <em>x86</em> を選択したからと言って、問題が起こるわけではありません。</p>
+
+<p><img src="/AndroidTraining/assets/01-02/emulator4.png" alt="AVD Manager" /></p>
+
+<p>最後にエミュレータの名前を付けて終了です。</p>
+
+<p><img src="/AndroidTraining/assets/01-02/emulator5.png" alt="AVD Manager" /></p>
+
+          </section>
+        </div>
+
+        <!-- FOOTER  -->
+        <div id="footer_wrap" class="outer">
+          <footer class="inner">
+  <p class="license">Portions of this page are reproduced from work created and <a href="https://code.google.com/p/android/">shared by the Android Open Source Project</a> and used according to terms described in the <a href="http://creativecommons.org/licenses/by/2.5/">Creative Commons2.5 Attribution License</a>.</p>
+  <p class="license">
+  This work is licensed under a <a rel="license" itemprop="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. 
+  <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+  </p>
+  <p class="copyright">Androidtraining maintained by <a href="https://github.com/mixi-inc" itemprop="author">mixi-inc</a></p>
+  <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+
+</footer>
+
+        </div>
+      </paper-scroll-header-panel>
+    </paper-drawer-panel>
+    <script>
+        // custom transformation: scale header's title
+        var title = document.querySelectorAll('.title')[2];
+        addEventListener('paper-header-transform', function(e) {
+            var d = e.detail;
+            var m = d.height - d.condensedHeight;
+            var scale = Math.max(0.75, (m - d.y) / (m / 0.25)  + 0.75);
+
+            Polymer.Base.transform('scale(' + scale + ') translateZ(0)', title);
+        });
+
+    </script>
+</body>
+</html>

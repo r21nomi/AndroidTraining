@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="この章では、Android でのデータベース、特に SQLite3 と ContentProvider について解説します。" />
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <!-- ogp for twitter -->
+    <meta content="@mixi_engineers" name="twitter:site" />
+    <meta content="summary" name="twitter:card" />
+    
+    <meta content="データベース - r21nomi/AndroidTraining" name="twitter:title" />
+    
+    <meta content="この章では、Android でのデータベース、特に SQLite3 と ContentProvider について解説します。" name="twitter:description" />
+    <meta content="/assets/logo.png" name="twitter:image:src" />
+    <!-- ogp -->
+    <meta content="r21nomi/AndroidTraining" property="og:site_name" />
+    <meta content="article" property="og:type" />
+    <meta content="/assets/logo.png" property="og:image" />
+    
+    <meta content="データベース - r21nomi/AndroidTraining" name="og:title" />
+    
+    <meta content="/fundamentals/2.10.database.html" property="og:url" />
+    <meta content="この章では、Android でのデータベース、特に SQLite3 と ContentProvider について解説します。" property="og:description" />
+    
+    <meta name="keyword" content="android, training, 基礎, スキル, 開発, developer, プログラミング, データベース, SQLite" />
+    
+
+    <meta name="go-import" content="github.com/mixi-inc/AndroidTraining git https://github.com/mixi-inc/AndroidTraining.git">
+    <script src="/AndroidTraining/bower_components/webcomponentsjs/webcomponents.js"></script>
+    
+    <link rel="stylesheet" type="text/css" media="screen" href="/AndroidTraining/stylesheets/main.css">
+    <link rel="shortcut icon" href="/AndroidTraining/assets/favicon.ico" />
+    <link rel="import" href="/AndroidTraining/bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-drawer-panel/paper-drawer-panel.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-header-panel/paper-header-panel.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-toolbar/paper-toolbar.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-menu/paper-menu.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-item/paper-item.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-icon-button/paper-icon-button.html">
+    <link rel="import" href="/AndroidTraining/bower_components/iron-icons/iron-icons.html">
+    <style is="custom-style">
+        paper-scroll-header-panel:not([style-scope]):not(.style-scope) {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        paper-toolbar.tall .bottom:not([style-scope]):not(.style-scope) {
+            font-size: 40px;
+            margin-left: 60px;
+
+            -webkit-transform-origin: left center;
+            transform-origin: left center;
+        }
+
+        .content:not([style-scope]):not(.style-scope) {
+            padding: 8px;
+        }
+
+        .spacer:not([style-scope]):not(.style-scope) {
+            -ms-flex: 1 1 0.000000001px;
+            -webkit-flex: 1;
+            flex: 1;
+            -webkit-flex-basis: 0.000000001px;
+            flex-basis: 0.000000001px;
+        }
+
+    </style>
+    <title>データベース - r21nomi/AndroidTraining</title>
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-50931519-13', 'auto');
+    ga('send', 'pageview');
+    </script>
+  </head>
+
+  <body itemscope itemtype="http://schema.org/Article" fullbleed layout vertical>
+
+    <paper-drawer-panel selected="main" >
+      <!-- MENU -->
+      <paper-header-panel mode="seamed" drawer class="drawer">
+        <nav>
+    <ol class="chapter_navigation">
+        <a href="/AndroidTraining/">Home</a>
+        <li>まえがき</li>
+        <ol class="section_navigation">
+            
+            
+            <li><a href="/AndroidTraining/introductions/1.01.about-android-os.html">Android-OSについて</a></li>
+            
+            <li><a href="/AndroidTraining/introductions/1.02.prepare-for-development.html">開発環境の準備</a></li>
+            
+            <li><a href="/AndroidTraining/introductions/1.03.create-project-for-android-studio.html">プロジェクトの作成</a></li>
+            
+            <li><a href="/AndroidTraining/introductions/1.04.basic-knowledge.html">Androidの基礎知識</a></li>
+            
+            <li><a href="/AndroidTraining/introductions/1.05.how-to-build-for-gradle.html">Android のビルドについて(Gradle)</a></li>
+            
+        </ol>
+        <li>基礎編</li>
+        <ol class="section_navigation">
+            
+            
+            <li><a href="/AndroidTraining/fundamentals/2.01.create-layout.html">アプリのレイアウト作成</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.02.activity-and-fragment.html">ActivityとFragment</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.03.application-resource-management.html">アプリのリソース管理</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.04.messaging-and-notification.html">メッセージングと通知</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.05.actionbar-and-interaction-control.html">ActionBarとインタラクション制御</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.06.listView-and-viewPager.html">ListViewとViewPager</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.07.serialize-and-collection-and-perpetuation.html">直列化とコレクション、永続化</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.08.async-processing.html">非同期処理</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.09.network-access.html">ネットワーク通信</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.10.database.html">データベース</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.11.testing-for-android-studio.html">テスト(AndroidStudio)</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.11.testing.html">テスト</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.12.handler-and-looper.html">HandlerとLooper</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.13.webView.html">WebView</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.14.accountmanager.html">AccountManager</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.15.advance-contentprovider.html">ContentProviderの発展</a></li>
+            
+        </ol>
+        <li>実務編</li>
+        <ol class="section_navigation">
+            
+            
+            <li><a href="/AndroidTraining/advanced/3.01.build-for-eclipse.html">デバッグと自動ビルド(Eclipse)</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.01.build-for-gradle.html">自動ビルド(Android Studio)</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.02.architecture-and-di.html">アーキテクチャ設計と DI</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.03.advanced-layout.html">続・アプリのレイアウト作成</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.04.user-interface.html">ユーザインタフェース設計</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.05.security.html">セキュリティ</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.06.google-api.html">Google API</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.07.google-play-services.html">Google Play Services</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.08.cloud-sync.html">クラウド同期</a></li>
+            
+        </ol>
+        <li>デザイナー編</li>
+        <ol>
+        </ol>
+    </ol>
+    <ol class="appex_navigation">
+        <li>付録</li>
+        <ol class="section_navigation">
+            
+            
+            <li><a href="/AndroidTraining/appendix/A.01.import-from-git-for-eclipse.html">Git リポジトリからのプロジェクトのインポート</a></li>
+            
+            <li><a href="/AndroidTraining/appendix/A.02.basic-java.html">Java の文法の基礎</a></li>
+            
+            <li><a href="/AndroidTraining/appendix/A.03.how-to-create-avd.html">仮想デバイスの作成</a></li>
+            
+            <li><a href="/AndroidTraining/appendix/A.04.advanced-java.html">Javaの活用</a></li>
+            
+        </ol>
+    </ol>
+</nav>
+
+      </paper-header-panel>
+      <paper-scroll-header-panel main condenses>
+        <!-- HEADER -->
+        <paper-toolbar class="mainheader tall" role="toolbar">
+    <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+
+    <span class="title"></span>
+
+    <a id="forkme_banner" href="https://github.com/mixi-inc/AndroidTraining" role="button">
+        <paper-icon-button src="/AndroidTraining/images/blacktocat.png"></paper-icon-button> <span>View on GitHub</span>
+    </a>
+
+    <div class="middle title">r21nomi/AndroidTraining</div>
+    <div class="bottom title">データベース</div>
+</paper-toolbar>
+
+
+<div id="description" itemprop="description">この章では、Android でのデータベース、特に SQLite3 と ContentProvider について解説します。</div>
+
+
+
+        <!-- MAIN CONTENT -->
+        <div id="main_content_wrap" class="content outer" itemprop="articleBody">
+          <section id="main_content" class="inner">
+            <p>参考：<a href="http://developer.android.com/guide/topics/data/data-storage.html#db">Using Databases | Android Developers</a><br />
+参考：<a href="http://developer.android.com/training/basics/data-storage/databases.html">Saving Data in SQL Databases | Android Developers</a><br />
+参考：<a href="http://developer.android.com/guide/topics/providers/content-providers.html">Content Providers | Android Developers</a></p>
+
+<h2 id="section">目次</h2>
+
+<ul>
+  <li><a href="#SQLite3Database">SQLite3Database</a>
+    <ul>
+      <li><a href="#データベースを作成する（SQLiteOpenHelper）">データベースを作成する（SQLiteOpenHelper）</a></li>
+      <li><a href="#データベースの操作（SQLiteDatabase）">データベースの操作（SQLiteDatabase）</a></li>
+      <li><a href="#取得したデータを ListView に表示（CursorAdapter）">取得したデータを ListView に表示（CursorAdapter）</a></li>
+    </ul>
+  </li>
+  <li><a href="#ContentProvider">ContentProvider</a>
+    <ul>
+      <li><a href="#ContentProviderの作成">ContentProviderの作成</a></li>
+      <li><a href="#ContentProviderの使用">ContentProviderの使用</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="sqlite3database">SQLite3Database</h2>
+<p>Android では、SQLiteを使用します。<br />
+SQLiteはサーバー処理を必要としない軽量なトランザクションデーターベースです。<br />
+SQLiteでは以下のデータ型がサポートされています。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>型</th>
+      <th>説明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>INTEGER</td>
+      <td>符号付整数</td>
+    </tr>
+    <tr>
+      <td>REAL</td>
+      <td>浮動小数点数</td>
+    </tr>
+    <tr>
+      <td>TEXT</td>
+      <td>テキスト</td>
+    </tr>
+    <tr>
+      <td>BLOB</td>
+      <td>Binary Large OBject、バイナリ</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="sqliteopenhelper">データベースを作成する（SQLiteOpenHelper）</h4>
+<p>SQLiteOpenHelper クラスは、データベースの作成とバージョン管理を行います。<br />
+使用するには SQLiteOpenHelper クラスを継承した独自クラスを作成し、onCreate() メソッドと onUpgrade() メソッドを override します。</p>
+
+<p>onCreate() メソッドはテーブル生成コマンドを実行する役割となっており、アプリケーションの初回起動時に自動的に呼び出されます。<br />
+但し、この時点ではsqliteファイルの実態は存在しません。データベースに対してinsertといった処理を実行したときにsqliteファイルは生成されます。<br />
+（sqlieファイルは data/data/packagename/databases 配下に生成されます）<br />
+onUpgrade() メソッドはデーターベースのマイグレーション処理などを行なう際に使用されます。 
+データーベースのバージョン が既に保持しているデーターベースのものと異なる場合に呼び出されます。</p>
+
+<p>今回のサンプルでは以下のテーブル構成を実装していきます。</p>
+
+<p>DB名:sample<br />
+テーブル名:book</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>カラム名</th>
+      <th>内容</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>_id</td>
+      <td>プライマリーキー</td>
+    </tr>
+    <tr>
+      <td>title</td>
+      <td>テキスト型 null禁止</td>
+    </tr>
+    <tr>
+      <td>publisher</td>
+      <td>テキスト型</td>
+    </tr>
+    <tr>
+      <td>price</td>
+      <td>テキスト型</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th>_id</th>
+      <th>title</th>
+      <th>publisher</th>
+      <th>price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>TITLE1</td>
+      <td>PUBLISHER1</td>
+      <td>PRICE1</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>TITLE2</td>
+      <td>PUBLISHER2</td>
+      <td>PRICE2</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>TITLE3</td>
+      <td>PUBLISHER3</td>
+      <td>PRICE3</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>BookOpenHelper.java</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BookOpenHelper</span> <span class="kd">extends</span> <span class="n">SQLiteOpenHelper</span> <span class="o">{</span>
+
+    <span class="c1">// データーベースのバージョン</span>
+    <span class="c1">// データベーススキーマを変える場合は、バージョンを上げること</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">DATABASE_VERSION</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">DATABASE_NAME</span> <span class="o">=</span> <span class="s">"Sample.db"</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">BOOK_TABLE_CREATE</span> <span class="o">=</span>
+            <span class="s">"CREATE TABLE "</span> <span class="o">+</span> <span class="n">Book</span><span class="o">.</span><span class="na">BOOK_TABLE_NAME</span> <span class="o">+</span> <span class="s">" ("</span> <span class="o">+</span>
+                    <span class="n">Book</span><span class="o">.</span><span class="na">_ID</span> <span class="o">+</span> <span class="s">" INTEGER PRIMARY KEY,"</span> <span class="o">+</span>
+                    <span class="n">Book</span><span class="o">.</span><span class="na">COLUMN_NAME_BOOK_TITLE</span> <span class="o">+</span> <span class="s">" TEXT NOT NULL, "</span> <span class="o">+</span>
+                    <span class="n">Book</span><span class="o">.</span><span class="na">COLUMN_NAME_BOOK_PUBLISHER</span> <span class="o">+</span> <span class="s">" TEXT, "</span> <span class="o">+</span>
+                    <span class="n">Book</span><span class="o">.</span><span class="na">COLUMN_NAME_BOOK_PRICE</span> <span class="o">+</span> <span class="s">" TEXT);"</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">BOOK_TABLE_DELETE</span> <span class="o">=</span>
+            <span class="s">"DROP TABLE IF EXISTS "</span> <span class="o">+</span> <span class="n">Book</span><span class="o">.</span><span class="na">BOOK_TABLE_NAME</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">BookOpenHelper</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// データベース名、バージョンを指定する</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">DATABASE_NAME</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="n">DATABASE_VERSION</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">SQLiteDatabase</span> <span class="n">db</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// テーブル作成</span>
+        <span class="n">db</span><span class="o">.</span><span class="na">execSQL</span><span class="o">(</span><span class="n">BOOK_TABLE_CREATE</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onUpgrade</span><span class="o">(</span><span class="n">SQLiteDatabase</span> <span class="n">db</span><span class="o">,</span> <span class="kt">int</span> <span class="n">oldVersion</span><span class="o">,</span> <span class="kt">int</span> <span class="n">newVersion</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// ここでアップデート条件を判定する</span>
+        <span class="n">db</span><span class="o">.</span><span class="na">execSQL</span><span class="o">(</span><span class="n">BOOK_TABLE_DELETE</span><span class="o">);</span>
+        <span class="n">onCreate</span><span class="o">(</span><span class="n">db</span><span class="o">);</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre>
+</div>
+<p>Book.java</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Book</span> <span class="kd">implements</span> <span class="n">BaseColumns</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">BOOK_TABLE_NAME</span> <span class="o">=</span> <span class="s">"book"</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">COLUMN_NAME_BOOK_TITLE</span> <span class="o">=</span> <span class="s">"title"</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">COLUMN_NAME_BOOK_PUBLISHER</span> <span class="o">=</span> <span class="s">"publisher"</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">COLUMN_NAME_BOOK_PRICE</span> <span class="o">=</span> <span class="s">"price"</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">mTitle</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">mPublisher</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">mPrice</span><span class="o">;</span>
+
+    <span class="err">・・・以下アクセッサのため省略</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+<p>上記例ではテーブル名とカラム名をエンティティクラスに定義しています。<br />
+その際に BaseColumns クラスを implements しています。<br />
+BaseColumns クラスには 基本的な　Column 名があらかじめ定義されているためです。</p>
+
+<p>また、Androidではユニークな自動インクリメントIDを使用することを推奨しています。これは、プライベートデータには必要ありませんが、ListView 、 CursorAdapter 、 ContentProvider を使用する場合には含める必要があります。そのため実質必須のものと考えて良いです。<br />
+ユニークIDは先ほどのBaseColumns クラスに _ID として用意されています。</p>
+
+<h4 id="sqlitedatabase-">データベースの操作（SQLiteDatabase） 　</h4>
+<p>SQLiteDatabaseは読み込み、書き込みといったデータベースの操作をおこないます。<br />
+SQLiteDatabase オブジェクトは SQLiteOpenHelper クラスの getWritableDatabase() と getReadableDatabase() メソッドから取得することができます。<br />
+##### Insert<br />
+SQLiteDatabase オブジェクトの insert() メソッドを使用します。
+ContentValues オブジェクトを介してデーターベースに insert を行います。<br />
+ContentValues は key（列名）value（列の値）形式でマッピングしてデータを保持します。</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>        <span class="c1">// 書き込み用のSQLiteDatabaseを取得</span>
+        <span class="n">SQLiteDatabase</span> <span class="n">db</span> <span class="o">=</span> <span class="n">bookOpenHelper</span><span class="o">.</span><span class="na">getWritableDatabase</span><span class="o">();</span>
+        
+        <span class="n">ContentValues</span> <span class="n">values</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ContentValues</span><span class="o">();</span>
+        <span class="n">values</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">Book</span><span class="o">.</span><span class="na">COLUMN_NAME_BOOK_TITLE</span><span class="o">,</span> <span class="s">"TITLE1"</span><span class="o">);</span>
+        <span class="n">values</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">Book</span><span class="o">.</span><span class="na">COLUMN_NAME_BOOK_PUBLISHER</span><span class="o">,</span> <span class="s">"PUBLISHER1"</span><span class="o">);</span>
+        <span class="n">values</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">Book</span><span class="o">.</span><span class="na">COLUMN_NAME_BOOK_PRICE</span><span class="o">,</span> <span class="s">"PRICE1"</span><span class="o">);</span>
+
+        <span class="c1">// 戻り値はRowID（_ID）</span>
+        <span class="c1">// エラーの場合は-1になる</span>
+        <span class="kt">long</span> <span class="n">rowId</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="na">insert</span><span class="o">(</span><span class="n">Book</span><span class="o">.</span><span class="na">BOOK_TABLE_NAME</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="n">values</span><span class="o">);</span>
+</code></pre>
+</div>
+
+<h5 id="read">Read</h5>
+<p>SQLiteDatabase オブジェクトの query() メソッドを使用します。</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>        <span class="c1">// 読み込み用のSQLiteDatabaseを取得</span>
+        <span class="n">SQLiteDatabase</span> <span class="n">db</span> <span class="o">=</span> <span class="n">bookOpenHelper</span><span class="o">.</span><span class="na">getReadableDatabase</span><span class="o">();</span>
+
+        <span class="c1">// 取得する情報を指定</span>
+        <span class="n">String</span><span class="o">[]</span> <span class="n">projection</span> <span class="o">=</span> <span class="o">{</span>
+                <span class="n">Book</span><span class="o">.</span><span class="na">_ID</span><span class="o">,</span>
+                <span class="n">Book</span><span class="o">.</span><span class="na">COLUMN_NAME_BOOK_TITLE</span><span class="o">,</span>
+                <span class="n">Book</span><span class="o">.</span><span class="na">COLUMN_NAME_BOOK_PUBLISHER</span><span class="o">,</span>
+                <span class="n">Book</span><span class="o">.</span><span class="na">COLUMN_NAME_BOOK_PRICE</span>
+        <span class="o">};</span>
+
+        <span class="c1">// 条件を指定</span>
+        <span class="n">String</span> <span class="n">selection</span> <span class="o">=</span> <span class="n">Book</span><span class="o">.</span><span class="na">COLUMN_NAME_BOOK_PRICE</span> <span class="o">+</span> <span class="s">" = ?"</span><span class="o">;</span>
+        <span class="n">String</span><span class="o">[]</span> <span class="n">selectionArgs</span> <span class="o">=</span> <span class="o">{</span>
+                <span class="s">"PRICE1"</span>
+        <span class="o">};</span>
+
+        <span class="n">Cursor</span> <span class="n">cursor</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="na">query</span><span class="o">(</span><span class="n">Book</span><span class="o">.</span><span class="na">BOOK_TABLE_NAME</span><span class="o">,</span> <span class="n">projection</span><span class="o">,</span> <span class="n">selection</span><span class="o">,</span> <span class="n">selectionArgs</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+        <span class="kt">boolean</span> <span class="n">moveToFirst</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="na">moveToFirst</span><span class="o">();</span>
+        <span class="kt">long</span> <span class="n">itemId</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="na">getLong</span><span class="o">(</span><span class="n">cursor</span><span class="o">.</span><span class="na">getColumnIndexOrThrow</span><span class="o">(</span><span class="n">Book</span><span class="o">.</span><span class="na">_ID</span><span class="o">));</span>
+</code></pre>
+</div>
+<p>query メソッドの戻り値は Cursor クラスとして返却されます。<br />
+Cursor クラスは検索結果のインタフェースであり、カーソルを移動させるには move メソッド群を使用します。<br />
+大抵の場合、検索結果の1番目データを読み込み開始位置とするため moveToFirst ()メソッドを呼びます。これにより読み込み開始位置が1件目のデータとなります。 
+cursor がからの場合、moveToFirst ()メソッドの戻り値は false となります。</p>
+
+<p>cursor からデータを取得するには、カラムのindexを引数としたgetメソッド群を使用します。 
+上記例では getColumnIndexOrThrow メソッドを使用し、カラム名(Book._ID)に該当するindexの値を取得し、getLong メソッドからBook._IDの値を取得してます。<br />
+必要な処理が終了したら、cursor の close メソッドを呼び出し、 cursor を閉じます。</p>
+
+<h5 id="update">Update</h5>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>        <span class="n">SQLiteDatabase</span> <span class="n">db</span> <span class="o">=</span> <span class="n">bookOpenHelper</span><span class="o">.</span><span class="na">getWritableDatabase</span><span class="o">();</span>
+
+        <span class="c1">// update情報を設定する</span>
+        <span class="n">ContentValues</span> <span class="n">values</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ContentValues</span><span class="o">();</span>
+        <span class="n">values</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">Book</span><span class="o">.</span><span class="na">COLUMN_NAME_BOOK_TITLE</span><span class="o">,</span> <span class="s">"NEW_TITLE"</span><span class="o">);</span>
+
+        <span class="c1">// 条件を指定</span>
+        <span class="n">String</span> <span class="n">selection</span> <span class="o">=</span> <span class="n">Book</span><span class="o">.</span><span class="na">COLUMN_NAME_BOOK_TITLE</span> <span class="o">+</span> <span class="s">" LIKE ?"</span><span class="o">;</span>
+        <span class="n">String</span><span class="o">[]</span> <span class="n">selectionArgs</span> <span class="o">=</span> <span class="o">{</span>
+                <span class="s">"TITLE%"</span>
+        <span class="o">};</span>
+
+        <span class="kt">int</span> <span class="n">updatedCount</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="na">update</span><span class="o">(</span><span class="n">Book</span><span class="o">.</span><span class="na">BOOK_TABLE_NAME</span><span class="o">,</span> <span class="n">values</span><span class="o">,</span> <span class="n">selection</span><span class="o">,</span> <span class="n">selectionArgs</span><span class="o">);</span>
+</code></pre>
+</div>
+
+<h5 id="delete">Delete</h5>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>        <span class="n">SQLiteDatabase</span> <span class="n">db</span> <span class="o">=</span> <span class="n">bookOpenHelper</span><span class="o">.</span><span class="na">getWritableDatabase</span><span class="o">();</span>
+
+        <span class="c1">// 条件を指定</span>
+        <span class="n">String</span> <span class="n">selection</span> <span class="o">=</span> <span class="n">Book</span><span class="o">.</span><span class="na">COLUMN_NAME_BOOK_PRICE</span> <span class="o">+</span> <span class="s">" = ?"</span><span class="o">;</span>
+        <span class="n">String</span><span class="o">[]</span> <span class="n">selectionArgs</span> <span class="o">=</span> <span class="o">{</span>
+                <span class="s">"PRICE1"</span>
+        <span class="o">};</span>
+        <span class="kt">int</span> <span class="n">deletedCount</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="na">delete</span><span class="o">(</span><span class="n">Book</span><span class="o">.</span><span class="na">BOOK_TABLE_NAME</span><span class="o">,</span> <span class="n">selection</span><span class="o">,</span> <span class="n">selectionArgs</span><span class="o">);</span>
+</code></pre>
+</div>
+<p>##### Transaction<br />
+SQLiteDatabase は Transaction 管理もサポートしています。</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>        <span class="n">SQLiteDatabase</span> <span class="n">db</span> <span class="o">=</span> <span class="n">bookOpenHelper</span><span class="o">.</span><span class="na">getWritableDatabase</span><span class="o">();</span>
+        <span class="n">db</span><span class="o">.</span><span class="na">beginTransaction</span><span class="o">();</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="n">ContentValues</span> <span class="n">values</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ContentValues</span><span class="o">();</span>
+                <span class="n">values</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">Book</span><span class="o">.</span><span class="na">COLUMN_NAME_BOOK_TITLE</span><span class="o">,</span> <span class="s">"TITLE"</span> <span class="o">+</span> <span class="n">i</span><span class="o">);</span>
+                <span class="n">values</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">Book</span><span class="o">.</span><span class="na">COLUMN_NAME_BOOK_PUBLISHER</span><span class="o">,</span> <span class="s">"PUBLISHER"</span> <span class="o">+</span> <span class="n">i</span><span class="o">);</span>
+                <span class="n">values</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">Book</span><span class="o">.</span><span class="na">COLUMN_NAME_BOOK_PRICE</span><span class="o">,</span> <span class="s">"PRICE"</span> <span class="o">+</span> <span class="n">i</span><span class="o">);</span>
+                <span class="n">db</span><span class="o">.</span><span class="na">insert</span><span class="o">(</span><span class="n">Book</span><span class="o">.</span><span class="na">BOOK_TABLE_NAME</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="n">values</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="n">db</span><span class="o">.</span><span class="na">setTransactionSuccessful</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+            <span class="n">db</span><span class="o">.</span><span class="na">endTransaction</span><span class="o">();</span>
+        <span class="o">}</span>
+</code></pre>
+</div>
+<p>setTransactionSuccessful メソッドは実行しているTransactionを成功したものとしてマークします。実行スレッドのトランザクション内でない場合、または既にマークされている場合は IllegalStateException が発生します。<br />
+トランザクションが setTransactionSuccessful メソッドを呼び出してマークされずに終了した場合、変更はロールバックされます。されている場合はコミットされます。</p>
+
+<h4 id="listview-cursoradapter-">取得したデータを ListView に表示（CursorAdapter） 　</h4>
+<p>CursorAdapter クラスはデータベースから取得したデータとListViewを紐付けるものです。<br />
+CursorAdapter を容易に実装できるクラスとして　SimpleCursorAdapter　が提供されています。 <br />
+今回は　SimpleCursorAdapter　を使用してデータの表示を行います。 <br />
+MainActivity.java</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
+        <span class="n">setContentView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_main</span><span class="o">);</span>
+
+        <span class="n">mBookOpenHelper</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BookOpenHelper</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+        <span class="n">ListView</span> <span class="n">listView</span> <span class="o">=</span> <span class="o">(</span><span class="n">ListView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">ListView</span><span class="o">);</span>
+
+        <span class="c1">// データを取得</span>
+        <span class="n">mCursor</span> <span class="o">=</span> <span class="n">read</span><span class="o">(</span><span class="n">mBookOpenHelper</span><span class="o">);</span>
+        <span class="c1">// UIにバインドするデータのカラム名</span>
+        <span class="n">String</span><span class="o">[]</span> <span class="n">from</span> <span class="o">=</span> <span class="o">{</span>
+                <span class="n">Book</span><span class="o">.</span><span class="na">COLUMN_NAME_BOOK_TITLE</span><span class="o">,</span> <span class="n">Book</span><span class="o">.</span><span class="na">COLUMN_NAME_BOOK_PRICE</span>
+        <span class="o">};</span>
+        <span class="c1">// 指定したカラムのデータを表示するViewのIDを指定します。</span>
+        <span class="kt">int</span><span class="o">[]</span> <span class="n">to</span> <span class="o">=</span> <span class="o">{</span>
+                <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">Title</span><span class="o">,</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">Price</span>
+
+        <span class="o">};</span>
+        <span class="c1">// 第2引数 リストに表示するレイアウトファイル</span>
+        <span class="c1">// 第3引数 データベースから取得してきたCursorを指定します</span>
+        <span class="c1">// 第4引数 UIにバインドするデータのカラム名を指定します</span>
+        <span class="c1">// 第5引数 第4引数で指定したカラムのデータを表示するViewのIDを指定します。</span>
+        <span class="c1">// また、第4引数の配列の並び順とViewIDの並び順は対応させる必要があります。</span>
+        <span class="c1">// 第6引数 Adapterの振る舞いを指定します。</span>
+        <span class="n">mSimpleCursorAdapter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SimpleCursorAdapter</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">list_item_book</span><span class="o">,</span> <span class="n">mCursor</span><span class="o">,</span> <span class="n">from</span><span class="o">,</span> <span class="n">to</span><span class="o">,</span> <span class="n">CursorAdapter</span><span class="o">.</span><span class="na">FLAG_REGISTER_CONTENT_OBSERVER</span><span class="o">);</span>
+
+        <span class="n">listView</span><span class="o">.</span><span class="na">setAdapter</span><span class="o">(</span><span class="n">mSimpleCursorAdapter</span><span class="o">);</span>
+
+        <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">Add</span><span class="o">).</span><span class="na">setOnClickListener</span><span class="o">(</span><span class="k">new</span> <span class="n">OnClickListener</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">View</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">insert</span><span class="o">(</span><span class="n">mBookOpenHelper</span><span class="o">);</span>
+                <span class="c1">// データを再読み込みしてListの表示を最新のものにします</span>
+                <span class="n">mSimpleCursorAdapter</span><span class="o">.</span><span class="na">getCursor</span><span class="o">().</span><span class="na">requery</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">});</span>
+
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">insert</span><span class="o">(</span><span class="n">BookOpenHelper</span> <span class="n">bookOpenHelper</span><span class="o">)</span> <span class="o">{</span>
+
+        <span class="n">SQLiteDatabase</span> <span class="n">db</span> <span class="o">=</span> <span class="n">bookOpenHelper</span><span class="o">.</span><span class="na">getWritableDatabase</span><span class="o">();</span>
+
+        <span class="n">ContentValues</span> <span class="n">values</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ContentValues</span><span class="o">();</span>
+        <span class="n">values</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">Book</span><span class="o">.</span><span class="na">COLUMN_NAME_BOOK_TITLE</span><span class="o">,</span> <span class="s">"TITLE1"</span><span class="o">);</span>
+        <span class="n">values</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">Book</span><span class="o">.</span><span class="na">COLUMN_NAME_BOOK_PUBLISHER</span><span class="o">,</span> <span class="s">"PUBLISHER1"</span><span class="o">);</span>
+        <span class="n">values</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">Book</span><span class="o">.</span><span class="na">COLUMN_NAME_BOOK_PRICE</span><span class="o">,</span> <span class="s">"PRICE1"</span><span class="o">);</span>
+
+        <span class="n">db</span><span class="o">.</span><span class="na">insert</span><span class="o">(</span><span class="n">Book</span><span class="o">.</span><span class="na">BOOK_TABLE_NAME</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="n">values</span><span class="o">);</span>
+    <span class="o">}</span>
+
+
+    <span class="kd">private</span> <span class="n">Cursor</span> <span class="nf">read</span><span class="o">(</span><span class="n">BookOpenHelper</span> <span class="n">bookOpenHelper</span><span class="o">)</span> <span class="o">{</span>
+
+        <span class="n">SQLiteDatabase</span> <span class="n">db</span> <span class="o">=</span> <span class="n">bookOpenHelper</span><span class="o">.</span><span class="na">getReadableDatabase</span><span class="o">();</span>
+
+        <span class="n">String</span><span class="o">[]</span> <span class="n">projection</span> <span class="o">=</span> <span class="o">{</span>
+                <span class="n">Book</span><span class="o">.</span><span class="na">_ID</span><span class="o">,</span>
+                <span class="n">Book</span><span class="o">.</span><span class="na">COLUMN_NAME_BOOK_TITLE</span><span class="o">,</span>
+                <span class="n">Book</span><span class="o">.</span><span class="na">COLUMN_NAME_BOOK_PUBLISHER</span><span class="o">,</span>
+                <span class="n">Book</span><span class="o">.</span><span class="na">COLUMN_NAME_BOOK_PRICE</span>
+        <span class="o">};</span>
+
+        <span class="n">String</span> <span class="n">selection</span> <span class="o">=</span> <span class="n">Book</span><span class="o">.</span><span class="na">COLUMN_NAME_BOOK_PRICE</span> <span class="o">+</span> <span class="s">" = ?"</span><span class="o">;</span>
+        <span class="n">String</span><span class="o">[]</span> <span class="n">selectionArgs</span> <span class="o">=</span> <span class="o">{</span>
+                <span class="s">"PRICE1"</span>
+        <span class="o">};</span>
+
+        <span class="n">Cursor</span> <span class="n">cursor</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="na">query</span><span class="o">(</span><span class="n">Book</span><span class="o">.</span><span class="na">BOOK_TABLE_NAME</span><span class="o">,</span> <span class="n">projection</span><span class="o">,</span> <span class="n">selection</span><span class="o">,</span> <span class="n">selectionArgs</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">cursor</span><span class="o">;</span>
+    <span class="o">}</span>
+
+</code></pre>
+</div>
+<p>list_item_book.xml</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;LinearLayout</span> <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
+    <span class="na">xmlns:tools=</span><span class="s">"http://schemas.android.com/tools"</span>
+    <span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+    <span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+    <span class="na">android:orientation=</span><span class="s">"vertical"</span> <span class="nt">&gt;</span>
+
+    <span class="nt">&lt;TextView</span>
+        <span class="na">android:id=</span><span class="s">"@+id/Title"</span>
+        <span class="na">android:layout_width=</span><span class="s">"wrap_content"</span>
+        <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+        <span class="na">android:text=</span><span class="s">"@string/hello_world"</span> <span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;TextView</span>
+        <span class="na">android:id=</span><span class="s">"@+id/Price"</span>
+        <span class="na">android:layout_width=</span><span class="s">"wrap_content"</span>
+        <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+        <span class="na">android:text=</span><span class="s">"@string/hello_world"</span> <span class="nt">/&gt;</span>
+
+<span class="nt">&lt;/LinearLayout&gt;</span>
+</code></pre>
+</div>
+<p><img src="/AndroidTraining/assets/02-10/simple_cusoradapter.png" alt="simple_cusoradapter" /></p>
+
+<h2 id="contentprovider">ContentProvider</h2>
+<p>ContentProvider は他のアプリケーションに対して、自身のアプリケーションが持つデータを公開する機能を提供します。<br />
+Contacts Provider、Calendar Provider として提供されており、連絡先情報やカレンダー情報をどのアプリからでもアクセスできるようになっています。また、ContentProvider は独自に作成することができます。<br />
+参考：<a href="http://developer.android.com/guide/topics/providers/calendar-provider.html">Calendar Provider | Android Developers</a><br />
+参考：<a href="http://developer.android.com/guide/topics/providers/contacts-provider.html">Contacts Provider | Android Developers</a></p>
+
+<p>ContentProvider はデータ公開といった側面以外でも以下のような利点が考えられるため、利用する価値があります。</p>
+
+<ul>
+  <li>ContentProvider で決められた interface が提供されているため利用側は一定の手順でデータの取得、操作をすることができます。</li>
+  <li>内部は隠蔽されているため、内部実装を変更しても利用側はそのことを意識する必要はありあません。</li>
+  <li>データの変更の監視が容易にできます。</li>
+</ul>
+
+<p>公式ドキュメントでは自身のアプリ内でのみ使用するデータベースの場合は、プロバイダーは必要ないとありますが、適切に公開範囲を指定して運用すれば上記のような利点を得ることができます。<br />
+&gt; You don’t need a provider to use an SQLite database if the use is entirely within your own application.</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>[BeforeYouStart</td>
+      <td>Android Developers](http://developer.android.com/guide/topics/providers/content-provider-creating.html#BeforeYouStart)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>ただし、自身のアプリ内でのみで使用するプライベートな ContentProvider の設定は Android 2.2 以前では有効ではないため注意が必要です。</p>
+
+<h3 id="contentprovider-1">ContentProviderの作成</h3>
+<p>ContentProviderを作成するには以下の手順が必要となります。</p>
+
+<ol>
+  <li>ContentURIの定義</li>
+  <li>独自ContentProviderの作成</li>
+</ol>
+
+<h4 id="contenturi">ContentURIの定義</h4>
+<p>ContentURI はプロバイダ内のデータを識別するためのURIです。データ取得対象となるプロバイダを特定するのに使用します。<br />
+ContentURIは以下のもので構成されます。</p>
+
+<p><strong>Authority</strong> : 一意となる文字列を指定します。ここではコンテンツプロバイダを使用するクラスの完全修飾名を設定します。<br />
+<strong>Path</strong> : アクセスするデータの構造体です。ここではテーブル名を指定します。<br />
+<strong>Scheme</strong> : “content://” 文字列です。コンテンツURIとして識別するために指定します。</p>
+
+<p>Authorityはこのようになります。<br />
+Book.java</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">AUTHORITY</span> <span class="o">=</span> <span class="s">"jp.mixi.sample.contentprovider.Book"</span><span class="o">;</span>
+</code></pre>
+</div>
+<p>ContentURI は Uri 型で定義します。<br />
+Book.java</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Uri</span> <span class="n">CONTENT_URI</span> <span class="o">=</span> <span class="n">Uri</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="s">"content://"</span> <span class="o">+</span> <span class="n">AUTHORITY</span> <span class="o">+</span> <span class="s">"/book"</span><span class="o">);</span>
+</code></pre>
+</div>
+
+<h4 id="contentprovider-2">独自ContentProviderの作成</h4>
+<p>独自 ContentProvider を作成するには ContentProvider クラスを継承し、以下のメソッドを実装する必要があります。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>メソッド名</th>
+      <th>説明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>query</td>
+      <td>プロバイダからデータを取得します。戻り値はCursorです。</td>
+    </tr>
+    <tr>
+      <td>insert</td>
+      <td>プロバイダに新しく行を追加します。戻り値は新たに追加された行のContentURIです。</td>
+    </tr>
+    <tr>
+      <td>update</td>
+      <td>プロバイダの各行を更新します。戻り値は更新した行の数です。</td>
+    </tr>
+    <tr>
+      <td>delete</td>
+      <td>プロバイダから行を削除します。戻り値は削除した行の数です。</td>
+    </tr>
+    <tr>
+      <td>getType</td>
+      <td>ContentURIに対応するMIMEタイプを返します。</td>
+    </tr>
+    <tr>
+      <td>onCreate</td>
+      <td>プロバイダを初期化します。</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>各メソッド内でそれぞれの永続化の処理を実装していきます。</p>
+
+<p>BookContentProvider.java</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BookContentProvider</span> <span class="kd">extends</span> <span class="n">ContentProvider</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="n">BookOpenHelper</span> <span class="n">mBookOpenHelper</span><span class="o">;</span>
+
+    <span class="c1">// 利用者がメソッドを呼び出したURIに対応する処理を判定処理に使用します</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">UriMatcher</span> <span class="n">URI_MATCHER</span><span class="o">;</span>
+    <span class="kd">static</span> <span class="o">{</span>
+        <span class="n">URI_MATCHER</span> <span class="o">=</span> <span class="k">new</span> <span class="n">UriMatcher</span><span class="o">(</span><span class="n">UriMatcher</span><span class="o">.</span><span class="na">NO_MATCH</span><span class="o">);</span>
+        <span class="n">URI_MATCHER</span><span class="o">.</span><span class="na">addURI</span><span class="o">(</span><span class="n">Book</span><span class="o">.</span><span class="na">AUTHORITY</span><span class="o">,</span> <span class="n">Book</span><span class="o">.</span><span class="na">BOOK_TABLE_NAME</span><span class="o">,</span> <span class="n">Book</span><span class="o">.</span><span class="na">BOOK</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">"unused"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">TAG</span> <span class="o">=</span> <span class="n">BookContentProvider</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">();</span>
+
+    <span class="c1">// アプリケーション起動時にメインスレッド上で呼ばれます。そのため、時間がかかる処理は行うのは禁止されています。</span>
+    <span class="c1">// ここで必要な初期化処理を行います。</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">onCreate</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">mBookOpenHelper</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BookOpenHelper</span><span class="o">(</span><span class="n">getContext</span><span class="o">());</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">delete</span><span class="o">(</span><span class="n">Uri</span> <span class="n">uri</span><span class="o">,</span> <span class="n">String</span> <span class="n">selection</span><span class="o">,</span> <span class="n">String</span><span class="o">[]</span> <span class="n">selectionArgs</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">isValidUri</span><span class="o">(</span><span class="n">uri</span><span class="o">);</span>
+
+        <span class="n">SQLiteDatabase</span> <span class="n">db</span> <span class="o">=</span> <span class="n">mBookOpenHelper</span><span class="o">.</span><span class="na">getWritableDatabase</span><span class="o">();</span>
+        <span class="kt">int</span> <span class="n">deletedCount</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="na">delete</span><span class="o">(</span><span class="n">Book</span><span class="o">.</span><span class="na">BOOK_TABLE_NAME</span><span class="o">,</span> <span class="n">selection</span><span class="o">,</span> <span class="n">selectionArgs</span><span class="o">);</span>
+        <span class="c1">// 設定したURIのデータに変更があったことを通知します</span>
+        <span class="n">getContext</span><span class="o">().</span><span class="na">getContentResolver</span><span class="o">().</span><span class="na">notifyChange</span><span class="o">(</span><span class="n">uri</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">deletedCount</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getType</span><span class="o">(</span><span class="n">Uri</span> <span class="n">uri</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// TODO Auto-generated method stub</span>
+        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">Uri</span> <span class="nf">insert</span><span class="o">(</span><span class="n">Uri</span> <span class="n">uri</span><span class="o">,</span> <span class="n">ContentValues</span> <span class="n">values</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">isValidUri</span><span class="o">(</span><span class="n">uri</span><span class="o">);</span>
+
+        <span class="n">SQLiteDatabase</span> <span class="n">db</span> <span class="o">=</span> <span class="n">mBookOpenHelper</span><span class="o">.</span><span class="na">getWritableDatabase</span><span class="o">();</span>
+        <span class="kt">long</span> <span class="n">rowId</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="na">insert</span><span class="o">(</span><span class="n">Book</span><span class="o">.</span><span class="na">BOOK_TABLE_NAME</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="n">values</span><span class="o">);</span>
+        <span class="c1">// 追加された行のURIを生成。content://jp.mixi.sample.contentprovider.Book/book/1</span>
+        <span class="n">Uri</span> <span class="n">insertedUri</span> <span class="o">=</span> <span class="n">ContentUris</span><span class="o">.</span><span class="na">withAppendedId</span><span class="o">(</span><span class="n">uri</span><span class="o">,</span> <span class="n">rowId</span><span class="o">);</span>
+        <span class="c1">// 設定したURIのデータに変更があったことを通知します</span>
+        <span class="n">getContext</span><span class="o">().</span><span class="na">getContentResolver</span><span class="o">().</span><span class="na">notifyChange</span><span class="o">(</span><span class="n">insertedUri</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">insertedUri</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">Cursor</span> <span class="nf">query</span><span class="o">(</span><span class="n">Uri</span> <span class="n">uri</span><span class="o">,</span> <span class="n">String</span><span class="o">[]</span> <span class="n">projection</span><span class="o">,</span> <span class="n">String</span> <span class="n">selection</span><span class="o">,</span> <span class="n">String</span><span class="o">[]</span> <span class="n">selectionArgs</span><span class="o">,</span> <span class="n">String</span> <span class="n">sortOrder</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">isValidUri</span><span class="o">(</span><span class="n">uri</span><span class="o">);</span>
+
+        <span class="n">SQLiteDatabase</span> <span class="n">db</span> <span class="o">=</span> <span class="n">mBookOpenHelper</span><span class="o">.</span><span class="na">getReadableDatabase</span><span class="o">();</span>
+        <span class="c1">// URIからテーブル名を取得</span>
+        <span class="n">String</span> <span class="n">tableName</span> <span class="o">=</span> <span class="n">uri</span><span class="o">.</span><span class="na">getPathSegments</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+        <span class="n">Cursor</span> <span class="n">cursor</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="na">query</span><span class="o">(</span><span class="n">tableName</span><span class="o">,</span> <span class="n">projection</span><span class="o">,</span> <span class="n">selection</span><span class="o">,</span> <span class="n">selectionArgs</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="n">sortOrder</span><span class="o">);</span>
+        <span class="c1">// 設定したURIの変更を監視するように設定</span>
+        <span class="n">cursor</span><span class="o">.</span><span class="na">setNotificationUri</span><span class="o">(</span><span class="n">getContext</span><span class="o">().</span><span class="na">getContentResolver</span><span class="o">(),</span> <span class="n">uri</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">cursor</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">update</span><span class="o">(</span><span class="n">Uri</span> <span class="n">uri</span><span class="o">,</span> <span class="n">ContentValues</span> <span class="n">values</span><span class="o">,</span> <span class="n">String</span> <span class="n">selection</span><span class="o">,</span> <span class="n">String</span><span class="o">[]</span> <span class="n">selectionArgs</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">isValidUri</span><span class="o">(</span><span class="n">uri</span><span class="o">);</span>
+
+        <span class="n">SQLiteDatabase</span> <span class="n">db</span> <span class="o">=</span> <span class="n">mBookOpenHelper</span><span class="o">.</span><span class="na">getWritableDatabase</span><span class="o">();</span>
+        <span class="c1">// URIからテーブル名を取得</span>
+        <span class="n">String</span> <span class="n">tableName</span> <span class="o">=</span> <span class="n">uri</span><span class="o">.</span><span class="na">getPathSegments</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+        <span class="kt">int</span> <span class="n">updatedCount</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="na">update</span><span class="o">(</span><span class="n">tableName</span><span class="o">,</span> <span class="n">values</span><span class="o">,</span> <span class="n">selection</span><span class="o">,</span> <span class="n">selectionArgs</span><span class="o">);</span>
+        <span class="n">getContext</span><span class="o">().</span><span class="na">getContentResolver</span><span class="o">().</span><span class="na">notifyChange</span><span class="o">(</span><span class="n">uri</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">updatedCount</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">// このContentProviderで使用可能なURIかを判定します。</span>
+    <span class="c1">// 使用不可の場合はIllegalArgumentExceptionを投げます。</span>
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">isValidUri</span><span class="o">(</span><span class="n">Uri</span> <span class="n">uri</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">URI_MATCHER</span><span class="o">.</span><span class="na">match</span><span class="o">(</span><span class="n">uri</span><span class="o">)</span> <span class="o">!=</span> <span class="n">Book</span><span class="o">.</span><span class="na">BOOK</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"Unknown URI : "</span> <span class="o">+</span> <span class="n">uri</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre>
+</div>
+<p>UriMatcher クラスは、コンテンツプロバイダのURIのマッチングをサポートするユーティリティクラスです。<br />
+isValidUri では UriMatcher を使用して正しいURIであるかを判定しています。</p>
+
+<h3 id="contentprovider-3">ContentProviderの使用</h3>
+
+<p>ContentProvider を使用するには以下の手順が必要となります。</p>
+
+<ol>
+  <li>AndroidManifest.xml の修正</li>
+  <li>ContentProvider へのアクセス処理の実装</li>
+</ol>
+
+<h4 id="androidmanifestxml-">AndroidManifest.xml の修正</h4>
+<p>ContentProvider は AndroidManifest.xml に定義しないと使用することができません。<br />
+以下のように<code class="highlighter-rouge">application</code>タグ内に定義します。</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code>        <span class="nt">&lt;provider</span>
+            <span class="na">android:name=</span><span class="s">"jp.mixi.sample.contentprovider.BookContentProvider"</span>
+            <span class="na">android:authorities=</span><span class="s">"jp.mixi.sample.contentprovider.Book"</span>
+            <span class="na">android:exported=</span><span class="s">"false"</span> <span class="nt">/&gt;</span>
+</code></pre>
+</div>
+<p><code class="highlighter-rouge">android:name</code>は ContentProvider を継承したサブクラスを指定します。<br />
+<code class="highlighter-rouge">android:authorities</code>は<a href="#ContentURIの定義">ContentURIの定義</a>で定義したものを使用します。<br />
+<code class="highlighter-rouge">android:exported</code>は provider の公開非公開を指定します。<code class="highlighter-rouge">"false"</code>と指定すると、非公開の ContentProvider となり他のアプリから参照できなくなります。デフォルト値は <code class="highlighter-rouge">"true"</code> となっているので、非公開の ContentProvider を作成するときは注意しましょう。</p>
+
+<h4 id="contentprovider-">ContentProvider へのアクセス処理の実装</h4>
+<p>ContentProvider へのアクセスは直接行わず ContentResolver クラスを通じて行います。<br />
+ContentResolver クラスにはデータへの基本的なCRUDメソッドが提供されており、ContentProvider を実装したサブクラスオブジェクトとやり取りをします。<br />
+各メソッドで指定したコンテントURIに関連したContentProviderの各メソッドが適切に呼び出されます。</p>
+
+<h5 id="insert">Insert</h5>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>        <span class="n">ContentValues</span> <span class="n">values</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ContentValues</span><span class="o">();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">values</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
+            <span class="n">values</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">Book</span><span class="o">.</span><span class="na">COLUMN_NAME_BOOK_TITLE</span><span class="o">,</span> <span class="s">"TITLE"</span> <span class="o">+</span> <span class="n">i</span><span class="o">);</span>
+            <span class="n">values</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">Book</span><span class="o">.</span><span class="na">COLUMN_NAME_BOOK_PUBLISHER</span><span class="o">,</span> <span class="s">"PUBLISHER"</span> <span class="o">+</span> <span class="n">i</span><span class="o">);</span>
+            <span class="n">values</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">Book</span><span class="o">.</span><span class="na">COLUMN_NAME_BOOK_PRICE</span><span class="o">,</span> <span class="s">"PRICE"</span> <span class="o">+</span> <span class="n">i</span><span class="o">);</span>
+
+            <span class="n">getContentResolver</span><span class="o">().</span><span class="na">insert</span><span class="o">(</span><span class="n">Book</span><span class="o">.</span><span class="na">CONTENT_URI</span><span class="o">,</span> <span class="n">values</span><span class="o">);</span>
+        <span class="o">}</span>
+</code></pre>
+</div>
+<p>##### Read<br />
+<code class="highlighter-rouge">java
+        Cursor cursor = getContentResolver().query(Book.CONTENT_URI, null, null, null, null);
+        while (cursor.moveToNext()) {
+            Log.d(TAG, cursor.getString(cursor.getColumnIndexOrThrow(Book.COLUMN_NAME_BOOK_TITLE)));
+        }
+        // 処理が完了したらCursorを閉じます
+        cursor.close();
+</code>
+##### Update<br />
+<code class="highlighter-rouge">java
+        ContentValues values = new ContentValues();
+        values.put(Book.COLUMN_NAME_BOOK_PRICE, "PRICE100000");
+        int update = getContentResolver().update(Book.CONTENT_URI, values, null, null);
+        Log.d(TAG, "update count:" + update);
+</code>
+##### Delete<br />
+<code class="highlighter-rouge">java
+        int delete = getContentResolver().delete(Book.CONTENT_URI, null, null);
+        Log.d(TAG, "delete count:" + delete);
+</code></p>
+
+<h4 id="contentprovider-4">ContentProviderの外部アプリからの使用</h4>
+<p>外部アプリから ContentProvider からデータを取得するには以下のようになります。<br />
+ContentProviderCallSample MainActivity#onCreate</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>        <span class="n">Uri</span> <span class="n">uri</span> <span class="o">=</span> <span class="n">Uri</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="s">"content://"</span> <span class="o">+</span> <span class="s">"jp.mixi.sample.contentprovider.Book"</span> <span class="o">+</span> <span class="s">"/book"</span><span class="o">);</span>
+        <span class="n">Cursor</span> <span class="n">cursor</span> <span class="o">=</span> <span class="n">getContentResolver</span><span class="o">().</span><span class="na">query</span><span class="o">(</span><span class="n">uri</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">cursor</span><span class="o">.</span><span class="na">moveToNext</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"call:"</span> <span class="o">+</span> <span class="n">cursor</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="n">cursor</span><span class="o">.</span><span class="na">getColumnIndexOrThrow</span><span class="o">(</span><span class="s">"title"</span><span class="o">)));</span>
+        <span class="o">}</span>
+        <span class="c1">// 処理が完了したらCursorを閉じます</span>
+        <span class="n">cursor</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</code></pre>
+</div>
+<p>呼び出したいContentProvider のURIと取得するデータのパラメータ名（この場合はデータベースのカラム名）がわかっていれば、上記のコードのみで取得することができます。</p>
+
+<p>公開されている ContentProvider を呼び出す側は、AndroidManifest.xml に <code class="highlighter-rouge">provider</code>を記述する必要はありません。</p>
+
+<h4 id="listview-contentprovider--cursoradapter">取得したデータを ListView に表示（ContentProvider と CursorAdapter）</h4>
+<p><strong>取得したデータを ListView に表示（CursorAdapter）</strong>ほどんど同じなため全体のコードは割愛します。<br />
+異なる点としてContentProvider の場合、registerContentObserver でデータ更新時のコールバックを取得することができます。<br />
+ContentProviderLoaderSample MainActivity.java</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>        <span class="kd">final</span> <span class="n">Cursor</span> <span class="n">cursor</span> <span class="o">=</span> <span class="n">getContentResolver</span><span class="o">().</span><span class="na">query</span><span class="o">(</span><span class="n">Book</span><span class="o">.</span><span class="na">CONTENT_URI</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+        <span class="c1">// Cursorのデータが更新されたことを通知する</span>
+        <span class="c1">// ContentProviderでsetNotificationUri()をしないと動作しない</span>
+        <span class="n">cursor</span><span class="o">.</span><span class="na">registerContentObserver</span><span class="o">(</span><span class="k">new</span> <span class="n">ContentObserver</span><span class="o">(</span><span class="k">new</span> <span class="n">Handler</span><span class="o">())</span> <span class="o">{</span>
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onChange</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">selfChange</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">cursor</span><span class="o">.</span><span class="na">requery</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">});</span>
+</code></pre>
+</div>
+
+<h4 id="cursorloader">CursorLoader</h4>
+<p>データベースからのデータの読み出しに特化した Loader です。<br />
+CursorLoader は AsyncTaskLoader を拡張したもので、バックグラウンドスレッドでCursorを取得する機能を提供しています。<br />
+基本的な実装方法は<a href="/AndroidTraining/fundamentals/2.08.async-processing.html">2.08. 非同期処理</a>の <strong>Loader の呼び出しとコールバック</strong>と同様です。<br />
+異なる点は、LoaderCallbacks のジェネリックに Cursor 型を指定すること、onCreateLoader メソッドの戻り値に CursorLoader を返却すること。コールバック（onLoadFinished メソッド、onLoaderReset メソッド）で Adapter を更新することです。</p>
+
+<p>ContentProviderLoaderSample MainLoaderActivity.java</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="cm">/**
+ * Loaderを使用したListViewを表示するサンプルです。 &lt;br&gt;
+ * AdapterにはSimpleCursorAdapterを使用。
+ */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainLoaderActivity</span> <span class="kd">extends</span> <span class="n">FragmentActivity</span> <span class="kd">implements</span> <span class="n">LoaderCallbacks</span><span class="o">&lt;</span><span class="n">Cursor</span><span class="o">&gt;</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="n">SimpleCursorAdapter</span> <span class="n">mSimpleCursorAdapter</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="n">ListView</span> <span class="n">mListView</span><span class="o">;</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
+        <span class="n">setContentView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_main</span><span class="o">);</span>
+
+        <span class="n">mListView</span> <span class="o">=</span> <span class="o">(</span><span class="n">ListView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">ListView</span><span class="o">);</span>
+        <span class="c1">// UIにバインドするデータのカラム名</span>
+        <span class="n">String</span><span class="o">[]</span> <span class="n">from</span> <span class="o">=</span> <span class="o">{</span>
+                <span class="n">Book</span><span class="o">.</span><span class="na">COLUMN_NAME_BOOK_TITLE</span><span class="o">,</span> <span class="n">Book</span><span class="o">.</span><span class="na">COLUMN_NAME_BOOK_PRICE</span>
+        <span class="o">};</span>
+        <span class="c1">// 指定したカラムのデータを表示するViewのIDを指定します。</span>
+        <span class="kt">int</span><span class="o">[]</span> <span class="n">to</span> <span class="o">=</span> <span class="o">{</span>
+                <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">Title</span><span class="o">,</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">Price</span>
+        <span class="o">};</span>
+
+        <span class="c1">// 第3引数のCursorはコールバックで設定されるのでnullを渡しています</span>
+        <span class="n">mSimpleCursorAdapter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SimpleCursorAdapter</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">list_item_book</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="n">from</span><span class="o">,</span> <span class="n">to</span><span class="o">,</span> <span class="n">CursorAdapter</span><span class="o">.</span><span class="na">FLAG_REGISTER_CONTENT_OBSERVER</span><span class="o">);</span>
+        <span class="n">mListView</span><span class="o">.</span><span class="na">setAdapter</span><span class="o">(</span><span class="n">mSimpleCursorAdapter</span><span class="o">);</span>
+
+        <span class="c1">// ボタンクリックでインサート処理を実行</span>
+        <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">ADD</span><span class="o">).</span><span class="na">setOnClickListener</span><span class="o">(</span><span class="k">new</span> <span class="n">OnClickListener</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">View</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">insert</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">});</span>
+
+        <span class="c1">// ローダの管理をするオブジェクト</span>
+        <span class="n">LoaderManager</span> <span class="n">loaderManager</span> <span class="o">=</span> <span class="n">getSupportLoaderManager</span><span class="o">();</span>
+        <span class="c1">// ローダを初期化して非同期処理を開始する</span>
+        <span class="n">loaderManager</span><span class="o">.</span><span class="na">initLoader</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">insert</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">ContentValues</span> <span class="n">values</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ContentValues</span><span class="o">();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">values</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
+            <span class="n">values</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">Book</span><span class="o">.</span><span class="na">COLUMN_NAME_BOOK_TITLE</span><span class="o">,</span> <span class="s">"TITLE"</span> <span class="o">+</span> <span class="n">i</span><span class="o">);</span>
+            <span class="n">values</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">Book</span><span class="o">.</span><span class="na">COLUMN_NAME_BOOK_PUBLISHER</span><span class="o">,</span> <span class="s">"PUBLISHER"</span> <span class="o">+</span> <span class="n">i</span><span class="o">);</span>
+            <span class="n">values</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">Book</span><span class="o">.</span><span class="na">COLUMN_NAME_BOOK_PRICE</span><span class="o">,</span> <span class="s">"PRICE"</span> <span class="o">+</span> <span class="n">i</span><span class="o">);</span>
+
+            <span class="n">getContentResolver</span><span class="o">().</span><span class="na">insert</span><span class="o">(</span><span class="n">Book</span><span class="o">.</span><span class="na">CONTENT_URI</span><span class="o">,</span> <span class="n">values</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">Loader</span><span class="o">&lt;</span><span class="n">Cursor</span><span class="o">&gt;</span> <span class="nf">onCreateLoader</span><span class="o">(</span><span class="kt">int</span> <span class="n">id</span><span class="o">,</span> <span class="n">Bundle</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// ここでデータの取得条件の指定が可能です。</span>
+        <span class="c1">// CursorLoader (Context context, Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder)</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">CursorLoader</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">Book</span><span class="o">.</span><span class="na">CONTENT_URI</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onLoadFinished</span><span class="o">(</span><span class="n">Loader</span><span class="o">&lt;</span><span class="n">Cursor</span><span class="o">&gt;</span> <span class="n">loader</span><span class="o">,</span> <span class="n">Cursor</span> <span class="n">c</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 古いCursorと新しいCursorを入れ替えます。そのため最新のデータが表示されます。</span>
+        <span class="n">mSimpleCursorAdapter</span><span class="o">.</span><span class="na">swapCursor</span><span class="o">(</span><span class="n">c</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onLoaderReset</span><span class="o">(</span><span class="n">Loader</span><span class="o">&lt;</span><span class="n">Cursor</span><span class="o">&gt;</span> <span class="n">cursor</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 古いCursorと新しいCursorを入れ替えます。そのため最新のデータが表示されます。</span>
+        <span class="n">mSimpleCursorAdapter</span><span class="o">.</span><span class="na">swapCursor</span><span class="o">(</span><span class="kc">null</span><span class="o">);</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre>
+</div>
+<p>CursorLoader と ContentProvider を使用することにより、上記のようにデータ取得の非同期化と更新の反映を独自で実装する必要がなくなります。</p>
+
+<h2 id="section-1">実習と課題</h2>
+
+<h3 id="sqlite3database-1">SQLite3Database</h3>
+
+<ol>
+  <li>(実習) SQLiteOpenHelper クラス（ BookOpenHelper ）が実装されています。SQLiteDatebase インスタンスを取得して、insert,delete,update,qureyメソッドを使用する機能を実装し実行結果をログで確認してください。</li>
+  <li>(課題) 以下のデータベースを作成する SQLiteOpenHelper クラスを作成し insert , qurey を実行してください。</li>
+  <li>(課題) 2で作成したデータベースを表示する ListView を作成してください。Adapter には SimpleCursorAdapter を使用してください。プロジェクトは2のものを使用してください。</li>
+</ol>
+
+<p>DB名 : plactice<br />
+テーブル名 : android_code_name</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>カラム名</th>
+      <th>内容</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>_id</td>
+      <td>プライマリーキー</td>
+    </tr>
+    <tr>
+      <td>name</td>
+      <td>テキスト型 null禁止</td>
+    </tr>
+    <tr>
+      <td>version</td>
+      <td>テキスト型 null許容</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="contentprovider-5">ContentProvider</h3>
+
+<ol>
+  <li>(実習) サンプルアプリ（ContentProviderSample）に独自 ContentProvider ( BookContentProvider ) が実装されています。まず、ContentProviderSample を起動してデータを追加してください。その後に、新しくプロジェクトを作成し、 ContentProvider からデータの取得を行なってください。また、 ContentProviderSample の AndroidManifest.xml を修正して非公開の ContentProvider にし、データの取得ができないことを確認してください。</li>
+  <li>(実習) データーベース処理を ContentProvider で提供するようにしてください。</li>
+  <li>(課題) 2で実装した ContentProvider を CursorLoader を使用して呼び出してください。</li>
+</ol>
+
+
+          </section>
+        </div>
+
+        <!-- FOOTER  -->
+        <div id="footer_wrap" class="outer">
+          <footer class="inner">
+  <p class="license">Portions of this page are reproduced from work created and <a href="https://code.google.com/p/android/">shared by the Android Open Source Project</a> and used according to terms described in the <a href="http://creativecommons.org/licenses/by/2.5/">Creative Commons2.5 Attribution License</a>.</p>
+  <p class="license">
+  This work is licensed under a <a rel="license" itemprop="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. 
+  <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+  </p>
+  <p class="copyright">Androidtraining maintained by <a href="https://github.com/mixi-inc" itemprop="author">mixi-inc</a></p>
+  <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+
+</footer>
+
+        </div>
+      </paper-scroll-header-panel>
+    </paper-drawer-panel>
+    <script>
+        // custom transformation: scale header's title
+        var title = document.querySelectorAll('.title')[2];
+        addEventListener('paper-header-transform', function(e) {
+            var d = e.detail;
+            var m = d.height - d.condensedHeight;
+            var scale = Math.max(0.75, (m - d.y) / (m / 0.25)  + 0.75);
+
+            Polymer.Base.transform('scale(' + scale + ') translateZ(0)', title);
+        });
+
+    </script>
+</body>
+</html>

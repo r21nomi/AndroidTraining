@@ -1,9 +1,5 @@
 
-_site/
-
 # for bundler
-Gemfile
-Gemfile.lock
 .bundle/config
 vendor/
 .DS_Store

@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="この章では、Android におけるセキュリティについて解説します。" />
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <!-- ogp for twitter -->
+    <meta content="@mixi_engineers" name="twitter:site" />
+    <meta content="summary" name="twitter:card" />
+    
+    <meta content="セキュリティ - r21nomi/AndroidTraining" name="twitter:title" />
+    
+    <meta content="この章では、Android におけるセキュリティについて解説します。" name="twitter:description" />
+    <meta content="/assets/logo.png" name="twitter:image:src" />
+    <!-- ogp -->
+    <meta content="r21nomi/AndroidTraining" property="og:site_name" />
+    <meta content="article" property="og:type" />
+    <meta content="/assets/logo.png" property="og:image" />
+    
+    <meta content="セキュリティ - r21nomi/AndroidTraining" name="og:title" />
+    
+    <meta content="/advanced/3.05.security.html" property="og:url" />
+    <meta content="この章では、Android におけるセキュリティについて解説します。" property="og:description" />
+    
+    <meta name="keyword" content="android, training, 基礎, スキル, 開発, developer, プログラミング, セキュリティ" />
+    
+
+    <meta name="go-import" content="github.com/mixi-inc/AndroidTraining git https://github.com/mixi-inc/AndroidTraining.git">
+    <script src="/AndroidTraining/bower_components/webcomponentsjs/webcomponents.js"></script>
+    
+    <link rel="stylesheet" type="text/css" media="screen" href="/AndroidTraining/stylesheets/main.css">
+    <link rel="shortcut icon" href="/AndroidTraining/assets/favicon.ico" />
+    <link rel="import" href="/AndroidTraining/bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-drawer-panel/paper-drawer-panel.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-header-panel/paper-header-panel.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-toolbar/paper-toolbar.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-menu/paper-menu.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-item/paper-item.html">
+    <link rel="import" href="/AndroidTraining/bower_components/paper-icon-button/paper-icon-button.html">
+    <link rel="import" href="/AndroidTraining/bower_components/iron-icons/iron-icons.html">
+    <style is="custom-style">
+        paper-scroll-header-panel:not([style-scope]):not(.style-scope) {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        paper-toolbar.tall .bottom:not([style-scope]):not(.style-scope) {
+            font-size: 40px;
+            margin-left: 60px;
+
+            -webkit-transform-origin: left center;
+            transform-origin: left center;
+        }
+
+        .content:not([style-scope]):not(.style-scope) {
+            padding: 8px;
+        }
+
+        .spacer:not([style-scope]):not(.style-scope) {
+            -ms-flex: 1 1 0.000000001px;
+            -webkit-flex: 1;
+            flex: 1;
+            -webkit-flex-basis: 0.000000001px;
+            flex-basis: 0.000000001px;
+        }
+
+    </style>
+    <title>セキュリティ - r21nomi/AndroidTraining</title>
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-50931519-13', 'auto');
+    ga('send', 'pageview');
+    </script>
+  </head>
+
+  <body itemscope itemtype="http://schema.org/Article" fullbleed layout vertical>
+
+    <paper-drawer-panel selected="main" >
+      <!-- MENU -->
+      <paper-header-panel mode="seamed" drawer class="drawer">
+        <nav>
+    <ol class="chapter_navigation">
+        <a href="/AndroidTraining/">Home</a>
+        <li>まえがき</li>
+        <ol class="section_navigation">
+            
+            
+            <li><a href="/AndroidTraining/introductions/1.01.about-android-os.html">Android-OSについて</a></li>
+            
+            <li><a href="/AndroidTraining/introductions/1.02.prepare-for-development.html">開発環境の準備</a></li>
+            
+            <li><a href="/AndroidTraining/introductions/1.03.create-project-for-android-studio.html">プロジェクトの作成</a></li>
+            
+            <li><a href="/AndroidTraining/introductions/1.04.basic-knowledge.html">Androidの基礎知識</a></li>
+            
+            <li><a href="/AndroidTraining/introductions/1.05.how-to-build-for-gradle.html">Android のビルドについて(Gradle)</a></li>
+            
+        </ol>
+        <li>基礎編</li>
+        <ol class="section_navigation">
+            
+            
+            <li><a href="/AndroidTraining/fundamentals/2.01.create-layout.html">アプリのレイアウト作成</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.02.activity-and-fragment.html">ActivityとFragment</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.03.application-resource-management.html">アプリのリソース管理</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.04.messaging-and-notification.html">メッセージングと通知</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.05.actionbar-and-interaction-control.html">ActionBarとインタラクション制御</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.06.listView-and-viewPager.html">ListViewとViewPager</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.07.serialize-and-collection-and-perpetuation.html">直列化とコレクション、永続化</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.08.async-processing.html">非同期処理</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.09.network-access.html">ネットワーク通信</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.10.database.html">データベース</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.11.testing-for-android-studio.html">テスト(AndroidStudio)</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.11.testing.html">テスト</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.12.handler-and-looper.html">HandlerとLooper</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.13.webView.html">WebView</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.14.accountmanager.html">AccountManager</a></li>
+            
+            <li><a href="/AndroidTraining/fundamentals/2.15.advance-contentprovider.html">ContentProviderの発展</a></li>
+            
+        </ol>
+        <li>実務編</li>
+        <ol class="section_navigation">
+            
+            
+            <li><a href="/AndroidTraining/advanced/3.01.build-for-eclipse.html">デバッグと自動ビルド(Eclipse)</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.01.build-for-gradle.html">自動ビルド(Android Studio)</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.02.architecture-and-di.html">アーキテクチャ設計と DI</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.03.advanced-layout.html">続・アプリのレイアウト作成</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.04.user-interface.html">ユーザインタフェース設計</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.05.security.html">セキュリティ</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.06.google-api.html">Google API</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.07.google-play-services.html">Google Play Services</a></li>
+            
+            <li><a href="/AndroidTraining/advanced/3.08.cloud-sync.html">クラウド同期</a></li>
+            
+        </ol>
+        <li>デザイナー編</li>
+        <ol>
+        </ol>
+    </ol>
+    <ol class="appex_navigation">
+        <li>付録</li>
+        <ol class="section_navigation">
+            
+            
+            <li><a href="/AndroidTraining/appendix/A.01.import-from-git-for-eclipse.html">Git リポジトリからのプロジェクトのインポート</a></li>
+            
+            <li><a href="/AndroidTraining/appendix/A.02.basic-java.html">Java の文法の基礎</a></li>
+            
+            <li><a href="/AndroidTraining/appendix/A.03.how-to-create-avd.html">仮想デバイスの作成</a></li>
+            
+            <li><a href="/AndroidTraining/appendix/A.04.advanced-java.html">Javaの活用</a></li>
+            
+        </ol>
+    </ol>
+</nav>
+
+      </paper-header-panel>
+      <paper-scroll-header-panel main condenses>
+        <!-- HEADER -->
+        <paper-toolbar class="mainheader tall" role="toolbar">
+    <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+
+    <span class="title"></span>
+
+    <a id="forkme_banner" href="https://github.com/mixi-inc/AndroidTraining" role="button">
+        <paper-icon-button src="/AndroidTraining/images/blacktocat.png"></paper-icon-button> <span>View on GitHub</span>
+    </a>
+
+    <div class="middle title">r21nomi/AndroidTraining</div>
+    <div class="bottom title">セキュリティ</div>
+</paper-toolbar>
+
+
+<div id="description" itemprop="description">この章では、Android におけるセキュリティについて解説します。</div>
+
+
+
+        <!-- MAIN CONTENT -->
+        <div id="main_content_wrap" class="content outer" itemprop="articleBody">
+          <section id="main_content" class="inner">
+            <p>参考：<a href="http://developer.android.com/guide/topics/security/permissions.html">Permissions | Android Developers</a><br />
+参考：<a href="http://amzn.to/AalBuA">Android Security</a><br />
+参考：<a href="http://www.jssec.org/dl/android_securecoding.pdf">Android アプリのセキュア設計・セキュアコーディングガイド</a></p>
+
+<h2 id="section">目次</h2>
+
+<ul>
+  <li><a href="#パーミッション">パーミッション</a>
+    <ul>
+      <li><a href="#パーミッションの宣言">パーミッションの宣言</a></li>
+      <li><a href="#ProtectionLevel">ProtectionLevel</a></li>
+      <li><a href="#アプリが依存する端末機能の使用宣言">アプリが依存する端末機能の使用宣言</a></li>
+    </ul>
+  </li>
+  <li><a href="#WebView">WebView</a>
+    <ul>
+      <li><a href="#JavaScript Interface">JavaScript Interface</a></li>
+      <li><a href="#キャッシュ">キャッシュ</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="section-1">パーミッション</h2>
+
+<p>Android では、通常特に宣言のない限りは、他のアプリや OS、ユーザに悪い影響を与える、いかなる操作もできないようにしています。<br />
+他のアプリのデータを読み取ったり、カメラや位置情報を利用したりするものがその例です。<br />
+これを特別に許可する仕組みとして、パーミッションが存在します。</p>
+
+<p>パーミッションは、常に AndroidManifest で静的に宣言されるので、動的（実行時）にパーミッションを設定することはできません。<br />
+またパーミッションは、そのレベルによって、インストール時にユーザへ同意を求めるものや、同じパッケージ署名でなければならないもの、システムにしか権限を与えないものなどに分類されます。</p>
+
+<p>通常、パーミッションは、外部に公開するコンポーネントに対して宣言を行い、その使用を制限します。<br />
+例えば、以下のような操作をしようとする場合に、パーミッションが要求されます。</p>
+
+<ul>
+  <li>アプリケーションをシステムにインストールする際、特定の機能をアプリケーションが呼び出すことを防ぐため</li>
+  <li>Activity を呼び出す際、他のアプリの Activity を起動するのを防ぐため</li>
+  <li>ブロードキャストの送受信の際、ブロードキャストを受け取れる人や、送信できる人を制限するため</li>
+  <li>ContentProvider へアクセスしたり操作したりする際</li>
+  <li>サービスをバインドしたり開始したりする際</li>
+</ul>
+
+<h3 id="section-2">パーミッションの宣言</h3>
+
+<p>この項では、AndroidManifest における各種パーミッションの宣言について解説します。</p>
+
+<h4 id="uses-permission"><code class="highlighter-rouge">&lt;uses-permission&gt;</code></h4>
+
+<p>他のアプリや、システムが宣言しているパーミッションを使用する宣言を行います。</p>
+
+<p>パーミッションを宣言すると、インストール時にユーザに対して同意を求めるダイアログが表示されます。<br />
+パーミッションのレベルが<code class="highlighter-rouge">dangerous</code>と宣言されているものを取得すると、同意画面上で優先的に表示されるようになります。&lt;br /.
+同じ署名でなければ利用できないパーミッションを、異なる署名のアプリから利用することはできません。</p>
+
+<p>ここでパーミッションの取得宣言をしなかったにもかかわらず、パーミッションの必要な呼び出しを行った場合、<code class="highlighter-rouge">SecurityException</code>が実行時にスローされます。</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;manifest</span>
+    <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
+    <span class="na">package=</span><span class="s">"jp.mixi.sample"</span>
+    <span class="na">android:versionCode=</span><span class="s">"1"</span>
+    <span class="na">android:versionName=</span><span class="s">"1.0"</span><span class="nt">&gt;</span>
+    <span class="c">&lt;!-- ネットワークの状態を取得するためのパーミッションを取得する宣言 --&gt;</span>
+    <span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">"android.permission.ACCESS_NETWORK_STATE"</span><span class="nt">/&gt;</span>
+    <span class="c">&lt;!-- 位置情報を取得するためのパーミッションを取得する宣言 --&gt;</span>
+    <span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">"android.permission.ACCESS_FINE_LOCATION"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/manifest&gt;</span>
+</code></pre>
+</div>
+
+<h4 id="permission"><code class="highlighter-rouge">&lt;permission&gt;</code></h4>
+
+<p>自分でパーミッションを宣言することもできます。<br />
+パーミッション名やアイコン、説明、レベルを設定します。<br />
+パーミッション名とアイコン、説明は、同意画面に表示されるので、分かりやすいものを設定します。</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;manifest</span>
+    <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
+    <span class="na">package=</span><span class="s">"jp.mixi.sample"</span>
+    <span class="na">android:versionCode=</span><span class="s">"1"</span>
+    <span class="na">android:versionName=</span><span class="s">"1.0"</span><span class="nt">&gt;</span>
+    <span class="c">&lt;!-- パーミッションの定義 --&gt;</span>
+    <span class="c">&lt;!-- android:name には、ユニークなパーミッション名を定義する --&gt;</span>
+    <span class="nt">&lt;permission</span>
+        <span class="na">android:name=</span><span class="s">"jp.mixi.sample.permission.READ_CONTENT_PROVIDER"</span>
+        <span class="na">android:label=</span><span class="s">"@string/permission_label_contentprovider"</span>
+        <span class="na">android:icon=</span><span class="s">"@drawable/ic_launcher"</span>
+        <span class="na">android:description=</span><span class="s">"@string/permission_description_contentprovider"</span>
+        <span class="na">android:protectionLevel=</span><span class="s">"signature"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/permission&gt;</span>
+
+    <span class="nt">&lt;application&gt;</span>
+        <span class="c">&lt;!-- コンポーネントに対するパーミッション要求の設定 --&gt;</span>
+        <span class="c">&lt;!-- android:permission 属性を利用して、このコンポーネントを呼び出す際にパーミッションを要求する --&gt;</span>
+        <span class="c">&lt;!-- Activity の場合、Context#startActivity() や Context#startActivityForResult() の呼び出しでチェックされる --&gt;</span>
+        <span class="nt">&lt;activity</span>
+            <span class="na">android:name=</span><span class="s">"jp.mixi.sample.SamplePermissionActivity"</span>
+            <span class="err">...</span>
+            <span class="na">android:permission=</span><span class="s">"jp.mixi.sample.permission.ACCESS_ACTIVITY"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;/activity&gt;</span>
+        <span class="c">&lt;!-- Service の場合、Context#startService() や Context#stopService()、Context#bindService() の呼び出しでチェックされる --&gt;</span>
+        <span class="nt">&lt;service</span>
+            <span class="na">android:name=</span><span class="s">"jp.mixi.sample.SamplePermissionService"</span>
+            <span class="err">...</span>
+            <span class="na">android:permission=</span><span class="s">"jp.mixi.sample.permission.CALL_SERVICE"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;/service&gt;</span>
+        <span class="c">&lt;!-- BroadcastReceiver の場合、この BroadcastReceiver への Intent の送信可否を宣言することになる。 --&gt;</span>
+        <span class="c">&lt;!-- もし許可のないまま BroadcastReceiver に Intent を送信しても、SecurityException とはならない。 --&gt;</span>
+        <span class="c">&lt;!-- ただし、Intent はこの BroadcastReceiver に送信されない。 --&gt;</span>
+        <span class="c">&lt;!-- SecurityException とはならないのは、Context#sendBroadcast() から戻った後にパーミッションがチェックされるからである。 --&gt;</span>
+        <span class="c">&lt;!-- 逆に、Context#sendBroadcast() の時にパーミッションを宣言することもできる。 --&gt;</span>
+        <span class="c">&lt;!-- この場合、宣言したパーミッションを取得している BroadcastReceiver のみがその Intent を受け取ることになる。 --&gt;</span>
+        <span class="nt">&lt;receiver</span> 
+            <span class="na">android:name=</span><span class="s">"jp.mixi.sample.SamplePermissionReceiver"</span>
+            <span class="err">...</span>
+            <span class="na">android:permission=</span><span class="s">"jp.mixi.sample.permission.CALL_BROADCAST_RECEIVER"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;/receiver&gt;</span>
+        <span class="c">&lt;!-- ContentProvider の場合、他のコンポーネントと異なり、READ と WRITE の 2 つの操作に対して、別々のパーミッションを設定できる --&gt;</span>
+        <span class="c">&lt;!-- 両方のパーミッションを宣言した場合、WRITE のパーミッションを持っていても、READ も許可されるとは限らない点に注意する --&gt;</span>
+        <span class="nt">&lt;provider</span>
+            <span class="na">android:name=</span><span class="s">"jp.mixi.sample.SamplePermissionContentProvider"</span>
+            <span class="err">...</span>
+            <span class="na">android:readPermission=</span><span class="s">"jp.mixi.sample.permission.READ_CONTENT_PROVIDER"</span>
+            <span class="na">android:writePermission=</span><span class="s">"jp.mixi.sample.permission.WRITE_CONTENT_PROVIDER"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;/provider&gt;</span>
+    <span class="nt">&lt;/application&gt;</span>
+<span class="nt">&lt;/manifest&gt;</span>
+</code></pre>
+</div>
+
+<h3 id="protectionlevel">ProtectionLevel</h3>
+
+<p>Android のパーミッションで設定可能な保護レベルは下記のとおりです。複数設定することができます。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>レベル</th>
+      <th>意味</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>normal</td>
+      <td>リスクの低いパーミッションで、システムや他のアプリケーション、ユーザへの影響が少ないものを意味します。システムは、インストール時に自動でこのパーミッションの許可を付与するので、ユーザに対する同意画面は表示されません（ただし、設定画面などからパーミッションの確認はできます）。</td>
+    </tr>
+    <tr>
+      <td>dangerous</td>
+      <td>リスクの高いパーミッションで、システムや他のアプリケーション、ユーザへの影響が大きいもの（プライベートなデータの参照など）を意味します。このため、インストール時には必ずユーザへの同意画面が表示されます。</td>
+    </tr>
+    <tr>
+      <td>signature</td>
+      <td>このパーミッションを宣言しているアプリケーションと同じ鍵で署名されたアプリケーションでなければ、このパーミッションに対する許可が付与されないことを意味します。署名が合えば、ユーザに同意画面を表示することなく、自動で許可を付与します。</td>
+    </tr>
+    <tr>
+      <td>signatureOrSystem</td>
+      <td>同じ署名、または Android のシステムにのみ許可を付与します。通常、このオプションは使用しないことをおすすめします。</td>
+    </tr>
+    <tr>
+      <td>system</td>
+      <td>Android のシステムに許可を付与します。通常、このオプションは使用しないことをおすすめします。</td>
+    </tr>
+    <tr>
+      <td>development</td>
+      <td>開発中のアプリケーションに許可を付与します。</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="section-3">アプリが依存する端末機能の使用宣言</h3>
+
+<p>カメラや位置情報など、端末のハードウェアないしソフトウェアの資源に依存する機能を有する場合、特別に、その宣言をしておく必要があります。<br />
+これは、その機能を有するかどうかが、デバイスごとに異なるため、予め依存する資源を宣言しておくことで、インストール可能かどうかを判断できるようにする為です。</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;manifest</span> <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
+    <span class="na">package=</span><span class="s">"jp.mixi.sample.di"</span>
+    <span class="na">android:versionCode=</span><span class="s">"1"</span>
+    <span class="na">android:versionName=</span><span class="s">"1.0"</span><span class="nt">&gt;</span>
+    <span class="c">&lt;!-- カメラ機能の宣言。必ずしも必要としない場合は、android:required 属性を false とする。 --&gt;</span>
+    <span class="nt">&lt;uses-feature</span>
+        <span class="na">android:name=</span><span class="s">"android.hardware.camera"</span>
+        <span class="na">android:required=</span><span class="s">"false"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/manifest&gt;</span>
+</code></pre>
+</div>
+
+<h2 id="webview">WebView</h2>
+
+<p>WebView は、指定された URL のページを読み込んだり、HTML を直接読み込んだりして、Web ページを表示するための View です。<br />
+WebView は、その特性から、いくつかの重要なセキュリティ対策項目があります。</p>
+
+<p>参考：<a href="http://ierae.co.jp/uploads/webview.pdf">Androidセキュリティ勉強会 ～WebViewの脆弱性編～</a></p>
+
+<h3 id="javascript-interface">JavaScript Interface</h3>
+
+<p>WebView には、JavaScript Interface という特別なインタフェースがあります。<br />
+これは、JavaScript からネイティブに宣言されたインタフェースを介することで、Java のコードを実行するものです。</p>
+
+<p>公式リファレンスにも記述がありますが、信頼出来る Web ページ以外で、この JavaScript Interface を有効にしないことを強く推奨します。<br />
+なぜならば、JavaScript からJava のコードを呼び出すことが出来るため、不用意な設計をしていると、アプリのユーザ権限で様々な攻撃が可能となってしまうためです。</p>
+
+<h3 id="section-4">キャッシュ</h3>
+
+<p>WebView は、SQLiteDatabase を利用したキャッシュの仕組みを持っています。<br />
+この、SQLiteDatabase のキャッシュファイルは、<code class="highlighter-rouge">/data/data/&lt;app_package_name&gt;/databases/webview.db</code>に保存されています。<br />
+キャッシュファイルには、ID やパスワードの情報も含まれますが、暗号化などは特にかけられていません。</p>
+
+<p>他のアプリからのアクセスは拒否されますが、WebView 自身はすべてのパーミッションが付与されている状態であることから、WebView に何らかの攻撃手段を持たせてしまうと、ID やパスワードが抜き取られる危険性があります。</p>
+
+<p>たとえば、標準ブラウザのキャッシュへは、標準ブラウザのアドレスバーに下記のように入力することでアクセスすることができます。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># 以下のどちらかの URL でアクセスします。
+file:///data/data/com.android.browser/databases/webview.db
+file:///data/data/com.google.android.browser/databases/webview.db
+</code></pre>
+</div>
+
+          </section>
+        </div>
+
+        <!-- FOOTER  -->
+        <div id="footer_wrap" class="outer">
+          <footer class="inner">
+  <p class="license">Portions of this page are reproduced from work created and <a href="https://code.google.com/p/android/">shared by the Android Open Source Project</a> and used according to terms described in the <a href="http://creativecommons.org/licenses/by/2.5/">Creative Commons2.5 Attribution License</a>.</p>
+  <p class="license">
+  This work is licensed under a <a rel="license" itemprop="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. 
+  <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+  </p>
+  <p class="copyright">Androidtraining maintained by <a href="https://github.com/mixi-inc" itemprop="author">mixi-inc</a></p>
+  <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+
+</footer>
+
+        </div>
+      </paper-scroll-header-panel>
+    </paper-drawer-panel>
+    <script>
+        // custom transformation: scale header's title
+        var title = document.querySelectorAll('.title')[2];
+        addEventListener('paper-header-transform', function(e) {
+            var d = e.detail;
+            var m = d.height - d.condensedHeight;
+            var scale = Math.max(0.75, (m - d.y) / (m / 0.25)  + 0.75);
+
+            Polymer.Base.transform('scale(' + scale + ') translateZ(0)', title);
+        });
+
+    </script>
+</body>
+</html>
