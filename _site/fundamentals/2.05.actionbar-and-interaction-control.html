@@ -4,27 +4,27 @@
   <head>
     <meta charset='utf-8' />
     <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="この章では、Honeycomb 以降に導入された Android 標準の UI コンポーネントである ActionBar と、インタラクション制御について解説します。" />
+    <meta name="description" content="この章では、Android 標準の UI コンポーネントである AppBar と、インタラクション制御について解説します。" />
     <meta name=viewport content="width=device-width, initial-scale=1">
     <!-- ogp for twitter -->
     <meta content="@mixi_engineers" name="twitter:site" />
     <meta content="summary" name="twitter:card" />
     
-    <meta content="ActionBarとインタラクション制御 - r21nomi/AndroidTraining" name="twitter:title" />
+    <meta content="AppBarとインタラクション制御 - mixi-inc/AndroidTraining" name="twitter:title" />
     
-    <meta content="この章では、Honeycomb 以降に導入された Android 標準の UI コンポーネントである ActionBar と、インタラクション制御について解説します。" name="twitter:description" />
+    <meta content="この章では、Android 標準の UI コンポーネントである AppBar と、インタラクション制御について解説します。" name="twitter:description" />
     <meta content="/assets/logo.png" name="twitter:image:src" />
     <!-- ogp -->
-    <meta content="r21nomi/AndroidTraining" property="og:site_name" />
+    <meta content="mixi-inc/AndroidTraining" property="og:site_name" />
     <meta content="article" property="og:type" />
     <meta content="/assets/logo.png" property="og:image" />
     
-    <meta content="ActionBarとインタラクション制御 - r21nomi/AndroidTraining" name="og:title" />
+    <meta content="AppBarとインタラクション制御 - mixi-inc/AndroidTraining" name="og:title" />
     
     <meta content="/fundamentals/2.05.actionbar-and-interaction-control.html" property="og:url" />
-    <meta content="この章では、Honeycomb 以降に導入された Android 標準の UI コンポーネントである ActionBar と、インタラクション制御について解説します。" property="og:description" />
+    <meta content="この章では、Android 標準の UI コンポーネントである AppBar と、インタラクション制御について解説します。" property="og:description" />
     
-    <meta name="keyword" content="android, training, 基礎, スキル, 開発, developer, プログラミング, ActionBar, インタラクション制御" />
+    <meta name="keyword" content="android, training, 基礎, スキル, 開発, developer, プログラミング, AppBar, インタラクション制御" />
     
 
     <meta name="go-import" content="github.com/mixi-inc/AndroidTraining git https://github.com/mixi-inc/AndroidTraining.git">
@@ -70,7 +70,7 @@
         }
 
     </style>
-    <title>ActionBarとインタラクション制御 - r21nomi/AndroidTraining</title>
+    <title>AppBarとインタラクション制御 - mixi-inc/AndroidTraining</title>
     <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -116,7 +116,7 @@
             
             <li><a href="/AndroidTraining/fundamentals/2.04.messaging-and-notification.html">メッセージングと通知</a></li>
             
-            <li><a href="/AndroidTraining/fundamentals/2.05.actionbar-and-interaction-control.html">ActionBarとインタラクション制御</a></li>
+            <li><a href="/AndroidTraining/fundamentals/2.05.actionbar-and-interaction-control.html">AppBarとインタラクション制御</a></li>
             
             <li><a href="/AndroidTraining/fundamentals/2.06.listView-and-viewPager.html">ListViewとViewPager</a></li>
             
@@ -197,20 +197,20 @@
         <paper-icon-button src="/AndroidTraining/images/blacktocat.png"></paper-icon-button> <span>View on GitHub</span>
     </a>
 
-    <div class="middle title">r21nomi/AndroidTraining</div>
-    <div class="bottom title">ActionBarとインタラクション制御</div>
+    <div class="middle title">mixi-inc/AndroidTraining</div>
+    <div class="bottom title">AppBarとインタラクション制御</div>
 </paper-toolbar>
 
 
-<div id="description" itemprop="description">この章では、Honeycomb 以降に導入された Android 標準の UI コンポーネントである ActionBar と、インタラクション制御について解説します。</div>
+<div id="description" itemprop="description">この章では、Android 標準の UI コンポーネントである AppBar と、インタラクション制御について解説します。</div>
 
 
 
         <!-- MAIN CONTENT -->
         <div id="main_content_wrap" class="content outer" itemprop="articleBody">
           <section id="main_content" class="inner">
-            <p>参考：UI デザインとしての<a href="http://developer.android.com/design/patterns/actionbar.html">Action Bar | Android Developers</a><br />
-参考：プログラミングとしての<a href="http://developer.android.com/guide/topics/ui/actionbar.html">Action Bar | Android Developers</a></p>
+            <p>参考：UI デザインとしての<a href="https://material.google.com/layout/structure.html#structure-app-bar">App Bar | Android Developers</a><br />
+参考：プログラミングとしての<a href="https://developer.android.com/training/appbar/index.html">App Bar | Android Developers</a></p>
 
 <h2 id="section">目次</h2>
 
@@ -234,672 +234,31 @@
   </li>
 </ul>
 
-<h2 id="actionbar">ActionBar</h2>
-
-<p>Android の公式な UI デザインの中でも、特に重要な役割をもっているものが ActionBar です。<br />
-ユーザを適切にナビゲーションし、アプリの中での目的を達成するには、ActionBar の知識と実装は必須のものとなっています。</p>
-
-<h3 id="actionbar-">ActionBar の基本</h3>
-
-<p>ActionBar とは、アプリにある複数の画面で恒久的に表示される、主にナビゲーションと適切なアクションの提示のために利用される、重要な UI コンポーネントです。<br />
-ActionBar には、以下の 4 つのコンポーネントがあります。</p>
-
-<p><img src="/AndroidTraining/assets/02-05/action_bar_basics.png" alt="ActionBar Basics" /></p>
-
-<ol>
-  <li>App Icon
-    <ul>
-      <li>アプリのアイコンです。単なるアイコンとしての機能だけでなく、ホームに戻る、や、階層を 1 つ戻る、などの役割を持つこともできます。</li>
-    </ul>
-  </li>
-  <li>View Control
-    <ul>
-      <li>異なる View に様々なデータを表示するような場合に、ユーザが素早く View を切り替えるためのコンポーネントです。右下に三角形のマークが付いているものは、ドロップダウンリストのメニューが表示されます。これ以外に、タブによる切り替えも用意されています。</li>
-    </ul>
-  </li>
-  <li>ActionItem Buttons(Action Buttons)
-    <ul>
-      <li>ここに配置されるボタン類は、アプリやその画面のなかで最も重要なアクションを促すために配置されます。画面幅などでこのエリア内に収まらないボタンは、自動的に、4 の Action Overflow に移されます。Action Buttons は、ActionBar を分割し、Action Buttons を画面下部に表示させることもできます。</li>
-    </ul>
-  </li>
-  <li>Action Overflow
-    <ul>
-      <li>画面に収まらなかったり、意図的に Action Overflow に入るよう設定した Action Buttons がここにまとめられます。ここに収める Action Buttons は優先順位の低いものとして位置づけられます。</li>
-    </ul>
-  </li>
-</ol>
-
-<p>また、ActionBar を導入するにあたって、以下に上げる重要な要素があります。</p>
-
-<h3 id="navigationmode">NavigationMode</h3>
-
-<p>ActionBar には、3 つのナビゲーションモードが用意されています。
-1 つの Activity で選択できるモードは、このうち 1 つだけです。</p>
-
-<h4 id="standard-navigation">Standard Navigation</h4>
-
-<p>デフォルトのナビゲーションモードです。</p>
-
-<p><img src="/AndroidTraining/assets/02-05/action_bar_standard_navigation.png" alt="Standard Navigation" /></p>
-
-<h4 id="list-navigation">List Navigation</h4>
-
-<p>ドロップダウンのリストから、項目を 1 つ選択してコンテンツを切り替えるタイプのナビゲーションモードです。</p>
-
-<p><img src="/AndroidTraining/assets/02-05/action_bar_list_navigation_1.png" alt="List Navigation" /></p>
-
-<p><img src="/AndroidTraining/assets/02-05/action_bar_list_navigation_2.png" alt="List Navigation" /></p>
-
-<pre><code class="language-Java">// Honeycomb 以降向けのコード
-public class SherlockListNavigationActivity extends Activity implements OnNavigationListener {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sample);
-
-        // List Navigation のリストに表示するもの
-        List&lt;String&gt; list = new ArrayList&lt;String&gt;();
-        list.add("Navi Menu 1");
-        list.add("Navi Menu 2");
-        list.add("Navi Menu 3");
-        // ナビゲーションモードを List Navigation に設定
-        getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        // List Navigation の準備
-        // ArrayAdapter は一覧表示のための、データと View をひもづけるためのクラス。詳細は別の章。
-        getActionBar().setListNavigationCallbacks(
-                new ArrayAdapter&lt;String&gt;(this,
-                        android.R.layout.simple_list_item_1,
-                        android.R.id.text1, list),
-                this);
-        // タイトルを表示しないようにする
-        getActionBar().setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
-    }
-
-    // List Navigation の一覧から項目を選択したら呼び出されるコールバック
-    @Override
-    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-        // ここで、どの項目が選択されたかを検知し、適切なイベント処理を行う
-        // イベント処理が実行されたら、true を返すようにする
-
-        return false;
-    }
-}
-</code></pre>
-
-<h4 id="tab-navigation">Tab Navigation</h4>
-
-<p>複数のタブから 1 つを選択してコンテンツを切り替えるタイプのナビゲーションモードです。</p>
-
-<p>タブの位置は、画面の大きさによって決定されます。<br />
-横幅の狭い画面では、アクションバーの直下に表示されますが、広い画面では、アクションバーのタイトル部分の右横にタブが統合されます。<br />
-これは、端末の画面回転時にも判定が行われるため、縦画面と横画面で動的にアクションバーのレイアウトが切り替わることになります。</p>
-
-<p><img src="/AndroidTraining/assets/02-05/action_bar_tab_navigation.png" alt="Tab Navigation" /></p>
-
-<p><img src="/AndroidTraining/assets/02-05/action_bar_tab_navigation_land.png" alt="Tab Navigation" /></p>
-
-<pre><code class="language-Java">// Honeycomb 以降向けのコード
-public class SherlockTabNavigationActivity extends Activity implements TabListener {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sample);
-
-        // タブナビゲーションモードに設定
-        getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        // タブを作成して追加。タブの選択・解除・再選択をハンドリングするコールバックの TabListener をセットしないと実行時例外でクラッシュする
-        getActionBar().addTab(getSupportActionBar().newTab().setText("Tab1").setTabListener(this));
-        getActionBar().addTab(getSupportActionBar().newTab().setText("Tab2").setTabListener(this));
-        getActionBar().addTab(getSupportActionBar().newTab().setText("Tab3").setTabListener(this));
-    }
-
-    // タブナビゲーションの Tab が選択された時のコールバック
-    @Override
-    public void onTabSelected(Tab tab, FragmentTransaction ft) {
-        
-    }
-
-    // タブナビゲーションの Tab が選択解除された時のコールバック
-    @Override
-    public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-        
-    }
-
-    // タブナビゲーションの Tab が再度選択された時のコールバック
-    @Override
-    public void onTabReselected(Tab tab, FragmentTransaction ft) {
-        
-    }
-}
-</code></pre>
-
-<h3 id="actionitem">ActionItem</h3>
-
-<p>これまでの OptionsMenu（メニューキーを押して表示するメニュー）の代替として、アクションバーに含められるメニューです。<br />
-リソースは全て OptionsMenu のものを流用することが可能ですが、一部属性がアクションバー向けに追加されています。</p>
-
-<dl>
-<dt><code>android:showAsAction</code></dt>
-<dd>
-<p>
-アクションバーへの出し方を決定するための属性です。
-</p>
-<table>
-<tr>
-<th>値</th>
-<th>意味</th>
-</tr>
-<tr>
-<td>always</td>
-<td>常に表示します。最も重要度の高いメニューとして扱います。</td>
-</tr>
-<tr>
-<td>ifRoom</td>
-<td>他の ActionBar のコンポーネントが占める領域を見て、空きがあれば表示します。</td>
-</tr>
-<tr>
-<td>never</td>
-<td>常に ActionBar 上には表示せず、その他のメニュー（3 つの点のアイコン）の中にまとめられます。最も重要度が低い項目に適用します。</td>
-</tr>
-<tr>
-<td>withText</td>
-<td>横幅の広い画面において、アイコンだけでなく、文言も一緒に表示するオプションです。</td>
-</tr>
-</table>
-</dd>
-</dl>
-
-<p><code class="highlighter-rouge">always</code>、<code class="highlighter-rouge">ifRoom</code>、<code class="highlighter-rouge">never</code>は一緒に指定することができません。必ずこの 3 つのどれかを選択します。</p>
-
-<p><img src="/AndroidTraining/assets/02-05/action_bar_action_item.png" alt="Action Item" /></p>
-
-<p><code class="highlighter-rouge">ifRoom</code>指定して画面に入りきらなかったものと、<code class="highlighter-rouge">never</code>指定したものは、下記のように Overflow にまとめられます。</p>
-
-<p><img src="/AndroidTraining/assets/02-05/action_bar_action_item_overflow.png" alt="Action Item" /></p>
-
-<p>また、アイコンを設定せず、ラベルのみを設定した場合で、Action Item に並べられるときは、全て大文字になって表示されます。</p>
-
-<p><img src="/AndroidTraining/assets/02-05/action_bar_action_item_text.png" alt="Action Item" /></p>
-
-<p>端末の画面サイズに応じて、ActionBar が自動で Action Item の表示をハンドリングしてくれます。</p>
-
-<p>タブレット型のような大きなディスプレイでは、アイコンとラベルが同時に表示されますが、モバイル向けの端末では、横幅によってアイコンのみの場合と、ラベルとアイコンが同時に表示される場合とがあります。<br />
-横画面にしても、横幅が 480dp に満たない端末では、常にどちらかだけになります。</p>
-
-<h3 id="app-icon-navigation">App Icon Navigation</h3>
-
-<p>標準で、アクションバーの左端には、アプリのアイコンが表示されています。</p>
-
-<p>このアイコンを、ナビゲーションのための UI として機能させることができます。<br />
-Android の流儀としての使い方として、下記の 2 つが想定されています。</p>
+<h2 id="appbar">AppBar</h2>
+<p>AppBar（Android での以前の名称はActionBar）は、ブランド表示、ナビゲーション、検索、各種操作などを配置できる特殊なツールバーです。<br />
+AppBarの左側にあるナビゲーション アイコンは次のように使用できます。</p>
 
 <ul>
-  <li>アプリのホーム画面（アプリの起動直後の画面）へ戻る、ホームボタンの役割</li>
-  <li>アプリのナビゲーションの階層構造を上に戻る、戻るボタンの役割</li>
+  <li>ナビゲーション ドロワーを開くためのコントロールにする。</li>
+  <li>アプリ内の上の階層に移動するための上矢印にする。</li>
+  <li>現在の画面でナビゲーションが必要なければ表示しない。</li>
 </ul>
 
-<p>この 2 つの違いは、アイコンの表示にも影響します。</p>
+<p><img src="/AndroidTraining/assets/02-05/layout_structure_appbar_structure1.png" alt="AppBar" /></p>
 
-<p><img src="/AndroidTraining/assets/02-05/actionbar-logo.png" alt="App Icon Navigation Difference" /></p>
+<p>AppBarのタイトルは現在のページによって変わり、アプリのタイトル、ページのタイトル、ページのフィルタなどになります。</p>
 
-<p>左が、ホームボタンとしての役割の時、右が、戻るボタンとしての役割の時の表示です。<br />
-戻るボタンとして機能させるときには、左向きの矢印が表示されます。</p>
+<p>AppBarの右側にあるアイコンは、アプリに関連する操作です。メニューアイコンではオーバーフロー メニューが開いて、ヘルプ、設定、フィードバックなどの補助的な操作やメニュー項目が表示されます。</p>
 
-<p>アイコンがタップされた時の制御については、後述するインタラクション制御で説明します。</p>
+<h2 id="toolbar">Toolbar</h2>
+<p>Toolbarは、高さやレイアウトを汎用的に変えられるコンポーネントです。<br />
+ヘッダー部分だけに使われるとは限りません。<br />
+<img src="/AndroidTraining/assets/02-05/layout_structure_toolbars5.png" alt="" />
+<img src="/AndroidTraining/assets/02-05/layout_structure_toolbars7.png" alt="" /></p>
 
-<h3 id="split-actionbar">Split ActionBar</h3>
+<h2 id="section-1">実習・課題</h2>
 
-<p>Action Item を、画面上部の ActionBar から切り離し、画面下部に 1 列に表示するモードです。
-AndroidManifest において、<code class="highlighter-rouge">&lt;activity&gt;</code>の属性として、<code class="highlighter-rouge">android:uiOptions</code>に<code class="highlighter-rouge">splitActionBarWhenNarrow</code>を設定することで実現出来ます。</p>
-
-<p><img src="/AndroidTraining/assets/02-05/action_bar_split_action_bar.png" alt="Split ActionBar" /></p>
-
-<h3 id="actionbarsherlock">ActionBarSherlock</h3>
-
-<p>ActionBar は Android 3.x で導入された新しい UI コンポーネントです。Android 4.x以降は、タブレットもモバイル端末も同じ OS で動かすことを標準に据えているので、Android 2.x でも ActionBar の導入が進んでいます。</p>
-
-<p>一方、Google が公式にリリースしている Support Package には、Android 2.x でこのコンポーネントを使用出来るようにするものは含まれていません。よって、サードパーティ製のライブラリで、Android 2.x でも ActionBar を使えるようにします。</p>
-
-<p>現在最も利用されているサードパーティ製ライブラリは、<a href="http://actionbarsherlock.com/">ActionBarSherlock</a> です。</p>
-
-<p>Android が標準で用意している API と異なる部分は以下のとおりです。</p>
-
-<ul>
-  <li>画面コンポーネントを ActionBarSherlock のものに置き換える
-    <ul>
-      <li>SherlockActivity、SherlockFragmentActivity など</li>
-    </ul>
-  </li>
-  <li>標準 API と同じ名前のクラスで、ActionBarSherlock の名前空間にあるクラスに置き換える
-    <ul>
-      <li>Menu など</li>
-    </ul>
-  </li>
-  <li>テーマを、ActionBarSherlock のものに置き換える
-    <ul>
-      <li>Theme.Sherlock、Theme.Sherlock.Light など</li>
-    </ul>
-  </li>
-</ul>
-
-<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
-<span class="nt">&lt;manifest</span> <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
-    <span class="na">package=</span><span class="s">"jp.mixi.sample.actionbar.sherlock"</span>
-    <span class="na">android:versionCode=</span><span class="s">"1"</span>
-    <span class="na">android:versionName=</span><span class="s">"1.0"</span><span class="nt">&gt;</span>
-
-    <span class="nt">&lt;uses-sdk</span>
-        <span class="na">android:minSdkVersion=</span><span class="s">"7"</span>
-        <span class="na">android:targetSdkVersion=</span><span class="s">"17"</span><span class="nt">/&gt;</span>
-
-    <span class="nt">&lt;application</span>
-        <span class="na">android:allowBackup=</span><span class="s">"true"</span>
-        <span class="na">android:icon=</span><span class="s">"@drawable/ic_launcher"</span>
-        <span class="na">android:label=</span><span class="s">"@string/app_name"</span>
-        <span class="na">android:theme=</span><span class="s">"@style/Theme.Sherlock"</span><span class="nt">&gt;</span>
-
-        <span class="c">&lt;!-- ActionBarSherlock の theme を使用するようにする --&gt;</span>
-        <span class="nt">&lt;activity</span>
-            <span class="na">android:name=</span><span class="s">".MainActivity"</span>
-            <span class="na">android:label=</span><span class="s">"@string/app_name"</span><span class="nt">&gt;</span>
-            <span class="nt">&lt;intent-filter&gt;</span>
-                <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">"android.intent.action.MAIN"</span> <span class="nt">/&gt;</span>
-                <span class="nt">&lt;category</span> <span class="na">android:name=</span><span class="s">"android.intent.category.LAUNCHER"</span> <span class="nt">/&gt;</span>
-            <span class="nt">&lt;/intent-filter&gt;</span>
-        <span class="nt">&lt;/activity&gt;</span>
-        <span class="c">&lt;!-- Split ActionBar を実現するための属性指定 --&gt;</span>
-        <span class="nt">&lt;activity</span>
-            <span class="na">android:name=</span><span class="s">".SherlockListNavigationActivity"</span>
-            <span class="na">android:label=</span><span class="s">"@string/app_name"</span>
-            <span class="na">android:uiOptions=</span><span class="s">"splitActionBarWhenNarrow"</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;/activity&gt;</span>
-        <span class="nt">&lt;activity</span>
-            <span class="na">android:name=</span><span class="s">".SherlockTabNavigationActivity"</span>
-            <span class="na">android:label=</span><span class="s">"@string/app_name"</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;/activity&gt;</span>
-        <span class="nt">&lt;activity</span>
-            <span class="na">android:name=</span><span class="s">".SherlockStandardNavigationActivity"</span>
-            <span class="na">android:label=</span><span class="s">"@string/app_name"</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;/activity&gt;</span>
-    <span class="nt">&lt;/application&gt;</span>
-<span class="nt">&lt;/manifest&gt;</span>
-</code></pre>
-</div>
-
-<pre><code class="language-Java">package jp.mixi.sample.actionbar.sherlock;
-
-import android.os.Bundle;
-import android.widget.ArrayAdapter;
-
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.Menu;
-
-import java.util.ArrayList;
-import java.util.List;
-
-public class SherlockListNavigationActivity extends SherlockActivity implements OnNavigationListener {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sample);
-
-        // List Navigation のリストに表示するもの
-        List&lt;String&gt; list = new ArrayList&lt;String&gt;();
-        list.add("Navi Menu 1");
-        list.add("Navi Menu 2");
-        list.add("Navi Menu 3");
-        // ナビゲーションモードを List Navigation に設定
-        getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        // List Navigation の準備
-        getSupportActionBar().setListNavigationCallbacks(
-                new ArrayAdapter&lt;String&gt;(getApplicationContext(),
-                        android.R.layout.simple_list_item_1,
-                        android.R.id.text1, list),
-                this);
-        // タイトルを表示しないようにする
-        getSupportActionBar().setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        // Menu が Android 標準 API のものとは違うので、区別するために getSupportMenuInflater() を呼ぶ
-        getSupportMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    // List Navigation の一覧から項目を選択したら呼び出されるコールバック
-    @Override
-    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-        return false;
-    }
-}
-</code></pre>
-
-<h3 id="actionbar--1">ActionBar の見た目を変える</h3>
-
-<p><a href="http://jgilfelt.github.io/android-actionbarstylegenerator/">Android Action Bar Style Generator</a> などで、簡単に Drawable Resource や Style Resource を生成できるようになっています。</p>
-
-<p>以下のように、Style Resource として各種 Drawable を利用してカスタマイズしていきます。<br /></p>
-
-<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;resources&gt;</span>
-
-    <span class="c">&lt;!-- アクションバー の各種スタイルの設定をまとめた、テーマスタイル --&gt;</span>
-    <span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">"Theme.Example"</span> <span class="na">parent=</span><span class="s">"@style/Theme.Sherlock.Light"</span><span class="nt">&gt;</span>
-        <span class="c">&lt;!-- アクションバーの背景 Drawable --&gt;</span>
-        <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"actionBarItemBackground"</span><span class="nt">&gt;</span>@drawable/selectable_background_example<span class="nt">&lt;/item&gt;</span>
-        <span class="c">&lt;!-- ポップアップで表示されるメニュー項目の Style --&gt;</span>
-        <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"popupMenuStyle"</span><span class="nt">&gt;</span>@style/PopupMenu.Example<span class="nt">&lt;/item&gt;</span>
-        <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"dropDownListViewStyle"</span><span class="nt">&gt;</span>@style/DropDownListView.Example<span class="nt">&lt;/item&gt;</span>
-        <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"actionBarTabStyle"</span><span class="nt">&gt;</span>@style/ActionBarTabStyle.Example<span class="nt">&lt;/item&gt;</span>
-        <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"actionDropDownStyle"</span><span class="nt">&gt;</span>@style/DropDownNav.Example<span class="nt">&lt;/item&gt;</span>
-        <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"actionBarStyle"</span><span class="nt">&gt;</span>@style/ActionBar.Solid.Example<span class="nt">&lt;/item&gt;</span>
-        <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"actionModeBackground"</span><span class="nt">&gt;</span>@drawable/cab_background_top_example<span class="nt">&lt;/item&gt;</span>
-        <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"actionModeSplitBackground"</span><span class="nt">&gt;</span>@drawable/cab_background_bottom_example<span class="nt">&lt;/item&gt;</span>
-        <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"actionModeCloseButtonStyle"</span><span class="nt">&gt;</span>@style/ActionButton.CloseMode.Example<span class="nt">&lt;/item&gt;</span>
-
-        
-    <span class="nt">&lt;/style&gt;</span>
-
-    <span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">"ActionBar.Solid.Example"</span> <span class="na">parent=</span><span class="s">"@style/Widget.Sherlock.Light.ActionBar.Solid"</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"background"</span><span class="nt">&gt;</span>@drawable/ab_solid_example<span class="nt">&lt;/item&gt;</span>
-        <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"backgroundStacked"</span><span class="nt">&gt;</span>@drawable/ab_stacked_solid_example<span class="nt">&lt;/item&gt;</span>
-        <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"backgroundSplit"</span><span class="nt">&gt;</span>@drawable/ab_bottom_solid_example<span class="nt">&lt;/item&gt;</span>
-        <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"progressBarStyle"</span><span class="nt">&gt;</span>@style/ProgressBar.Example<span class="nt">&lt;/item&gt;</span>
-    <span class="nt">&lt;/style&gt;</span>
-
-    <span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">"ActionBar.Transparent.Example"</span> <span class="na">parent=</span><span class="s">"@style/Widget.Sherlock.Light.ActionBar"</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"background"</span><span class="nt">&gt;</span>@drawable/ab_transparent_example<span class="nt">&lt;/item&gt;</span>
-        <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"progressBarStyle"</span><span class="nt">&gt;</span>@style/ProgressBar.Example<span class="nt">&lt;/item&gt;</span>
-    <span class="nt">&lt;/style&gt;</span>
-	
-    <span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">"PopupMenu.Example"</span> <span class="na">parent=</span><span class="s">"@style/Widget.Sherlock.Light.ListPopupWindow"</span><span class="nt">&gt;</span>	
-        <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"android:popupBackground"</span><span class="nt">&gt;</span>@drawable/menu_dropdown_panel_example<span class="nt">&lt;/item&gt;</span>	
-    <span class="nt">&lt;/style&gt;</span>
-	
-    <span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">"DropDownListView.Example"</span> <span class="na">parent=</span><span class="s">"@style/Widget.Sherlock.Light.ListView.DropDown"</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"android:listSelector"</span><span class="nt">&gt;</span>@drawable/selectable_background_example<span class="nt">&lt;/item&gt;</span>
-    <span class="nt">&lt;/style&gt;</span>
-
-    <span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">"ActionBarTabStyle.Example"</span> <span class="na">parent=</span><span class="s">"@style/Widget.Sherlock.Light.ActionBar.TabView"</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"android:background"</span><span class="nt">&gt;</span>@drawable/tab_indicator_ab_example<span class="nt">&lt;/item&gt;</span>
-    <span class="nt">&lt;/style&gt;</span>
-	
-    <span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">"DropDownNav.Example"</span> <span class="na">parent=</span><span class="s">"@style/Widget.Sherlock.Light.Spinner.DropDown.ActionBar"</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"android:background"</span><span class="nt">&gt;</span>@drawable/spinner_background_ab_example<span class="nt">&lt;/item&gt;</span>
-        <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"android:popupBackground"</span><span class="nt">&gt;</span>@drawable/menu_dropdown_panel_example<span class="nt">&lt;/item&gt;</span>
-        <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"android:dropDownSelector"</span><span class="nt">&gt;</span>@drawable/selectable_background_example<span class="nt">&lt;/item&gt;</span>
-    <span class="nt">&lt;/style&gt;</span>
-    
-    <span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">"ProgressBar.Example"</span> <span class="na">parent=</span><span class="s">"@style/Widget.Sherlock.Light.ProgressBar.Horizontal"</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"android:progressDrawable"</span><span class="nt">&gt;</span>@drawable/progress_horizontal_example<span class="nt">&lt;/item&gt;</span>
-    <span class="nt">&lt;/style&gt;</span>
-    
-    <span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">"ActionButton.CloseMode.Example"</span> <span class="na">parent=</span><span class="s">"@style/Widget.Sherlock.Light.ActionButton.CloseMode"</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"android:background"</span><span class="nt">&gt;</span>@drawable/btn_cab_done_example<span class="nt">&lt;/item&gt;</span>
-    <span class="nt">&lt;/style&gt;</span>
-    
-    <span class="c">&lt;!-- this style is only referenced in a Light.DarkActionBar based theme --&gt;</span>
-    <span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">"Theme.Example.Widget"</span> <span class="na">parent=</span><span class="s">"@style/Theme.Sherlock"</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"popupMenuStyle"</span><span class="nt">&gt;</span>@style/PopupMenu.Example<span class="nt">&lt;/item&gt;</span>
-        <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"dropDownListViewStyle"</span><span class="nt">&gt;</span>@style/DropDownListView.Example<span class="nt">&lt;/item&gt;</span>
-    <span class="nt">&lt;/style&gt;</span>
-
-<span class="nt">&lt;/resources&gt;</span>
-</code></pre>
-</div>
-
-<h2 id="section-1">インタラクション制御</h2>
-
-<h3 id="activity--fragment-">Activity や Fragment のコールバックメソッド</h3>
-
-<p>Activity と　Fragment には、メニューの構成と表示について、下記のような 2 種類のメニューを扱うコールバックメソッドが用意されています。</p>
-
-<h4 id="optionsmenu">OptionsMenu</h4>
-
-<p>メニューキーで表示されるメニュー、また ActionBar に表示される ActionItem の構成を扱います。</p>
-
-<p>下記のコールバックメソッドが用意されています。</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>メソッド名</th>
-      <th>意味</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>onPrepareOptionsMenu</td>
-      <td>OptionsMenu を表示する前に、メニュー要素の状態を管理するために呼び出される</td>
-    </tr>
-    <tr>
-      <td>onCreateOptionsMenu</td>
-      <td>OptionsMenu の構成を初期化するために、Activity や Fragment のライフサイクルの中で 1 度だけ呼ばれる</td>
-    </tr>
-    <tr>
-      <td>onOptionsItemSelected</td>
-      <td>OptionsMenu の選択状況を見て、適切なアクションを起こすために呼び出される</td>
-    </tr>
-  </tbody>
-</table>
-
-<pre><code class="language-Java">public class MainActivity extends Activity {
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        // ここで、状態に応じてメニューの有効・無効を切り替えたりなどの処理をする
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // ここで、この Activity で利用するメニューのリソースを読み込む
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // 選択されたメニューに対応するイベント処理をここで実行する
-        return super.onOptionsItemSelected(item);
-    }
-}
-</code></pre>
-
-<h4 id="contextmenu">ContextMenu</h4>
-
-<p>View の長押しで表示されるメニューの構成を扱います。</p>
-
-<p>下記のコールバックメソッドが用意されています。</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>メソッド名</th>
-      <th>意味</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>onCreateContextMenu</td>
-      <td>ContextMenu の構成を初期化する</td>
-    </tr>
-    <tr>
-      <td>onContextItemSelected</td>
-      <td>ContextMenu の選択状況を見て、適切なアクションを起こすために呼び出される</td>
-    </tr>
-  </tbody>
-</table>
-
-<pre><code class="language-Java">public class MainActivity extends Activity {
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        // View に長押しメニュー用のコールバックを設定する
-        // 実際には、View に OnCreateContextMenuListener を設定するだけ
-        // 登録処理を Activity が肩代わりしている
-        View helloWorld = findViewById(R.id.HelloWorld);
-        registerForContextMenu(helloWorld);
-    }
-
-    @Override
-    protected void onStop() {
-        // View に設定した長押しメニュー用のコールバックを解除する
-        View helloWorld = findViewById(R.id.HelloWorld);
-        unregisterForContextMenu(helloWorld);
-
-        super.onStop();
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-        // ここで、長押しメニューで利用するメニューリソースを読み込む
-        super.onCreateContextMenu(menu, v, menuInfo);
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        // ここで、選択されたメニューリソースに対応するイベント処理を実行する
-        return super.onContextItemSelected(item);
-    }
-}
-</code></pre>
-
-<h3 id="view-">View の状態とコールバックメソッド</h3>
-
-<p>View には、以下のような「状態（State）」が定義されています。<br />
-View の種類によって、取り得る状態は様々です。</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>状態名</th>
-      <th>意味</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>normal</td>
-      <td>何もしていない</td>
-    </tr>
-    <tr>
-      <td>enabled</td>
-      <td>View がユーザ操作を受け付ける状態</td>
-    </tr>
-    <tr>
-      <td>focused</td>
-      <td>View がユーザ操作によってフォーカスを持っている状態</td>
-    </tr>
-    <tr>
-      <td>selected</td>
-      <td>View がユーザ操作によって選択されている状態</td>
-    </tr>
-    <tr>
-      <td>checked</td>
-      <td>View がユーザ操作によってチェックされている状態</td>
-    </tr>
-    <tr>
-      <td>pressed</td>
-      <td>View がユーザ操作によって押されている（クリックされている・タップされている）状態</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>これらそれぞれの状態について、Observer パターンでイベントを監視するための仕組みが用意されています。<br />
-監視するためのオブジェクトの登録方法によっては、Activity のライフサイクルに合わせて監視オブジェクトの管理を剃る必要のあるものがあることに注意してください。</p>
-
-<h4 id="onclicklistener">OnClickListener</h4>
-
-<p>View をタップした時に呼び出されるイベントを拾うための Observer です。</p>
-
-<pre><code class="language-Java">view.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-    }
-});
-</code></pre>
-
-<h4 id="onlongclicklistener">OnLongClickListener</h4>
-
-<p>View を長押しした時に呼び出されるイベントを拾うための Observer です。<br />
-長押しした時のイベント処理が適切に実行されたら、<code class="highlighter-rouge">true</code>を返します。</p>
-
-<pre><code class="language-Java">view.setOnLongClickListener(new View.OnLongClickListener() {
-    @Override
-    public boolean onLongClick(View v) {
-        return false;
-    }
-});
-</code></pre>
-
-<h4 id="onfocuschangedlistener">OnFocusChangedListener</h4>
-
-<p>View のフォーカスが移動した時のイベントを拾うための Observer です。</p>
-
-<pre><code class="language-Java">view.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-    @Override
-    public void onFocusChange(View v, boolean hasFocus) {
-    }
-});
-</code></pre>
-
-<h4 id="oncheckedchangelistener">OnCheckedChangeListener</h4>
-
-<p>CheckBox などで、チェック状態が変化した時のイベントを拾うための Observer です。</p>
-
-<pre><code class="language-Java">CompoundButton checkBox = (CompoundButton) findViewById(R.id.HelloCheck);
-checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-    }
-});
-</code></pre>
-
-<h4 id="textwatcher">TextWatcher</h4>
-
-<p>EditText などで、入力テキストが変更された時のイベントを拾うための Observer です。
-こちらは、Activity や Fragment のライフサイクルに合わせて、適宜 View への登録と解除を行う必要があります。</p>
-
-<pre><code class="language-Java">public class MainActivity extends Activity {
-    private TextWatcher mTextWatcher = new TextWatcher() {
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {}
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-        @Override
-        public void afterTextChanged(Editable s) {}
-    };
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        // ライフサイクルに合わせて、Observer オブジェクトを登録する
-        TextView helloEdit = (TextView) findViewById(R.id.HelloEdit);
-        helloEdit.addTextChangedListener(mTextWatcher);
-    }
-
-    @Override
-    protected void onStop() {
-        // ライフサイクルに合わせて、Observer オブジェクトを解除する
-        TextView helloEdit = (TextView) findViewById(R.id.HelloEdit);
-        helloEdit.removeTextChangedListener(mTextWatcher);
-
-        super.onStop();
-    }
-}
-</code></pre>
-
-<h2 id="section-2">実習・課題</h2>
-
-<h3 id="actionbar-1">ActionBar</h3>
+<h3 id="actionbar">ActionBar</h3>
 
 <ol>
   <li>(実習) 実習用プロジェクトが、libraries/ActionBarSherlock を参照するように設定してください</li>
@@ -909,7 +268,7 @@ checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
   <li>(課題) 3 つのタブと、2 つの ActionItem を持つ ActionBar を MainActivity に実装してください。ActionItem のうち、片方は新しい Activity を起動するように、もう片方は MainActivity を終了するようにイベントをハンドリングしてください。</li>
 </ol>
 
-<h3 id="section-3">インタラクション制御</h3>
+<h3 id="section-2">インタラクション制御</h3>
 
 <ol>
   <li>(実習) OptionsMenu に、以下の 3 つの項目を表示し、それぞれ選択時に、どのメニューが選択されたかを<code class="highlighter-rouge">Toast</code>で表示するようにしてください
