@@ -3,3 +3,5 @@
 .bundle/config
 vendor/
 .DS_Store
+
+AndroidStudio/
