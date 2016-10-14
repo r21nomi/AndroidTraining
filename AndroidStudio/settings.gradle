@@ -139,6 +139,8 @@ include ':projects-4-PendingIntentSample'
 project(':projects-4-PendingIntentSample').projectDir = new File('projects/fundamentals/4th/PendingIntentSample/app/')
 
 // fundamentals 5th
+include ':1-5-ToolbarPractice1'
+project(':1-5-ToolbarPractice1').projectDir = new File('practice/fundamentals/5th/ToolbarPractice1/app/')
 include ':1-5-ActionBarPractice1'
 project(':1-5-ActionBarPractice1').projectDir = new File('practice/fundamentals/5th/ActionBarPractice1/app/')
 include ':1-5-InteractionCallbackPractice1'
