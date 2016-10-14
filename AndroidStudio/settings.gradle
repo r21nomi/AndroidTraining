@@ -177,6 +177,8 @@ include ':projects-6-ListViewSample'
 project(':projects-6-ListViewSample').projectDir = new File('projects/fundamentals/6th/ListViewSample/app/')
 include ':projects-6-ViewPagerSample'
 project(':projects-6-ViewPagerSample').projectDir = new File('projects/fundamentals/6th/ViewPagerSample/app/')
+include ':projects-6-RecyclerViewSample'
+project(':projects-6-RecyclerViewSample').projectDir = new File('projects/fundamentals/6th/RecyclerViewSample/app/')
 
 // fundamentals 7th
 include ':1-7-SerializablePractice1'
